@@ -5,11 +5,14 @@ var db = require('../_db');
 
 module.exports = db.define('resource', {
 	name:{
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		allowNull: false,
+		notEmpty: true
 	},
 	url:{
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		notEmpty: true
 	},
 	rating:{
 		type: Sequelize.STRING,
