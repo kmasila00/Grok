@@ -7,9 +7,9 @@ const Sequelize = require('sequelize')
 module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
-      allowNull: false,
+       allowNull: false,
       validate:{
-       notEmpy: true
+       notEmpty: true
       }
     },
     description: {

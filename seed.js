@@ -21,6 +21,7 @@ var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
 var Promise = require('sequelize').Promise;
+var seed = require('./seeds');
 
 var seedUsers = function () {
 
@@ -40,14 +41,13 @@ var seedUsers = function () {
     var creatingUsers = users.map(function (userObj) {
         return User.create(userObj);
     });
-
     return Promise.all(creatingUsers);
 
 };
-
+console.log("DIMELO AVE");
 db.sync({ force: true })
     .then(function () {
-        return seedUsers();
+        return Promise.all([seedUsers(), seed.Topics()])
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
