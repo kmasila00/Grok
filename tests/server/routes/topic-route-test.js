@@ -118,12 +118,46 @@ describe('Topic route', function () {
 
     describe('editing and deleting topics', function () {
 
-      xit('only admins can edit topics', function() {
+      var topicId;
 
+      beforeEach('Add a topic', function() {
+        return Topic.create({
+          title: 'JavaScript',
+          description: 'This. Is. JavaScript.',
+          status: 'Approved'
+        })
+        .then( function(newTopic) {
+          topicId = newTopic.id;
+        });
       });
 
-      xit('only admins can delete topics', function() {
+      it('regular users cannot edit topics', function(done) {
+        guestAgent.put('/api/topics/' + topicId)
+        .send({ title: 'Ruby' })
+        .expect(401)
+        .end(done);
+      });
 
+      it('admin users can edit topics', function(done) {
+        adminAgent.put('/api/topics/' + topicId)
+        .send({ title: 'Ruby' })
+        .expect(200)
+        .end(function(err, res) {
+          expect(res.body.title).to.equal('Ruby');
+          done();
+        });
+      });
+
+      it('regular users cannot delete topics', function(done) {
+        guestAgent.delete('/api/topics/' + topicId)
+        .expect(401)
+        .end(done);
+      });
+
+      it('admin users can delete topics', function(done) {
+        adminAgent.delete('/api/topics/' + topicId)
+        .expect(200)
+        .end(done);
       });
 
     });

@@ -38,15 +38,23 @@ router.get('/:topicId', function(req, res) {
 });
 
 router.put('/:topicId', function(req, res, next) {
-  req.topic.update(req.body)
-  .then(function(topic){
-    res.status(200).json(topic);
-  }).catch(next)
+  if(req.user && req.user.isAdmin) {
+    req.topic.update(req.body)
+    .then(function(topic){
+      res.status(200).json(topic);
+    }).catch(next);
+  } else {
+    res.status(401).end();
+  }
 });
 
 router.delete('/:topicId', function(req, res, next) {
-  req.category.destroy()
-  .then(function(){
-    res.sendStatus(204);
-  }).catch(next)
+  if(req.user && req.user.isAdmin) {
+    req.topic.destroy()
+    .then(function(){
+      res.status(200).end();
+    }).catch(next)
+  } else {
+    res.status(401).end();
+  }
 });
