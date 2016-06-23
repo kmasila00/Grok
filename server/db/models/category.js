@@ -5,6 +5,9 @@ var db = require('../_db');
 
 module.exports = db.define('category', {
 	name:{
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		defaultValue: 'General', // when Topic is created, at least one "general" category is also created
+		allowNull: false,
+		notEmpty: true
 	}
 });
