@@ -6,6 +6,6 @@ const Sequelize = require('sequelize')
 
 module.exports = db.define('SubsequentTopic', {
     rating: {
-      type: Sequelize.STRING
+      type: Sequelize.INTEGER
     }
   });
