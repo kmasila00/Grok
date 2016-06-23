@@ -26,7 +26,8 @@ module.exports = db.define('user', {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
     isAdmin:{
-        type: Sequelize.ENUM('Yes', 'No')
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     },
     facebook_id: {
         type: Sequelize.STRING
