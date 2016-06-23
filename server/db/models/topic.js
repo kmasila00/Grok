@@ -16,7 +16,7 @@ module.exports = db.define('topic', {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    tag:{
+    tags: {
       type: Sequelize.ARRAY(Sequelize.STRING)
     },
     status:{
