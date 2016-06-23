@@ -1,7 +1,11 @@
 'use strict'
 
 var router = require('express').Router();
-var Topic = require('../../db').model('topic');
+var db = require('../../db');
+var Topic = db.model('topic');
+var Category = db.model('Category');
+var Prerequisite = db.model('PrerequisiteTopic');
+
 
 module.exports = router;
 
@@ -50,10 +54,11 @@ router.put('/:topicId', function(req, res, next) {
 
 router.delete('/:topicId', function(req, res, next) {
   if(req.user.isAdmin){
-    req.category.destroy()
+    req.topic.destroy()
     .then(function(){
-      res.sendStatus(204);
+      return Promise.all([Category.destroy({where:{ topicId: req.topic.id}}), Prerequisite.destroy({where:{ topicId: req.topic.id} })]);
     })
+    .then(() => res.sendStatus(204))
     .catch(next);
   }
   else{
