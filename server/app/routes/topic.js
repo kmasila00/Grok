@@ -30,17 +30,35 @@ router.get('/:topicId', function(req, res) {
   res.json(req.topic);
 });
 
+
+// ============================== ADMIN ROUTES ==============================
+
 router.put('/:topicId', function(req, res, next) {
-  req.topic.update(req.body)
-  .then(function(topic){
-    res.status(200).json(topic);
-  }).catch(next)
+  if(req.user.isAdmin){
+    req.topic.update(req.body)
+    .then(topic => {
+      res.status(200).json(topic);
+    })
+    .catch(next);
+}
+  else {
+    var err = new Error('You must be an admin to update a topic');
+    err.status = 401;
+    throw err;
+  }
 });
 
 router.delete('/:topicId', function(req, res, next) {
-  req.category.destroy()
-  .then(function(){
-    res.sendStatus(204);
-  }).catch(next)
+  if(req.user.isAdmin){
+    req.category.destroy()
+    .then(function(){
+      res.sendStatus(204);
+    })
+    .catch(next);
+  }
+  else{
+    var err = new Error('You must be an admin to delete a topic');
+    err.status = 401;
+    throw err;
+  }
 });
-

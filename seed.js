@@ -44,7 +44,7 @@ var seedUsers = function () {
     return Promise.all(creatingUsers);
 
 };
-console.log("DIMELO AVE");
+
 db.sync({ force: true })
     .then(function () {
         return Promise.all([seedUsers(), seed.Topics()])
