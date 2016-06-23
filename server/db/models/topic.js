@@ -8,8 +8,8 @@ module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
       allowNull: false,
-      validate:{
-       notEmpy: true
+      validate: {
+        notEmpty: true
       }
     },
     description: {
@@ -38,5 +38,3 @@ module.exports = db.define('topic', {
       }
     }
   });
-
-
