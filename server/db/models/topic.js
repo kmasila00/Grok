@@ -8,6 +8,9 @@ module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
       allowNull: false,
+      validate:{
+       notEmpy: true
+      }
     },
     description: {
       type: Sequelize.TEXT,
