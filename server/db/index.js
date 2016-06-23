@@ -10,6 +10,6 @@ var Resource = require('./models/resource');
 
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: 'PrerequisiteTopic'});
-Category.hasMany('Resource');
+Category.hasMany(Resource);
 
 
