@@ -6,8 +6,12 @@ var User = require('./models/user');
 var Topic = require('./models/topic');
 var Prerequisite= require('./models/prerequisites');
 var RelatedTopic = require('./models/subsequent');
+var Category = require('./models/category');
+var Resource = require('./models/resource');
 
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: 'PrerequisiteTopic'});
-
 Topic.belongsToMany(Topic, {as:'subsequent', through: 'SubsequentTopic'});
+Category.hasMany('Resource');
+
+
