@@ -19,6 +19,16 @@ module.exports = db.define('user', {
     salt: {
         type: Sequelize.STRING
     },
+    upvotedResource:{
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    upvotedPrereq:{
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+    },
+    isAdmin:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
     facebook_id: {
         type: Sequelize.STRING
     },

@@ -19,6 +19,11 @@ module.exports = db.define('resource', {
 		allowNull: false,
 		defaultValue: 'other'
 	},
+	status:{
+		type: Sequelize.ENUM('Pending', 'Approved'),
+		defaultValue: 'Pending',
+		allowNull:false
+	},
 	rating:{
 		type: Sequelize.STRING,
 		defaultValue: 0
