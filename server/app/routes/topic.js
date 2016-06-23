@@ -2,6 +2,7 @@
 
 var router = require('express').Router();
 var Topic = require('../../db').model('topic');
+var Auth = require('../configure/auth-middleware');
 
 module.exports = router;
 
@@ -14,8 +15,14 @@ router.param('topicId', function(req, res, next, id) {
   }).catch(next)
 })
 
+// Fetches all topics
+// -- ordinary users: only approved topics
+// -- admins: all topics
 router.get('/', function(req, res, next) {
-  Topic.findAll()
+  var user = req.user,
+      whereCondition = { status: 'Approved' };
+  if(req.user && req.user.isAdmin) whereCondition = {}; // show all
+  Topic.findAll({ where: whereCondition })
   .then(topics => res.send(topics))
   .catch(next);
 });
@@ -43,4 +50,3 @@ router.delete('/:topicId', function(req, res, next) {
     res.sendStatus(204);
   }).catch(next)
 });
-
