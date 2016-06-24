@@ -120,15 +120,15 @@ describe('Resource Route', function(){
 
 	describe('Deleting Resources', function(){
 	  it('non-admin cannot delete resources', function(done) {
-        guestAgent.delete('/api/resources/1')
-        .expect(401)
-        .end(done);
+	        guestAgent.delete('/api/resources/1')
+	        .expect(401)
+	        .end(done);
       });
 
       it('admins can delete resources', function(done) {
-        adminAgent.delete('/api/resources/1')
-        .expect(200)
-        .end(done);
+	        adminAgent.delete('/api/resources/1')
+	        .expect(200)
+	        .end(done);
       });
 	})
 
