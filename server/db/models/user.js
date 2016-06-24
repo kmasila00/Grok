@@ -20,10 +20,10 @@ module.exports = db.define('user', {
         type: Sequelize.STRING
     },
     upvotedResource:{
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
     },
     upvotedPrereq:{
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
     },
     isAdmin:{
         type: Sequelize.BOOLEAN,

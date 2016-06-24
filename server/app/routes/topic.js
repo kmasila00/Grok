@@ -1,8 +1,10 @@
 'use strict'
 
 var router = require('express').Router();
-var Topic = require('../../db').model('topic');
-var Auth = require('../configure/auth-middleware');
+var db = require('../../db');
+var Topic = db.model('topic');
+var Category = db.model('category');
+var Prerequisite = db.model('PrerequisiteTopic');
 
 module.exports = router;
 
@@ -37,24 +39,33 @@ router.get('/:topicId', function(req, res) {
   res.json(req.topic);
 });
 
+
+// ============================== ADMIN ROUTES ==============================
+
 router.put('/:topicId', function(req, res, next) {
-  if(req.user && req.user.isAdmin) {
+  if(req.user && req.user.isAdmin){
     req.topic.update(req.body)
-    .then(function(topic){
-      res.status(200).json(topic);
-    }).catch(next);
+    .then(topic => res.status(200).json(topic))
+    .catch(next);
   } else {
-    res.status(401).end();
+    var err = new Error('You must be an admin to update a topic');
+    err.status = 401;
+    throw err;
   }
 });
 
 router.delete('/:topicId', function(req, res, next) {
-  if(req.user && req.user.isAdmin) {
+  if(req.user && req.user.isAdmin){
     req.topic.destroy()
     .then(function(){
-      res.status(200).end();
-    }).catch(next)
+      // we should replace these with model hooks to delete associations when a given topic is deleted
+      return Promise.all([Category.destroy({where:{ topicId: req.topic.id}}), Prerequisite.destroy({where:{ topicId: req.topic.id} })]);
+    })
+    .then(() => res.status(200).end())
+    .catch(next);
   } else {
-    res.status(401).end();
+    var err = new Error('You must be an admin to delete a topic');
+    err.status = 401;
+    throw err;
   }
 });
