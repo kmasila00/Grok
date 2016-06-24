@@ -23,7 +23,7 @@ describe('User Route', function () {
         password: 'grok',
         isAdmin: true
     };
-        
+
     beforeEach('Create user', function (done) {
         return User.create(user)
                    .then(function(newUser) {
@@ -41,8 +41,14 @@ describe('User Route', function () {
 
     describe('testing user routes', function () {
 
-        it('can get all users', function (done) {
+        it('ordinary users cannot get all users', function (done) {
             guestAgent.get('/api/users')
+                      .expect(401)
+                      .end(done);
+        });
+
+        it('admin users can get all users', function (done) {
+            adminAgent.get('/api/users')
                       .expect(200)
                       .end(function(err,response) {
                           if(err) return done(err);
@@ -97,13 +103,19 @@ describe('User Route', function () {
                       });
         });
 
-        it('can delete a User', function (done) {
-            guestAgent.delete('/api/users/1')
-                      .expect(204)
+        it('ordinary users cannot delete a User', function (done) {
+          guestAgent.delete('/api/users/1')
+          .expect(401)
+          .end(done);
+        });
+
+        it('admins can delete a User', function (done) {
+          adminAgent.delete('/api/users/1')
+          .expect(204)
 		      .end(function(err,response) {
-                          if(err) return done(err);
-                          done();
-                      });
+            if(err) return done(err);
+            done();
+          });
         });
 
     });
