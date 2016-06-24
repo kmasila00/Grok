@@ -15,7 +15,10 @@ module.exports = db.define('user', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     password: {
         type: Sequelize.STRING,
@@ -24,15 +27,6 @@ module.exports = db.define('user', {
     salt: {
         type: Sequelize.STRING
     },
-    // upvotedResource:{
-    //     type: Sequelize.ARRAY(Sequelize.INTEGER)
-    // },
-    // upvotedPrereq:{
-    //     type: Sequelize.ARRAY(Sequelize.INTEGER)
-    // },
-    // upvotedPlan:{
-    //     type: Sequelize.ARRAY(Sequelize.INTEGER)
-    // },
     isAdmin:{
         type: Sequelize.BOOLEAN,
         defaultValue: false
