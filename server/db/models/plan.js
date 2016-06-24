@@ -7,15 +7,17 @@ module.exports = db.define('plan', {
 
 	name: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		validate: {
+		        notEmpty: true
+		}
 	},
-	decription:{
+	description:{
 		type: Sequelize.TEXT,
-		allowNull:false
-	},
-	resourceList:{
-		type: Sequelize.ARRAY(Sequelize.STRING),
-		allowNull:false
+		allowNull:false,
+		validate: {
+		        notEmpty: true
+		}
 	}
 
 });
