@@ -20,7 +20,7 @@ router.get('/:userId', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     User.findOrCreate({
-        where: { 
+        where: {
             name: req.body.name,
             email: req.body.email
         },
@@ -46,7 +46,7 @@ router.put('/:userId', function(req, res, next) {
 
 // ============================== ADMIN ROUTES ==============================
 router.get('/', function(req, res, next) {
-    if(req.user.isAdmin === true) {
+    if(req.user && req.user.isAdmin === true) {
         User.findAll()
             .then(users => res.json(users))
             .catch(next);
@@ -54,11 +54,11 @@ router.get('/', function(req, res, next) {
         var err = new Error('You must be an admin to get all users');
         err.status = 401;
         throw err;
-    } 
+    }
 });
 
 router.delete('/:userId', function(req, res, next) {
-    if (req.user.isAdmin === true) {
+    if (req.user && req.user.isAdmin === true) {
         req.targetUser.destroy()
         .then(function() {
             res.sendStatus(204);
@@ -70,4 +70,3 @@ router.delete('/:userId', function(req, res, next) {
         throw err;
     }
 });
-

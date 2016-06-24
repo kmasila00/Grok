@@ -91,7 +91,7 @@ describe('User model', function () {
             var saltSpy;
 
             var createUser = function () {
-                return User.create({ email: 'obama@gmail.com', password: 'potus' });
+                return User.create({ name: 'obama', email: 'obama@gmail.com', password: 'potus' });
             };
 
             beforeEach(function () {
@@ -133,7 +133,7 @@ describe('User model', function () {
         describe('sanitize method', function () {
 
             var createUser = function () {
-                return User.create({ email: 'obama@gmail.com', password: 'potus' });
+                return User.create({ name: 'obama', email: 'obama@gmail.com', password: 'potus' });
             };
 
             it('should remove sensitive information from a user object', function () {
@@ -144,6 +144,48 @@ describe('User model', function () {
                     expect(sanitizedUser.password).to.be.undefined;
                     expect(sanitizedUser.salt).to.be.undefined;
                 });
+            });
+        });
+
+        describe('creating users', function () {
+
+            it('can create a user with a name, email, password, admin access', function() {
+                var validUser = {
+                    name: 'Goku',
+                    email: 'goku@gmail.com',
+                    password: 'dbz',
+                    isAdmin: true
+                };
+                return User.create(validUser)
+                           .then(function(newUser) {
+                               expect(newUser.name).to.equal(validUser.name);
+                               expect(newUser.email).to.equal(validUser.email);
+                           });
+            });
+
+            it('cannot create a user with a blank name', function() {
+                var invalidUser = User.build({ 
+                    email: 'goku@gmail.com',
+                    password: 'dbz',
+                    isAdmin: true
+                });
+                return invalidUser.validate()
+                                  .then(function (err) {
+                                      expect(err).to.be.an('object');
+                                      expect(err.message).to.equal('notNull Violation: name cannot be null');
+                                  });
+            });
+
+            it('user admin status defaults to false', function() {
+                var user = User.build({ 
+                    name: 'totoro',
+                    email: 'toto@gmail.com',
+                    password: 'catbus'
+                });
+                return User.create(user)
+                           .then(function(newUser) {
+                               expect(newUser.isAdmin).to.equal(false);
+                           });
             });
         });
 
