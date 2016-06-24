@@ -1,4 +1,5 @@
 var expect = require('chai').expect;
+var Promise = require('bluebird');
 
 var Sequelize = require('sequelize');
 
@@ -7,6 +8,7 @@ var app = require('../../../server/app')(db);
 
 var supertest = require('supertest');
 
+var User = db.model('user');
 var Resource = db.model('resource');
 var Tag = db.model('tag');
 
@@ -31,9 +33,11 @@ describe('Tag route', function () {
 
     beforeEach('Create user', function(done) {
       return User.create(userInfo)
-        .then(done)
+        .then( function() {
+          done();
+        })
         .catch(done);
-    })
+    });
 
     beforeEach('Create agents', function (done) {
       guestAgent = supertest.agent(app);
@@ -53,7 +57,10 @@ describe('Tag route', function () {
           url: 'http://www.google.com',
           status: 'Approved'
         };
-        Resource.create(resourceToAdd);
+        Resource.create(resourceToAdd)
+        .then(function(newResource) {
+          done();
+        });
       });
 
       it('non-logged in users cannot tag resources', function(done) {
@@ -65,19 +72,28 @@ describe('Tag route', function () {
 
       it('logged in users can tag resources', function(done) {
         loggedInAgent.post('/api/resources/1/tag')
-        .send(tag)
+        .send({ tagName: tag })
         .expect(201)
         .end( function(err, res) {
           if (err) return done(err);
-          expect(res.body.tags).to.be.an('array');
-          expect(res.body.tags).to.not.have.deep.property(tag);
+          expect(res.body.resourceId).to.equal(1);
+          expect(res.body.tagId).to.equal(1);
           done();
         });
       });
 
     });
 
-    describe('removing tags', function () {
+
+    describe('Removing tags', function () {
+
+      beforeEach('Create admin user', function(done) {
+        return User.create(adminUserInfo)
+          .then( function() {
+            done();
+          })
+          .catch(done);
+      });
 
       beforeEach('Create admin agent', function (done) {
         adminAgent = supertest.agent(app);
@@ -87,17 +103,24 @@ describe('Tag route', function () {
       });
 
       beforeEach('Add tagged resources', function(done) {
-        var resourceToAdd = [{
+        var resourceToAdd = {
               name: 'A resource',
               url: 'http://www.google.com',
               status: 'Approved'
             },
             tag = 'no-yourre-it';
+        var creatingResource = Resource.create
 
-        Resource.bulkCreate(resourceToAdd)
-        .then( function(resource) {
-          resource.addTag(tag);
-        };
+        Promise.all([
+          Resource.create(resourceToAdd),
+          Tag.create({ name: tag })
+        ])
+        .spread( function(newResource, newTag) {
+          return newResource.addTag(newTag.id);
+        })
+        .then( function() {
+          done();
+        });
       });
 
       it('non-logged in users cannot untag resources', function(done) {
@@ -125,5 +148,7 @@ describe('Tag route', function () {
           })
         });
       });
+
+    });
 
 });

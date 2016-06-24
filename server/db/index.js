@@ -17,9 +17,7 @@ User.hasMany(Plan);
 Topic.hasMany(Plan);
 Plan.hasMany(Resource);
 Resource.belongsToMany(Tag, {through: 'ResourceTag'});
-
-
-User.belongsToMany(Resource, {through: Vote.voteResource})
-User.belongsToMany(Plan, {through: Vote.votePlan})
-User.belongsToMany(Prerequisite, {through: Vote.voteRelationship})
-
+// Tag.belongsToMany(Resource, {through: 'ResourceTag'});
+User.belongsToMany(Resource, {through: Vote.voteResource});
+User.belongsToMany(Plan, {through: Vote.votePlan});
+User.belongsToMany(Prerequisite, {through: Vote.voteRelationship});
