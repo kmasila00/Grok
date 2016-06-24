@@ -67,9 +67,13 @@ router.post('/:resourceId/tag', function(req, res, next) {
     // tagName is expected to be a string representing the tag, i.e. 'angular'
     Tag.findOrCreate({ where: { name: req.body.tagName }})
     .then( function(tag) {
-      return req.resource.addTag(tag);
+      return req.resource.addTag(tag[0].id);
     })
-    .then(taggedResource => res.send(taggedResource))
+    // Sequelize returns an array of arrays of theoretically updated Tag<->Resource associations,
+    // however based on the above query, only a single association should be created.
+    // --
+    // Responds with JSON representing the association object, i.e.: { tagId: X, resourceId: Y }
+    .then(tagResourceAssnArr => res.status(201).send(tagResourceAssnArr[0][0]))
     .catch(next);
   } else {
     var err = new Error('Only logged in users may tag resources');

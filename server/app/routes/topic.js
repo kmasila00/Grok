@@ -3,7 +3,6 @@
 var router = require('express').Router();
 var db = require('../../db');
 var Topic = db.model('topic');
-var Category = db.model('category');
 var Prerequisite = db.model('PrerequisiteTopic');
 
 module.exports = router;
