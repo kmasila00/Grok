@@ -5,9 +5,14 @@ app.factory('TopicFactory', function($http) {
   return {
 
     fetchAll: function() {
-      $http.get(baseUrl)
+      return $http.get(baseUrl)
       .then(res => res.data);
-    }
+    },
+
+    fetchById: function(id) {
+      return $http.get(baseUrl + id)
+      .then(res => res.data);
+    },
 
   }
 
