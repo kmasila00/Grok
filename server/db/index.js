@@ -7,6 +7,7 @@ var Topic = require('./models/topic');
 var Prerequisite= require('./models/prerequisites');
 var Resource = require('./models/resource');
 var Plan = require('./models/plan');
+var Tag = require('./models/tag');
 
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: 'PrerequisiteTopic'});
@@ -15,4 +16,5 @@ User.hasMany(Resource);
 User.hasMany(Plan);
 Topic.hasMany(Plan);
 Plan.hasMany(Resource);
+Resource.belongsToMany(Tag, {through: 'ResourceTag'});
 
