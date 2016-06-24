@@ -45,11 +45,7 @@ router.put('/:resourceId', function(req,res,next){
 
 router.delete('/:resourceId', function(req,res, next){
 	if(req.user && req.user.isAdmin){
-		req.resource.destroy({
-			where:{
-				id: req.params.id
-			}
-		})
+		req.resource.destroy()
 		.then( function() {
 			res.sendStatus(204);
 		})
