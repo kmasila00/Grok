@@ -5,4 +5,5 @@ var db= require('../_db');
 module.exports= db.define('tags', {
 	name: Sequelize.STRING,
 	allowNull: false
-})
+});
+//some comment
