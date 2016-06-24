@@ -42,20 +42,47 @@ describe('Topic route', function () {
 
     describe('creating topics', function () {
 
-      xit('any user can create a topic', function() {
+      var topic = {
+        title: 'JavaScript',
+        description: 'This. Is. JavaScript.'
+      }
 
+      it('any user can create a topic', function(done) {
+        guestAgent.post('/api/topics')
+        .send(topic)
+        .expect(201)
+        .end( function(err, res) {
+          if (err) return done(err);
+          expect(res.body.title).to.equal(topic.title);
+          done();
+        });
       });
 
-      xit('user-created topics should be pending status', function() {
-
+      it('user-created topics should be pending status', function(done) {
+        guestAgent.post('/api/topics')
+        .send(topic)
+        .expect(201)
+        .end( function(err, res) {
+          if (err) return done(err);
+          expect(res.body.status).to.equal('Pending');
+          done();
+        });
       });
 
-      xit('admin can approve topics created by ordinary users', function() {
-
-      });
-
-      xit('topics approved by admins are visible by ordinary users', function() {
-
+      it('admin can approve topics created by ordinary users', function(done) {
+        guestAgent.post('/api/topics')
+        .send(topic)
+        .end( function(err, res) {
+          if (err) return done(err);
+          expect(res.body.status).to.equal('Pending');
+          adminAgent.put('/api/topics/' + res.body.id)
+          .send({ status: 'Approved' })
+          .expect(200)
+          .end( function(err, res) {
+            expect(res.body.status).to.equal('Approved');
+            done();
+          });
+        });
       });
 
     });
@@ -158,17 +185,6 @@ describe('Topic route', function () {
         adminAgent.delete('/api/topics/' + topicId)
         .expect(200)
         .end(done);
-      });
-
-    });
-
-    describe('topic associations', function () {
-      xit('can pull all prerequisites with a topic', function() {
-
-      });
-
-      xit('can pull all subsequent topics with a topic', function() {
-
       });
 
     });

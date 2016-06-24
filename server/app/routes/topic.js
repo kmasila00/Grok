@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   Topic.create(req.body)
-  .then(topic => res.send(topic))
+  .then(topic => res.status(201).send(topic))
   .catch(next);
 });
 
