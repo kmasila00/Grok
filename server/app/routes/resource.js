@@ -63,18 +63,30 @@ router.delete('/:resourceId', function(req,res, next){
 
 // Add a tag to a given resource
 router.post('/:resourceId/tag', function(req, res, next) {
-  // tagName is expected to be a string representing the tag, i.e. 'angular'
-  Tag.findOrCreate({ where: { name: req.body.tagName }})
-  .then( function(tag) {
-    return req.resource.addTag(tag);
-  })
-  .then(taggedResource => res.send(taggedResource))
-  .catch(next);
+  if(req.user) { // user must be logged in to tag a resource
+    // tagName is expected to be a string representing the tag, i.e. 'angular'
+    Tag.findOrCreate({ where: { name: req.body.tagName }})
+    .then( function(tag) {
+      return req.resource.addTag(tag);
+    })
+    .then(taggedResource => res.send(taggedResource))
+    .catch(next);
+  } else {
+    var err = new Error('Only logged in users may tag resources');
+		err.status = 401;
+		throw err;
+	}
 });
 
 // Remove a tag from a given resource
 router.delete('/:resourceId/tag/:tagId', function(req, res, next) {
-  req.resource.removeTag(req.params.tagId)
-  .then(() => res.status(200).end())
-  .catch(next);
+  if(req.user && req.user.isAdmin) { // only admins my untag a resource
+    req.resource.removeTag(req.params.tagId)
+    .then(() => res.status(200).end())
+    .catch(next);
+  } else {
+    var err = new Error('Only admins may untag resources');
+		err.status = 401;
+		throw err;
+  }
 });
