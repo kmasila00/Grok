@@ -30,6 +30,10 @@ router.get('/:resourceId', function(req, res, next){
 	res.send(req.resource);
 });
 
+
+// ============================== ADMIN ROUTES ==============================
+
+
 router.put('/:resourceId', function(req,res,next){
 	// Resource may be editted by original user or admin
 	if(req.user && (req.user.id === req.resource.userId || req.user.isAdmin )){
