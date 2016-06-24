@@ -2,8 +2,6 @@
 var db = require('../_db');
 const Sequelize = require('sequelize')
 
-var Category = require('./category');
-
 module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
