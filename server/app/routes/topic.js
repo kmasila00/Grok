@@ -3,7 +3,7 @@
 var router = require('express').Router();
 var db = require('../../db');
 var Topic = db.model('topic');
-var Resource = db.model('resource')
+var Resource = db.model('resource');
 
 module.exports = router;
 
