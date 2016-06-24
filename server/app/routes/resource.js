@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var Resource = require('../../db/').model('resource');
+var Tag = require('../../db/').model('tag');
 
 module.exports = router;
 
@@ -42,7 +43,7 @@ router.put('/:resourceId', function(req,res,next){
 	}
 });
 
-router.delete('/:id', function(req,res, next){
+router.delete('/:resourceId', function(req,res, next){
 	if(req.user && req.user.isAdmin){
 		req.resource.destroy({
 			where:{
@@ -58,4 +59,22 @@ router.delete('/:id', function(req,res, next){
 		err.status = 401;
 		throw err;
 	}
+});
+
+// Add a tag to a given resource
+router.post('/:resourceId/tag', function(req, res, next) {
+  // tagName is expected to be a string representing the tag, i.e. 'angular'
+  Tag.findOrCreate({ where: { name: req.body.tagName }})
+  .then( function(tag) {
+    return req.resource.addTag(tag);
+  })
+  .then(taggedResource => res.send(taggedResource))
+  .catch(next);
+});
+
+// Remove a tag from a given resource
+router.delete('/:resourceId/tag/:tagId', function(req, res, next) {
+  req.resource.removeTag(req.params.tagId)
+  .then(() => res.status(200).end())
+  .catch(next);
 });
