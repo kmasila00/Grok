@@ -14,19 +14,18 @@ module.exports = db.define('user', {
         }
     },
     email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     salt: {
         type: Sequelize.STRING
-    },
-    upvotedResource:{
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
-    },
-    upvotedPrereq:{
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
     },
     isAdmin:{
         type: Sequelize.BOOLEAN,
