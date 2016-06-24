@@ -5,16 +5,19 @@ var Resource = require('../../db/').model('resource');
 
 module.exports = router;
 
-router.get('/:id', function(req, res, next){
-	Resource.findAll({
-		where:{
-			id: req.params.id
-		}
-	})
-	.then(function(allResources){
-		res.send(allResources);
-	})
-});
+router.param('resourceId', function(req, res, next, id) {
+  Resource.findById(id)
+  .then(function(resource) {
+    if (!resource) res.sendStatus(404);
+    req.resource = resource;
+    next();
+  }).catch(next)
+})
+
+router.get('/', function(req, res, next) {
+	Resource.findAll({})
+	.then(resources => res.send(resources));
+})
 
 router.post('/', function(req,res,next){
 	Resource.create(req.body)
@@ -23,16 +26,15 @@ router.post('/', function(req,res,next){
 	})
 });
 
-router.put('/', function(req,res,next){
-	// checks to see if user is logged in
-	// checks to see if the user id is the same as the userId on the resource object
-	if(req.user && req.user.id === req.body.resource.userId){
-		Resource.update(req.body.resource)
-		.then()
-	// if user is admin, they can just change it
-	} else if(req.user.isAdmin){
-		Resource.update(req.body.resource)
-		.then()
+router.get('/:resourceId', function(req, res, next){
+	res.send(req.resource);
+});
+
+router.put('/:resourceId', function(req,res,next){
+	// Resource may be editted by original user or admin
+	if(req.user && (req.user.id === req.resource.userId || req.user.isAdmin )){
+		req.resource.update(req.body)
+		.then(updatedResource => res.status(200).send(updatedResource));
 	} else {
 		var err = new Error('To change this you must be the user who submitted this resource or an Admin');
 		err.status = 401;
@@ -40,15 +42,20 @@ router.put('/', function(req,res,next){
 	}
 });
 
-router.delete('/', function(req,res, next){
-	if(req.user.isAdmin){
-		Resource.destroy({
+router.delete('/:id', function(req,res, next){
+	if(req.user && req.user.isAdmin){
+		req.resource.destroy({
 			where:{
-				id: req.body.resource.id
+				id: req.params.id
 			}
 		})
-		.then()
+		.then( function() {
+			res.sendStatus(204);
+		})
+		.catch(next);
+	} else {
+		var err = new Error('Admin access is required to delete resources');
+		err.status = 401;
+		throw err;
 	}
 });
-
-
