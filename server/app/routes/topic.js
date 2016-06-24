@@ -3,7 +3,7 @@
 var router = require('express').Router();
 var db = require('../../db');
 var Topic = db.model('topic');
-var Prerequisite = db.model('PrerequisiteTopic');
+var Resource = db.model('resource');
 
 module.exports = router;
 
@@ -58,7 +58,7 @@ router.delete('/:topicId', function(req, res, next) {
     req.topic.destroy()
     .then(function(){
       // we should replace these with model hooks to delete associations when a given topic is deleted
-      return Promise.all([Category.destroy({where:{ topicId: req.topic.id}}), Prerequisite.destroy({where:{ topicId: req.topic.id} })]);
+      return Promise.all([Resource.destroy({where:{ topicId: req.topic.id}})]);
     })
     .then(() => res.status(200).end())
     .catch(next);

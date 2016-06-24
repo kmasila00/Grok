@@ -19,17 +19,4 @@ module.exports = db.define('topic', {
       defaultValue: 'Pending',
       allowNull:false
     }
-  },{
-    hooks:{
-      afterCreate: function(topic){
-        Category.create({
-          name: 'General',
-          // can i just leave out the name since default value is general??
-          status: 'Approved',
-          topicId: topic.id
-          // do i use "this" here to assign the topic id??
-        })
-        .then()
-      }
-    }
   });
