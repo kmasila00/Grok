@@ -16,7 +16,9 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	Resource.findAll({})
+	var whereCondition = { status: 'Approved' };
+	if(req.user && req.user.isAdmin) whereCondition= {};
+	Resource.findAll({where: whereCondition})
 	.then(resources => res.send(resources));
 })
 
@@ -55,7 +57,7 @@ router.delete('/:resourceId', function(req,res, next){
 			}
 		})
 		.then( function() {
-			res.sendStatus(204);
+			res.sendStatus(200);
 		})
 		.catch(next);
 	} else {
