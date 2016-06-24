@@ -1,3 +1,5 @@
+'use strict';
+
 const Promise = require('sequelize').Promise;
 const Topic = require('../server/db').model('topic');
 
