@@ -2,8 +2,6 @@
 var db = require('../_db');
 const Sequelize = require('sequelize')
 
-var Category = require('./category');
-
 module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
@@ -15,9 +13,6 @@ module.exports = db.define('topic', {
     description: {
       type: Sequelize.TEXT,
       allowNull: false
-    },
-    tags: {
-      type: Sequelize.ARRAY(Sequelize.STRING)
     },
     status:{
       type: Sequelize.ENUM('Pending', 'Approved'),
