@@ -16,9 +16,6 @@ module.exports = db.define('topic', {
       type: Sequelize.TEXT,
       allowNull: false
     },
-    tags: {
-      type: Sequelize.ARRAY(Sequelize.STRING)
-    },
     status:{
       type: Sequelize.ENUM('Pending', 'Approved'),
       defaultValue: 'Pending',

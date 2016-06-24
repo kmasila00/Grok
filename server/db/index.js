@@ -5,12 +5,14 @@ module.exports = db;
 var User = require('./models/user');
 var Topic = require('./models/topic');
 var Prerequisite= require('./models/prerequisites');
-var Category = require('./models/category');
 var Resource = require('./models/resource');
+var Plan = require('./models/plan');
 
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: 'PrerequisiteTopic'});
-Topic.hasMany(Category);
-Category.hasMany(Resource);
+Topic.hasMany(Resource);
 User.hasMany(Resource);
+User.hasMany(Plan);
+Topic.hasMany(Plan);
+Plan.hasMany(Resource);
 
