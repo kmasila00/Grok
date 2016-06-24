@@ -4,11 +4,17 @@ var router = require('express').Router();
 var db = require('../../db');
 var Topic = db.model('topic');
 var Resource = db.model('resource');
+var Prerequisite = db.model('prerequisites');
 
 module.exports = router;
 
 router.param('topicId', function(req, res, next, id) {
-  Topic.findById(id)
+  Topic.findById(id, {
+    include: [ {
+      model: Topic,
+      as: 'prerequisite',
+      through: Prerequisite
+    } ] })
   .then(function(topic) {
     if (!topic) res.sendStatus(404)
     req.topic = topic;

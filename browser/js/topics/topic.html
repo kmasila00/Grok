@@ -1,2 +1,9 @@
 <h1>{{ topic.title }}</h1>
 <h3>{{ topic.description }}</h3>
+
+<hr>
+
+<h4>Prerequisites:</h4>
+<ul>
+  <li ng-repeat="prereq in topic.prerequisite"><a ui-sref="topic({ topicId: prereq.id })">{{ topic.title }}</a> - {{ topic.description }}</li>
+</ul>
