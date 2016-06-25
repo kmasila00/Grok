@@ -16,7 +16,9 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	Resource.findAll({})
+	var whereCondition = { status: 'Approved' };
+	if(req.user && req.user.isAdmin) whereCondition= {};
+	Resource.findAll({where: whereCondition})
 	.then(resources => res.send(resources));
 })
 
@@ -30,6 +32,10 @@ router.post('/', function(req,res,next){
 router.get('/:resourceId', function(req, res, next){
 	res.send(req.resource);
 });
+
+
+// ============================== ADMIN ROUTES ==============================
+
 
 router.put('/:resourceId', function(req,res,next){
 	// Resource may be editted by original user or admin
@@ -47,7 +53,7 @@ router.delete('/:resourceId', function(req,res, next){
 	if(req.user && req.user.isAdmin){
 		req.resource.destroy()
 		.then( function() {
-			res.sendStatus(204);
+			res.sendStatus(200);
 		})
 		.catch(next);
 	} else {
