@@ -28,9 +28,18 @@ module.exports= function(){
 	]
 
 	let creatingTopics = topics.map((topicObj) => {
-		console.log(topicObj);
 	  return Topic.create(topicObj)
 	})
 
-	return Promise.all(creatingTopics);
+	console.log('Creating topics...')
+	return Promise.all(creatingTopics)
+	.then( function(newTopics) {
+		// create associations
+		console.log('Adding associations...');
+		return Promise.all([
+			newTopics[1].addPrerequisite(newTopics[3]), // JS-->Node
+			newTopics[2].addPrerequisite(newTopics[1]), // Node-->Express
+			newTopics[0].addPrerequisite(newTopics[3]), // JS-->Angular
+		]);
+	});
 }
