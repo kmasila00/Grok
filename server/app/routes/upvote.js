@@ -14,7 +14,7 @@ router.post('/resource', function(req, res, next){
 		userId: req.body.userId,
 		resourceId: req.body.resourceId
 	})
-	.then(voteResource => res.status(201).send(voteResource))
+	.then(voteResource => res.sendStatus(201))
   	.catch(next);
 });
 
@@ -35,7 +35,7 @@ router.post('/plan', function(req, res, next){
 		userId: req.body.userId,
 		planId: req.body.planId
 	})
-	.then(votePlan => res.status(201).send(votePlan))
+	.then(votePlan => res.sendStatus(201))
   	.catch(next);
 
 });
@@ -56,7 +56,7 @@ router.post('/relationship', function(req, res, next){
 		userId: req.body.userId,
 		prerequisiteId: req.body.prerequisiteId
 	})
-	.then(voteRelationship => res.status(201).send(voteRelationship))
+	.then(voteRelationship => res.sendStatus(201))
   	.catch(next);
 
 })
