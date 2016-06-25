@@ -1,16 +1,104 @@
-<h1>{{ topic.title }}</h1>
-<h3>{{ topic.description }}</h3>
+<!-- HEADER -->
+<div class="jumbotron">
+  <div class="container">
 
-<hr>
+    <div class="col-md-3 topic-jumbotron links-cell text-left">
+      <div class="glyphicon glyphicon-menu-left"></div>
+      <ul>
+        <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a></li>
+      </ul>
+    </div>
 
-<h4>Prerequisites:</h4>
-<ul>
-  <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a> - {{ prereq.description }}</li>
-</ul>
+    <div class="col-md-6 topic-jumbotron topic-title-cell text-center">
+      <h1>{{ topic.title }}</h1>
+      <h3>{{ topic.description }}</h3>
+    </div>
 
-<hr>
+    <div class="col-md-3 topic-jumbotron links-cell text-right">
+      <div class="glyphicon glyphicon-menu-right"></div>
+      <ul>
+        <li ng-repeat="subseq in topic.subseqTopics"><a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a></li>
+      </ul>
+    </div>
 
-<h4>Subsequent Topics:</h4>
-<ul>
-  <li ng-repeat="subseq in topic.subseqTopics"><a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a> - {{ subseq.description }}</li>
-</ul>
+  </div>
+</div>
+
+
+<!-- PLANS -->
+<div class="container">
+  <div class="col-md-offset-1 col-md-10">
+    <div class="panel panel-default">
+
+      <div class="panel-heading topic-panel-heading" ng-click="toggleShowPlans()">
+        <span class="glyphicon glyphicon-triangle-right" ng-hide="showPlans"></span>
+        <span class="glyphicon glyphicon-triangle-bottom" ng-show="showPlans"></span>
+        <h3 class="panel-title">&nbsp;Learning Plans</h3>
+      </div>
+
+      <div class="panel-body" ng-show="showPlans">
+        <div class="row">
+
+          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+            <div class="thumbnail">
+              <h4>Plan #{{ plan }}</h4>
+              <ul>
+                <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+              </ul>
+              <h6><small>Contributed by User XYZ.</small></h6>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- RESOURCES -->
+<div class="container">
+  <div class="col-md-offset-1 col-md-10">
+    <div class="panel panel-default">
+
+      <div class="panel-heading topic-panel-heading" ng-click="toggleShowResources()">
+        <span class="glyphicon glyphicon-triangle-right" ng-hide="showResources"></span>
+        <span class="glyphicon glyphicon-triangle-bottom" ng-show="showResources"></span>
+        <h3 class="panel-title">&nbsp;Resources</h3>
+      </div>
+
+      <div class="panel-body" ng-show="showResources">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="btn-group" role="group">
+              <span>Filter by tag: <span>
+              <button type="button" class="btn btn-sm btn-primary">all</button>
+              <button type="button" class="btn btn-sm btn-default">tag_one</button>
+              <button type="button" class="btn btn-sm btn-default">tag_two</button>
+              <button type="button" class="btn btn-sm btn-default">tag_three</button>
+              <button type="button" class="btn btn-sm btn-default">tag_four</button>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+            <div class="thumbnail">
+              <h4>Plan #{{ plan }}</h4>
+              <ul>
+                <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+              </ul>
+              <h6><small>Contributed by User XYZ.</small></h6>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

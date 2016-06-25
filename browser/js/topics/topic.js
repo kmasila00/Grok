@@ -19,6 +19,15 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic) {
 
   $scope.topic = topic;
 
-  console.log($scope.topic)
+  $scope.showPlans = false;
+  $scope.showResources = true;
+
+  $scope.toggleShowPlans = function() {
+    $scope.showPlans = !$scope.showPlans;
+  }
+
+  $scope.toggleShowResources = function() {
+    $scope.showResources = !$scope.showResources;
+  }
 
 });
