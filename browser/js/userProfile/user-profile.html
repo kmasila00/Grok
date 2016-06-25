@@ -1,63 +1,53 @@
 <section id="userpage">
 	<div class="container">
-		<div class="column row">
-			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
-				<img class="thumbnail" height="200" width="200" src="http://dx3x.com/bills-progress/images/bill61_400x400.jpg">
+		<div class="row">
+			<div class="text-center col-lg-12">
+				<center>
+					<h2>USERNAME</h2>
+					<img class="thumbnail" height="300" width="300" src="http://dx3x.com/bills-progress/images/bill61_400x400.jpg">
+				</center>
 			</div>
-			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
-				<div class="topOfPage">
-					<h3>EMAIL ADDRESS</h3>
-					<h5>Your Account Info</h5>
-				</div>
-				<div class="row">
-					<div class="well col-xs-6">
-						<h5>USER NAME</h5>
-						
-						<a>Edit Info</a>
-					</div>	
-					<div ng-show="editing" class="medium-6 large-12 columns">	
-						<p>First Name: <input type="text" ng-model="firstName" class="form-control" ></p>
-						<p>Last Name: <input type="text" ng-model="lastName" class="form-control"></p>
-						<div class="row">
-							<div>
-								<a class="button medium expanded">Save Changes</a>
+		</div>
+		<hr>
+		<center>
+			<div ng-controller="TabsDemoCtrl">
+
+			  <uib-tabset active="active">
+			    <uib-tab index="0" heading="User Info">
+			    	<div class="row">
+				    	<div class="well col-lg-12">
+							<h5>Email: billmurray@gmail.com</h5>
+							<p>Name: Bill Murray</p>
+							<p>About Me: Filling in as placeholder images. Just call me FILL Murray!</p>
+						</div>
+			    	</div>
+			    </uib-tab>
+			    <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+			      <div class="row">
+							<div class="well col-lg-12">
+								<h5>{{tab.content.name}}</h5>
+								<p>{{tab.content.url}}</p>
+								<p>{{tab.content.description}}</p>
+							</div>	
+							<div ng-show="editing" class="medium-6 large-12 columns">	
+								<p>First Name: <input type="text" ng-model="firstName" class="form-control" ></p>
+								<p>Last Name: <input type="text" ng-model="lastName" class="form-control"></p>
+								<div class="row">
+									<div>
+										<a class="button medium expanded">Save Changes</a>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+			    </uib-tab>
+			    <!-- <uib-tab index="3" select="alertMe()">
+			      <uib-tab-heading>
+			        <i class="glyphicon glyphicon-bell"></i> Alert!
+			      </uib-tab-heading>
+			      I've got an HTML heading, and a select callback. Pretty cool!
+			    </uib-tab> -->
+			  </uib-tabset>
 			</div>
-		</div>
-		<hr>
-		<div class="column row">
-			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
-				<div class="tabs-content column row" data-tabs-content="example-tabs">
-					<div class="tabs-panel is-active" id="panel1">
-						<h4>Resources</h4>
-						<hr>
-						<div class="media-object stack-for-small">
-								<h5>Resource Name</h5>
-								<p>URL?</p>
-								<p>Description?</p>
-							<hr>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
-				<div class="tabs-content column row" data-tabs-content="example-tabs">
-					<div class="tabs-panel is-active" id="panel1">
-						<h4>User's Plans</h4>
-						<hr>
-						<div class="media-object stack-for-small">
-								<h5>Plan Name</h5>
-								<p>TOPIC?</p>
-								<p>Description?</p>
-							<hr>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<hr>
+		</center>
 	</div>
 </section>
