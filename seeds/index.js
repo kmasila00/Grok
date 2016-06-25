@@ -2,5 +2,6 @@ const seedTopics = require('./seedTopics')
 
 
 module.exports = {
-  Topics: seedTopics
+  Topics: require('./seedTopics'),
+  Resources: require('./resources')
 }

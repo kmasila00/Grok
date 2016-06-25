@@ -5,18 +5,18 @@ const Sequelize = require('sequelize')
 module.exports = db.define('topic', {
     title: {
       type: Sequelize.STRING,
+  		unique: true,
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
     description: {
-      type: Sequelize.TEXT,
-      allowNull: false
+      type: Sequelize.TEXT
     },
     status:{
-      type: Sequelize.ENUM('Pending', 'Approved'),
-      defaultValue: 'Pending',
+      type: Sequelize.ENUM('pending', 'approved'),
+      defaultValue: 'pending',
       allowNull:false
     }
   });
