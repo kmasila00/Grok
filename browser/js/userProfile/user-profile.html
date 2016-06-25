@@ -1,0 +1,63 @@
+<section id="userpage">
+	<div class="container">
+		<div class="column row">
+			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
+				<img class="thumbnail" height="200" width="200" src="http://dx3x.com/bills-progress/images/bill61_400x400.jpg">
+			</div>
+			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
+				<div class="topOfPage">
+					<h3>EMAIL ADDRESS</h3>
+					<h5>Your Account Info</h5>
+				</div>
+				<div class="row">
+					<div class="well col-xs-6">
+						<h5>USER NAME</h5>
+						
+						<a>Edit Info</a>
+					</div>	
+					<div ng-show="editing" class="medium-6 large-12 columns">	
+						<p>First Name: <input type="text" ng-model="firstName" class="form-control" ></p>
+						<p>Last Name: <input type="text" ng-model="lastName" class="form-control"></p>
+						<div class="row">
+							<div>
+								<a class="button medium expanded">Save Changes</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="column row">
+			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
+				<div class="tabs-content column row" data-tabs-content="example-tabs">
+					<div class="tabs-panel is-active" id="panel1">
+						<h4>Resources</h4>
+						<hr>
+						<div class="media-object stack-for-small">
+								<h5>Resource Name</h5>
+								<p>URL?</p>
+								<p>Description?</p>
+							<hr>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="margin:0 auto 0 auto; padding-left: 100px" class="col-lg-6 col-med-12 col-sm-12">
+				<div class="tabs-content column row" data-tabs-content="example-tabs">
+					<div class="tabs-panel is-active" id="panel1">
+						<h4>User's Plans</h4>
+						<hr>
+						<div class="media-object stack-for-small">
+								<h5>Plan Name</h5>
+								<p>TOPIC?</p>
+								<p>Description?</p>
+							<hr>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+</section>
