@@ -10,7 +10,7 @@ module.exports= router;
 
 //Vote Resource
 router.post('/resource', function(req, res, next){
-	VoteResource.create({
+	VoteResource.findOrCreate({
 		userId: req.body.userId,
 		resourceId: req.body.resourceId
 	})
@@ -31,7 +31,7 @@ router.delete('/resource', function(req, res, next){
 
 //Vote Plan
 router.post('/plan', function(req, res, next){
-	VotePlan.create({
+	VotePlan.findOrCreate({
 		userId: req.body.userId,
 		planId: req.body.planId
 	})
@@ -52,7 +52,7 @@ router.delete('/plan', function(req, res, next){
 
 //Vote Relationship
 router.post('/relationship', function(req, res, next){
-	VoteRelationship.create({
+	VoteRelationship.findOrCreate({
 		userId: req.body.userId,
 		prerequisiteId: req.body.prerequisiteId
 	})
