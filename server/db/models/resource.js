@@ -15,7 +15,7 @@ module.exports = db.define('resource', {
 		notEmpty: true
 	},
 	type:{
-		type: Sequelize.ENUM('article', 'video', 'tutorial', 'other'),
+		type: Sequelize.ENUM('article', 'video', 'book', 'tutorial', 'other'),
 		allowNull: false,
 		defaultValue: 'other'
 	},

@@ -47,13 +47,25 @@
           <hr>
 
           <div class="row">
-            <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
-              <div class="thumbnail">
-                <h4>Plan #{{ plan }}</h4>
-                <ul>
-                  <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
-                </ul>
-                <h6><small>Contributed by User XYZ.</small></h6>
+            <div class="col-md-4" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
+              <div class="panel panel-default resource-panel">
+                <div class="panel-heading">
+                  <div class="resource-title">
+                    <h3 class="panel-title">Resource #{{ resource }}&nbsp;</h3>
+                    <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
+                    <span class="glyphicon glyphicon-pencil" ng-if="resource % 4 === 0"></span>
+                    <span class="glyphicon glyphicon-film" ng-if="resource % 4 === 1"></span>
+                    <span class="glyphicon glyphicon-text-height" ng-if="resource % 4 === 2"></span>
+                    <span class="glyphicon glyphicon-book" ng-if="resource % 4 === 3"></span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                  </div>
+                  <div>
+                    <span class="tag">tag_one</span>
+                    <span class="tag">tag_two</span>
+                    <span class="tag">tag_three</span>
+                    <span class="tag">tag_four</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -63,12 +75,14 @@
         <uib-tab index="1" heading="Learning Plans">
           <hr>
           <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
-            <div class="thumbnail">
-              <h4>Plan #{{ plan }}</h4>
-              <ul>
-                <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+            <div class="panel panel-default plan-panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">Plan #{{ plan }}</h3>
+                <span class="glyphicon glyphicon-copy"></span>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
               </ul>
-              <h6><small>Contributed by User XYZ.</small></h6>
             </div>
           </div>
         </uib-tab>
@@ -80,7 +94,7 @@
     <div class="col-md-3">
       <div class="panel panel-primary">
 
-        <div class="panel-heading topic-panel-heading">
+        <div class="panel-heading">
           <h3 class="panel-title">My Plan</h3>
         </div>
 
@@ -96,11 +110,9 @@
         <ul class="list-group">
           <li class="list-group-item my-plan-list-item" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
             Resource #{{ resource }}
-            <span>
-              <span class="glyphicon glyphicon-arrow-up"></span>
-              <span class="glyphicon glyphicon-arrow-down"></span>
-              <span class="glyphicon glyphicon-remove-circle"></span>
-            </span>
+            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span class="glyphicon glyphicon-arrow-down"></span>
+            <span class="glyphicon glyphicon-arrow-up"></span>
           </li>
         </ul>
       </div>
