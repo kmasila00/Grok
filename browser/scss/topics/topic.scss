@@ -41,3 +41,16 @@
 .panel-title {
   display: inline;
 }
+
+.my-plan-list-item {
+  span {
+    display: none;
+    float: right;
+  }
+  &:hover {
+    background-color: lighten(#000, 90%);
+    span {
+      display: inline;
+    }
+  }
+}

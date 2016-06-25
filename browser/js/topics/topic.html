@@ -25,20 +25,43 @@
 </div>
 
 
-<!-- PLANS -->
 <div class="container">
-  <div class="col-md-offset-1 col-md-10">
-    <div class="panel panel-default">
+  <div class="row">
+    <div class="col-md-9">
+      <uib-tabset type="pills">
 
-      <div class="panel-heading topic-panel-heading" ng-click="toggleShowPlans()">
-        <span class="glyphicon glyphicon-triangle-right" ng-hide="showPlans"></span>
-        <span class="glyphicon glyphicon-triangle-bottom" ng-show="showPlans"></span>
-        <h3 class="panel-title">&nbsp;Learning Plans</h3>
-      </div>
+        <!-- RESOURCES -->
+        <uib-tab index="0" heading="Resources">
+          <hr>
 
-      <div class="panel-body" ng-show="showPlans">
-        <div class="row">
+          <!-- filters -->
+          <div class="btn-group">
+            <label class="btn btn-sm"><span class="glyphicon glyphicon-filter"></span></label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.all" uib-btn-checkbox>all</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.one" uib-btn-checkbox>tag_one</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.two" uib-btn-checkbox>tag_two</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.three" uib-btn-checkbox>tag_three</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.four" uib-btn-checkbox>tag_four</label>
+          </div>
 
+          <hr>
+
+          <div class="row">
+            <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+              <div class="thumbnail">
+                <h4>Plan #{{ plan }}</h4>
+                <ul>
+                  <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+                </ul>
+                <h6><small>Contributed by User XYZ.</small></h6>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+
+        <!-- PLANS -->
+        <uib-tab index="1" heading="Learning Plans">
+          <hr>
           <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
             <div class="thumbnail">
               <h4>Plan #{{ plan }}</h4>
@@ -48,57 +71,40 @@
               <h6><small>Contributed by User XYZ.</small></h6>
             </div>
           </div>
+        </uib-tab>
 
-        </div>
-      </div>
-
+      </uib-tabset>
     </div>
-  </div>
-</div>
 
+    <!-- MY PLAN -->
+    <div class="col-md-3">
+      <div class="panel panel-primary">
 
-<!-- RESOURCES -->
-<div class="container">
-  <div class="col-md-offset-1 col-md-10">
-    <div class="panel panel-default">
-
-      <div class="panel-heading topic-panel-heading" ng-click="toggleShowResources()">
-        <span class="glyphicon glyphicon-triangle-right" ng-hide="showResources"></span>
-        <span class="glyphicon glyphicon-triangle-bottom" ng-show="showResources"></span>
-        <h3 class="panel-title">&nbsp;Resources</h3>
-      </div>
-
-      <div class="panel-body" ng-show="showResources">
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="btn-group" role="group">
-              <span>Filter by tag: <span>
-              <button type="button" class="btn btn-sm btn-primary">all</button>
-              <button type="button" class="btn btn-sm btn-default">tag_one</button>
-              <button type="button" class="btn btn-sm btn-default">tag_two</button>
-              <button type="button" class="btn btn-sm btn-default">tag_three</button>
-              <button type="button" class="btn btn-sm btn-default">tag_four</button>
-            </div>
-          </div>
+        <div class="panel-heading topic-panel-heading">
+          <h3 class="panel-title">My Plan</h3>
         </div>
 
-        <hr>
+        <select class="form-control">
+          <option>Learning JS</option>
+          <option>Learning HTML and CSS</option>
+        </select>
 
-        <div class="row">
-          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
-            <div class="thumbnail">
-              <h4>Plan #{{ plan }}</h4>
-              <ul>
-                <li ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
-              </ul>
-              <h6><small>Contributed by User XYZ.</small></h6>
-            </div>
-          </div>
+        <div class="panel-body">
+          Must...learn....Java...Script.
         </div>
 
+        <ul class="list-group">
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
+            Resource #{{ resource }}
+            <span>
+              <span class="glyphicon glyphicon-arrow-up"></span>
+              <span class="glyphicon glyphicon-arrow-down"></span>
+              <span class="glyphicon glyphicon-remove-circle"></span>
+            </span>
+          </li>
+        </ul>
       </div>
-
     </div>
+
   </div>
 </div>
