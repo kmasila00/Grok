@@ -6,6 +6,7 @@ var Topic = db.model('topic');
 var Resource = db.model('resource');
 var Prerequisite = db.model('prerequisites');
 var Sequelize = require('sequelize');
+var Promise = require('bluebird');
 
 module.exports = router;
 
@@ -36,22 +37,22 @@ router.post('/', function(req, res, next) {
   .catch(next);
 });
 
-router.get('/:topicId', function(req, res) {
+// Get a single topic, with all its prequisites and subsequent topics
+router.get('/:topicId', function(req, res, next) {
 
   var prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
       subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId" WHERE p."prerequisiteId" = ' + req.params.topicId;
 
-  // Find all prerequisites
-  db.query(prereqQuery, { type: Sequelize.QueryTypes.SELECT })
-  .then( function(prereqTopics) {
+  Promise.all([
+    db.query(prereqQuery, { type: Sequelize.QueryTypes.SELECT }),
+    db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT })
+  ])
+  .spread( function(prereqTopics, subseqTopics) {
     req.topic.dataValues.prereqTopics = prereqTopics;
-    // Find all subsequent topics
-    return db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT });
-  })
-  .then( function(subseqTopics) {
     req.topic.dataValues.subseqTopics = subseqTopics;
     res.json(req.topic);
   })
+  .catch(next);
 
 });
 
