@@ -5,5 +5,12 @@
 
 <h4>Prerequisites:</h4>
 <ul>
-  <li ng-repeat="prereq in topic.prerequisite"><a ui-sref="topic({ topicId: prereq.id })">{{ topic.title }}</a> - {{ topic.description }}</li>
+  <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a> - {{ prereq.description }}</li>
+</ul>
+
+<hr>
+
+<h4>Subsequent Topics:</h4>
+<ul>
+  <li ng-repeat="subseq in topic.subseqTopics"><a ui-sref="topic({ topicId: subseq.prerequisiteId })">{{ subseq.title }}</a> - {{ subseq.description }}</li>
 </ul>
