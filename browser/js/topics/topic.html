@@ -1,0 +1,122 @@
+<!-- HEADER -->
+<div class="jumbotron">
+  <div class="container">
+
+    <div class="col-md-3 topic-jumbotron links-cell text-left">
+      <div class="glyphicon glyphicon-menu-left"></div>
+      <ul>
+        <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-6 topic-jumbotron topic-title-cell text-center">
+      <h1>{{ topic.title }}</h1>
+      <h3>{{ topic.description }}</h3>
+    </div>
+
+    <div class="col-md-3 topic-jumbotron links-cell text-right">
+      <div class="glyphicon glyphicon-menu-right"></div>
+      <ul>
+        <li ng-repeat="subseq in topic.subseqTopics"><a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <uib-tabset type="pills">
+
+        <!-- RESOURCES -->
+        <uib-tab index="0" heading="Resources">
+          <hr>
+
+          <!-- filters -->
+          <div class="btn-group">
+            <label class="btn btn-sm"><span class="glyphicon glyphicon-filter"></span></label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.all" uib-btn-checkbox>all</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.one" uib-btn-checkbox>tag_one</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.two" uib-btn-checkbox>tag_two</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.three" uib-btn-checkbox>tag_three</label>
+            <label class="btn btn-sm btn-default" ng-model="resourceFilter.four" uib-btn-checkbox>tag_four</label>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-md-4" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
+              <div class="panel panel-default resource-panel">
+                <div class="panel-heading">
+                  <div class="resource-title">
+                    <h3 class="panel-title">Resource #{{ resource }}&nbsp;</h3>
+                    <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
+                    <span class="glyphicon glyphicon-pencil" ng-if="resource % 4 === 0"></span>
+                    <span class="glyphicon glyphicon-film" ng-if="resource % 4 === 1"></span>
+                    <span class="glyphicon glyphicon-text-height" ng-if="resource % 4 === 2"></span>
+                    <span class="glyphicon glyphicon-book" ng-if="resource % 4 === 3"></span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                  </div>
+                  <div>
+                    <span class="tag">tag_one</span>
+                    <span class="tag">tag_two</span>
+                    <span class="tag">tag_three</span>
+                    <span class="tag">tag_four</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+
+        <!-- PLANS -->
+        <uib-tab index="1" heading="Learning Plans">
+          <hr>
+          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+            <div class="panel panel-default plan-panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">Plan #{{ plan }}</h3>
+                <span class="glyphicon glyphicon-copy"></span>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+              </ul>
+            </div>
+          </div>
+        </uib-tab>
+
+      </uib-tabset>
+    </div>
+
+    <!-- MY PLAN -->
+    <div class="col-md-3">
+      <div class="panel panel-primary">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">My Plan</h3>
+        </div>
+
+        <select class="form-control">
+          <option>Learning JS</option>
+          <option>Learning HTML and CSS</option>
+        </select>
+
+        <div class="panel-body">
+          Must...learn....Java...Script.
+        </div>
+
+        <ul class="list-group">
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
+            Resource #{{ resource }}
+            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span class="glyphicon glyphicon-arrow-down"></span>
+            <span class="glyphicon glyphicon-arrow-up"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
