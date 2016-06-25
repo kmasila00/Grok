@@ -15,10 +15,10 @@ body {
 }
 
 #main {
-  padding-top: 60px;
   margin: 0 auto;
 }
 
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
+@import 'admin/main'
