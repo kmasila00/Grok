@@ -4,7 +4,7 @@
     	<h3>Dashboard<span class='glyphicon glyphicon-dashboard'></span> </h3>
         <ul class="sidebar-nav">
         	<li><a href="#"><span class='glyphicon glyphicon-stats'></span> Stats</a><li>
-            <li class="sidebar-brand"><a ui-sref-active="active" ui-sref="users"> <span class='glyphicon glyphicon-user'></span> Users</a></li>
+            <li class="sidebar-brand"><a ui-sref-active="active" ui-sref="admin.users"> <span class='glyphicon glyphicon-user'></span> Users</a></li>
             <li><a href="#"><span class='glyphicon glyphicon-edit'></span> Topics</a></li>
             <li><a href="#"><span class='glyphicon glyphicon-link'></span> Resources</a></li>
             <li><a href="#"></a></li>
@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- content of page -->
+                        <ui-view><ui-view>
                     </div>
                 </div>
             </div>

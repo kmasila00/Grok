@@ -10,6 +10,8 @@ app.config(function ($stateProvider) {
 
 app.controller('AdminCtrl', function ($scope) {
 
+    
+
 
 
 });
