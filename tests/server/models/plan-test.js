@@ -13,7 +13,7 @@ describe('Plan Model', function(){
 
 	describe('creating plans', function(){
 
-		it('can create a plan', function(){
+		it('can create a plan', function(done){
 			var validPlan = {
 				name: 'This awesome plan',
 				description: 'The title says it all'
@@ -22,26 +22,28 @@ describe('Plan Model', function(){
 			return Plan.create(validPlan)
 			.then(function(plan){
 				expect(plan.name).to.equal('This awesome plan');
-				// expect(plan.description).to.equal(validPlan.description);
-			});
+				done();
+			})
 		});
 
-		it('cannot create a plan with empty title', function(){
+		it('cannot create a plan with empty title', function(done){
 			var noName = Plan.build({description:"where is my name?"});
 			return noName.validate()
 			.then(function(err){
 				expect(err).to.be.an('object');
 				expect(err.message).to.equal('notNull Violation: name cannot be null');
+				done();
 			})
 		});
 
-		it('cannot create a plan with empty description', function(){
+		it('cannot create a plan with empty description', function(done){
 			var noDesc = Plan.build({name:"Um, im missing a description"});
 			return noDesc.validate()
 			.then(function(err){
 				expect(err).to.be.an('object');
 				expect(err.message).to.equal('notNull Violation: description cannot be null');
-			});
+				done();
+			})
 		});
 		
 	});
@@ -62,7 +64,7 @@ describe('Plan Model', function(){
 			});
 		});
 
-		it('can add a resource', function(){
+		it('can add a resource', function(done){
 			var resource = {
 				name:"What kind of article is this?",
 				url:"thisisnotarealurl.com",
@@ -79,10 +81,11 @@ describe('Plan Model', function(){
 			.then(function(allRes){
 				expect(allRes.length).to.equal(1);
 				expect(allRes[0].name).to.equal("What kind of article is this?");
-			});
+				done();
+			})
 		});
 
-		it('can add multiple resources', function(){
+		it('can add multiple resources', function(done){
 			var resource1 = {
 				name:"This is the first one",
 				url:"firstone.com",
@@ -112,7 +115,8 @@ describe('Plan Model', function(){
 				expect(allRes.length).to.equal(2);
 				expect(allRes[0].name).to.equal("This is the first one");
 				expect(allRes[1].url).to.equal("secondone.com");
-			});
+				done();
+			})
 		});
 
 	});
