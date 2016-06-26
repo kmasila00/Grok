@@ -7,11 +7,11 @@
       <th>Description</th>
       <th>Status</th>
       <th >Delete Topic</th>
-      <tr ng-repeat='topic in topics | orderBy: "id"'>
+      <tr ng-repeat='topic in topics | orderBy: "id"' >
         <td>{{ topic.id }}</td>
-        <td> {{topic.title}}</td>
-        <td>{{topic.description}}</td>
-        <td>{{topic.status}}</td>
+        <td> <input type='text' ng-model='topic.title' ng-change='update(topic)'></td>
+        <td> <textarea  ng-model="topic.description"  ng-change='update(topic)'></textarea></td>
+        <td><input type='text' ng-model='topic.status' ng-change='update(topic)'></td>
         <td><a style='color: red' ng-click='deleteUser(user)'><span class="glyphicon glyphicon-remove-sign"><span></a> </td>
       </tr>
     </table>

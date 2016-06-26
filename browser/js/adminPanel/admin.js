@@ -10,8 +10,11 @@ app.config(function ($stateProvider) {
         url: '/topics',
         templateUrl: 'js/adminPanel/templates/topics.html',
         controller: function($scope, TopicFactory){
+
            TopicFactory.fetchAll()
-           .then(topics =>  $scope.topics= topics)
+           .then(topics =>  $scope.topics= topics);
+
+           $scope.update= TopicFactory.updateTopic;
 
         }
     });
@@ -24,4 +27,4 @@ app.controller('AdminCtrl', function ($scope) {
 
 
 
-});
+}); 
