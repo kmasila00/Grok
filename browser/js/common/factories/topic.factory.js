@@ -15,9 +15,14 @@ app.factory('TopicFactory', function($http) {
     },
 
     updateTopic: function(topic){
-      console.log("reached update topic");
       return $http.put(baseUrl + topic.id, topic)
       .then(res => res.data);
+    },
+
+    deleteTopic: function(id){
+      return $http.delete(baseUrl + id)
+      .then(res => res.data);
+
     }
 
   }

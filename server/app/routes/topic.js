@@ -72,6 +72,7 @@ router.put('/:topicId', function(req, res, next) {
 });
 
 router.delete('/:topicId', function(req, res, next) {
+  console.log("I reached delete topic route");
   if(req.user && req.user.isAdmin){
     req.topic.destroy()
     .then(function(){
