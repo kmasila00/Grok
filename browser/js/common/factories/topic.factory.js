@@ -2,7 +2,7 @@ app.factory('TopicFactory', function($http) {
 
   var baseUrl = '/api/topics/';
 
-  return {
+  var obj= {
 
     fetchAll: function() {
       return $http.get(baseUrl)
@@ -15,16 +15,18 @@ app.factory('TopicFactory', function($http) {
     },
 
     updateTopic: function(topic){
+      console.log("llegue aqui in updateTopic");
       return $http.put(baseUrl + topic.id, topic)
       .then(res => res.data);
     },
 
     deleteTopic: function(id){
       return $http.delete(baseUrl + id)
-      .then(res => res.data);
+      .then( ()=> obj.fetchAll());
 
     }
 
   }
+  return obj;
 
 });

@@ -60,6 +60,7 @@ router.get('/:topicId', function(req, res, next) {
 // ============================== ADMIN ROUTES ==============================
 
 router.put('/:topicId', function(req, res, next) {
+  console.log(req.user.isAdmin===true);
   if(req.user && req.user.isAdmin){
     req.topic.update(req.body)
     .then(topic => res.status(200).json(topic))
@@ -72,7 +73,6 @@ router.put('/:topicId', function(req, res, next) {
 });
 
 router.delete('/:topicId', function(req, res, next) {
-  console.log("I reached delete topic route");
   if(req.user && req.user.isAdmin){
     req.topic.destroy()
     .then(function(){

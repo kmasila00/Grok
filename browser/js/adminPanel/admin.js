@@ -9,10 +9,9 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.topics', {
         url: '/topics',
         templateUrl: 'js/adminPanel/templates/topics.html',
-        controller: function($scope, TopicFactory){
+        controller: function($scope, topics, TopicFactory){
 
-           TopicFactory.fetchAll()
-           .then(topics =>  $scope.topics= topics);
+           $scope.topics= topics;
 
            $scope.update= TopicFactory.updateTopic;
 
@@ -23,6 +22,13 @@ app.config(function ($stateProvider) {
             })
 
            }
+
+        },
+
+        resolve: {
+          topics: function(TopicFactory) {
+            return TopicFactory.fetchAll();
+          }
         }
     });
 });
