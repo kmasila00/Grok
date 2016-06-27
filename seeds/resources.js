@@ -74,7 +74,6 @@ module.exports = function(){
 			name: 'Express.js Documentation',
       url: 'http://expressjs.com/en/4x/api.html',
       type: 'documentation',
-      topics: ['JavaScript'],
       topics: ['Express.js'],
       tags: ['JavaScript','Node.js','Express.js'],
       status: 'approved'
@@ -215,10 +214,9 @@ module.exports = function(){
 		]);
 	})
 	.spread( function(dbResources, dbTopics, dbTags) {
-		var seedIdx, tagsToAssociate = [];
+		var seedIdx, tagsToAssociate = [], creatingAssociations = [];
 		console.log('Adding resource->tag associations...');
-		// return resources[0].addTag(1);
-		return Promise.all(
+		creatingAssociations.push(
 			dbResources.map( function(resource) {
 				seedIdx = findIndexByName(resourcesToAdd, resource.name);
 				tagsToAssociate = resourcesToAdd[seedIdx].tags.map( function(tag) {
@@ -227,45 +225,26 @@ module.exports = function(){
 				return resource.addTags(tagsToAssociate);
 			})
 		);
+
+		dbResources.forEach( function(dbResource) {
+			var resourcesToAddIdx = findIndexByName(resourcesToAdd, dbResource.name);
+			resourcesToAdd[resourcesToAddIdx].topics.forEach( function(topic) {
+				var dbTopicIdx = findIndexByName(dbTopics, topic);
+				creatingAssociations.push(
+					dbResource.addTopic(dbTopics[dbTopicIdx].id)
+				);
+			})
+		});
+
+		return Promise.all(creatingAssociations);
 	})
 
-	// create resources
-	// console.log('Creating resources...')
-	// return Resource.bulkCreate(resources)
-  // .then( function() {
-	// 	// bulkCreate's resolved value doesn't include an ID - must also run findAll
-	// 	return Resource.findAll({});
-	// })
-	// .tap( function(newResources) {
-	// 	// create tags
-	// 	let tags = [];
-	// 	// console.log(newResources)
-	// 	resources.forEach( function(resource) {
-	// 		tags = tags.concat(resource.tags);
-	// 	})
-	// 	console.log('Adding tags for resources...')
-	// 	return Promise.all(tags.map( function(tag) {
-	// 		return Tag.findOrCreate({ where: { name: tag }});
-	// 	}));
-	// })
-	// .then( function(newResources) {
-	// 	// append tags to resources - not working
-	// 	let index, tags;
-	// 	let addingAssociations = newResources.map( function(resource) {
-	// 		index = findIndexByName(resources, resource.name);
-	// 		tags = resources[index].tags;
-	// 		console.log(resource.id,tags)
-	// 		return resource.addTags(tags); // should be tagId
-	// 	});
-	// 	console.log('Adding resource associations...')
-	// 	return Promise.all(addingAssociations);
-	// });
 };
 
 
 function findIndexByName(arr, name) {
 	for(var i=0; i<arr.length; i++) {
-		if(arr[i].name === name) return i;
+		if(arr[i].name === name || arr[i].title === name) return i;
 	}
 	return -1;
 }

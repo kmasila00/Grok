@@ -11,7 +11,7 @@ var Vote = require('./models/vote');
 var Prerequisite = require('./models/prereq');
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: Prerequisite});
-Topic.hasMany(Resource);
+Resource.belongsToMany(Topic, {through: 'ResourceTopic'});
 User.hasMany(Resource);
 User.hasMany(Plan);
 Topic.hasMany(Plan);
