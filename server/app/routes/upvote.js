@@ -10,10 +10,14 @@ var Auth = require('../configure/auth-middleware');
 module.exports = router;
 
 
-//Vote Resource
-// get all votes
+// Vote Resource
+// -- Get all votes for a list of Resources, or all votes for all Resources by default
 router.get('/resource', function(req, res, next) {
-	VoteResource.findAll({ where: { resourceId: { $in: req.query.resourceIds } } })
+	var whereCondition = {};
+	if(req.query && req.query.resourceIds) {
+		whereCondition = { where: { resourceId: { $in: req.query.resourceIds } } };
+	}
+	VoteResource.findAll(whereCondition)
 	.then(votes => res.send(votes))
 	.catch(next);
 });
