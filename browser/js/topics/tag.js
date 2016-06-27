@@ -9,7 +9,7 @@ app.controller('TagModalCtrl', function ($scope, $uibModalInstance, resourceId, 
     $uibModalInstance.close($scope.selected.item);
   };
 
-  $scope.cancel = function () {
+  $scope.close = function () {
     $uibModalInstance.dismiss('cancel');
   };
 

@@ -31,6 +31,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   $scope.addTag = function(resourceId) {
+    console.log($('#btn-add-tag-' + resourceId))
     var modalInstance = $uibModal.open({
       animation: true, // ??
       templateUrl: 'js/topics/addTag.html',

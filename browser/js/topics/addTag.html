@@ -1,21 +1,13 @@
-<div class="modal-header">
-  <h3 class="modal-title">Add tag</h3>
+<div class="modal-body">
+  <form name="addTagForm" ng-submit="addTag(tag)" class="form-inline">
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="tag" placeholder="tag">
+    </div>
+    <button class="btn btn-primary" type="submit">
+      <span class="glyphicon glyphicon-ok-circle"></span>
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="close()">
+      <span class="glyphicon glyphicon-remove-circle"></span>
+    </button>
+  </form>
 </div>
-
-<form name="addTagForm" ng-submit="addTag(tag)">
-
-  <pre>{{ addTagForm | json }}</pre>
-
-  <div class="modal-body">
-      <div class="form-group">
-        <label for="tagToAdd">Tag</label>
-        <input type="text" class="form-control" ng-model="tag">
-      </div>
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Done</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-  </div>
-
-</form>

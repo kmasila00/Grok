@@ -75,7 +75,7 @@
                       {{ numVotes[resource.id] || 0 }}
                     </button>
                     <!-- Add a tag -->
-                    <button type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)">
+                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)">
                       <span class="glyphicon glyphicon-tags"></span>
                       &nbsp;add tag
                     </button>
