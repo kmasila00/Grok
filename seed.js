@@ -47,7 +47,13 @@ var seedUsers = function () {
 
 db.sync({ force: true })
     .then(function () {
-        return Promise.all([seedUsers(), seed.Topics()])
+      return seedUsers();
+    })
+    .then( function() {
+      return seed.Topics();
+    })
+    .then( function() {
+      return seed.Resources();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

@@ -8,22 +8,22 @@ module.exports= function(){
 		{
 			title: 'AngularJS',
 			description: 'A framework that lets you extend HTML vocabulary for your application. The resulting environment is extraordinarily expressive, readable, and quick to develop.',
-			status: 'Approved'
+			status: 'approved'
 		},
 		{
-			title: 'NodeJS',
+			title: 'Node.js',
 			description: 'A JavaScript runtime built on Chrome\'s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.',
-			status: 'Approved'
+			status: 'approved'
 		},
 		{
-			title: 'ExpressJS',
+			title: 'Express.js',
 			description: 'A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.',
-			status: 'Approved'
+			status: 'approved'
 		},
 		{
 			title: 'JavaScript',
 			description: 'A high-level, dynamic, untyped, and interpreted programming language. It has been standardized in the ECMAScript language specification.',
-			status: 'Approved'
+			status: 'approved'
 		}
 	]
 
@@ -35,7 +35,7 @@ module.exports= function(){
 	return Promise.all(creatingTopics)
 	.then( function(newTopics) {
 		// create associations
-		console.log('Adding associations...');
+		console.log('Adding topic associations...');
 		return Promise.all([
 			newTopics[1].addPrerequisite(newTopics[3]), // JS-->Node
 			newTopics[2].addPrerequisite(newTopics[1]), // Node-->Express
