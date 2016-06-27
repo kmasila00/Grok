@@ -60,6 +60,18 @@
                     <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
                     <span class="glyphicon glyphicon-plus-sign"></span>
                   </div>
+                  <!-- Voting -->
+                  <div class="upvote-resource-box">
+                    <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      12
+                    </button>
+                    <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-success hidden" ng-click="devoteResource(resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      12
+                    </button>
+                  </div>
+                  <!-- Tags -->
                   <div>
                     <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
                   </div>
@@ -67,7 +79,7 @@
               </div>
             </div>
           </div>
-        </uib-tab> 
+        </uib-tab>
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>

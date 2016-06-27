@@ -15,7 +15,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory) {
 
   $scope.topic = topic;
 
@@ -28,6 +28,25 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic) {
 
   $scope.toggleShowResources = function() {
     $scope.showResources = !$scope.showResources;
+  }
+
+  $scope.upvoteResource = function(resourceId) {
+    VoteFactory.addResourceVote(resourceId)
+    .then( function(success) {
+      if(success) toggleVoteButton(resourceId);
+    })
+  }
+
+  $scope.devoteResource = function(resourceId) {
+    VoteFactory.rmResourceVote(resourceId)
+    .then( function(success) {
+      if(success) toggleVoteButton(resourceId);
+    })
+  }
+
+  function toggleVoteButton(resourceId) {
+    $('#btn-upvote-' + resourceId).toggleClass('hidden');
+    $('#btn-voted-' + resourceId).toggleClass('hidden');
   }
 
 });
