@@ -5,10 +5,11 @@ var Resource = require('../../db/').model('resource');
 var Tag = require('../../db/').model('tag');
 
 module.exports = router;
-
+//consider standardizing formatting... arrow function vs anon functions, tabbing, etc. -CXL
 router.param('resourceId', function(req, res, next, id) {
   Resource.findById(id)
   .then(function(resource) {
+		//next shouldn't be called if the resource isn't found - CXL
     if (!resource) res.sendStatus(404);
     req.resource = resource;
     next();
@@ -42,7 +43,7 @@ router.put('/:resourceId', function(req,res,next){
 	if(req.user && (req.user.id === req.resource.userId || req.user.isAdmin )){
 		req.resource.update(req.body)
 		.then(updatedResource => res.status(200).send(updatedResource));
-	} else {
+	} else { //consider auth/validation middleware -CXL
 		var err = new Error('To change this you must be the user who submitted this resource or an Admin');
 		err.status = 401;
 		throw err;

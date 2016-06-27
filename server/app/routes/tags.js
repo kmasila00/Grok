@@ -10,6 +10,7 @@ module.exports = router;
 router.param('tagId', function(req, res, next, id) {
   Tag.findById(id, { include: [ Resource ] })
   .then(function(topic) {
+    //next shouldn't be called if you send a response - CXL
     if (!topic) res.sendStatus(404)
     req.tag = tag;
     next();

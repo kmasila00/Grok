@@ -27,7 +27,7 @@ router.post('/', function(req, res, next) {
             defaults: { password: req.body.password }
         })
         .spread(function(user, created) {
-            if (!created) {
+            if (!created) { 
                 res.json('this user already exists!')
             } else {
                 res.json(user);
