@@ -15,6 +15,7 @@ app.config(function ($stateProvider) {
 
            $scope.update= TopicFactory.updateTopic;
 
+
            $scope.delete= function(id){
             TopicFactory.deleteTopic(id)
             .then( (topics) => {
