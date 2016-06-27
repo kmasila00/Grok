@@ -15,7 +15,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log) {
 
   $scope.topic = topic;
 
@@ -30,10 +30,29 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     $scope.showResources = !$scope.showResources;
   }
 
+  $scope.addTag = function(resourceId) {
+    var modalInstance = $uibModal.open({
+      animation: true, // ??
+      templateUrl: 'js/topics/addTag.html',
+      controller: 'TagModalCtrl',
+      size: 'sm',
+      resolve: {
+        resourceId: resourceId
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+
+  }
+
+  // Voting
   // # votes for each resource; key = resourceId / value = # total votes
   $scope.numVotes = {};
 
-  // Voting
   // Get existing votes
   VoteFactory.fetchResourceVotes(
     topic.resources.map( function(resource) {

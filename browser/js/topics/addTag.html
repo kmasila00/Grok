@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h3 class="modal-title">Add tag</h3>
+</div>
+
+<form name="addTagForm" ng-submit="addTag(tag)">
+
+  <pre>{{ addTagForm | json }}</pre>
+
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="tagToAdd">Tag</label>
+        <input type="text" class="form-control" ng-model="tag">
+      </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Done</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+
+</form>

@@ -1,0 +1,32 @@
+<div class="col-md-4">
+  <div class="panel panel-default resource-panel">
+    <div class="panel-heading">
+      <div class="resource-title">
+        <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> ({{ resource.id }})&nbsp;</h3>
+        <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
+        <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
+        <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
+        <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
+        <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
+        <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </div>
+      <!-- Voting -->
+      <div class="upvote-resource-box">
+        <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          {{ numVotes[resource.id] || 0 }}
+        </button>
+        <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-success hidden" ng-click="devoteResource(resource.id)">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          {{ numVotes[resource.id] || 0 }}
+        </button>
+      </div>
+      <!-- Tags -->
+      <div>
+        <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
+        <span class="tag glyphicon glyphicon-plus-sign"></span>
+      </div>
+    </div>
+  </div>
+</div>

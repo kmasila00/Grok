@@ -18,6 +18,12 @@ app.factory('ResourceFactory', function($http){
 		deleteResource: function(id){
 			return $http.delete(baseUrl+id)
 			.then(() => obj.fetchAll());
+		},
+		addTag: function(resourceId, tag) {
+			return $http.post(baseUrl + resourceId + '/tag', { tagName: tag })
+			.then( function(assn) {
+				console.log(assn);
+			})
 		}
 
 	}
