@@ -26,3 +26,4 @@ module.exports = db.define('resource', {
 		allowNull:false
 	}
 });
+
