@@ -11,7 +11,6 @@ app.factory('ResourceFactory', function($http){
 			.then(res => res.data);
 		},
 		updateResource: function(resource){
-			console.log("Got to updateResource in factory");
 		  return $http.put(baseUrl + resource.id, resource)
 		  .then(res => res.data);
 		},
@@ -20,10 +19,7 @@ app.factory('ResourceFactory', function($http){
 			.then(() => obj.fetchAll());
 		},
 		addTag: function(resourceId, tag) {
-			return $http.post(baseUrl + resourceId + '/tag', { tagName: tag })
-			.then( function(assn) {
-				console.log(assn);
-			})
+			return $http.post(baseUrl + resourceId + '/tag', { tagName: tag });
 		}
 
 	}

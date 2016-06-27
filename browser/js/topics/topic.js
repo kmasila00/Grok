@@ -19,6 +19,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   $scope.topic = topic;
 
+  $scope.isLoggedIn = AuthService.isAuthenticated();
   $scope.showPlans = false;
   $scope.showResources = true;
 
@@ -31,8 +32,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   $scope.addTag = function(resourceId) {
-    console.log($('#btn-add-tag-' + resourceId))
-    var modalInstance = $uibModal.open({
+    var addTagModal = $uibModal.open({
       animation: true, // ??
       templateUrl: 'js/topics/addTag.html',
       controller: 'TagModalCtrl',
@@ -42,10 +42,14 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+    addTagModal.result
+    .then(function (newTag) {
+      // updat DOM
+      $scope.topic.resources.forEach( function(resource) {
+        if(resource.id === resourceId) {
+          resource.tags.push({name: newTag});
+        }
+      });
     });
 
   }

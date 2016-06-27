@@ -75,12 +75,12 @@
                       {{ numVotes[resource.id] || 0 }}
                     </button>
                     <!-- Add a tag -->
-                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)">
+                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)" ng-if="isLoggedIn">
                       <span class="glyphicon glyphicon-tags"></span>
                       &nbsp;add tag
                     </button>
                     <!-- Add to plan -->
-                    <button type="button" class="btn btn-xs btn-default">
+                    <button type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
                       <span class="glyphicon glyphicon-plus"></span>
                       my plan
                     </button>
