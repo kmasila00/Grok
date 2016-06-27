@@ -14,6 +14,11 @@ app.factory('TopicFactory', function($http) {
       .then(res => res.data);
     },
 
+    addNewTopic: function(title, description){
+      return $http.post(baseUrl, {title:title, description:description})
+      .then(res => res.data);
+    }
+
   }
 
 });

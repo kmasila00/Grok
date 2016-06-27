@@ -86,27 +86,40 @@
           </div>
         </uib-tab>
 
-        <!-- ADD A RESOURCE -->
+        <!-- ADD A RESOURCE AND PLAN FORM -->
         <div ng-controller="ModalCtrl">
           <script type="text/ng-template" id="myModalContent.html">
               <div class="modal-header">
                   <h3 class="modal-title">Add New {{name}} To Grok!</h3>
               </div>
               <div class="modal-body">
-                  <form id="topic-form" name="topicForm">
-                <div class="form-group">
-                    <label for="name">{{name}} Name</label>
-                    <input type="text" class="form-control" placeholder="Enter {{name}} Name">
+                  <form id="formId" name="form">
+                    <div class="form-group">
+                        <label for="name">{{name}} Name</label>
+                        <input ng-model="TRPname"type="text" name="formTitle" class="form-control" placeholder="Enter {{name}} Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">{{name}} Description</label>
+                        <input ng-model="TRPdesc" type="text" name="formDesc" class="form-control"  placeholder="Enter {{name}} Description">
+                    </div>
+                    <div ng-if="name === 'Resource'"class="form-group">
+                        <label for="url">{{name}} URL</label>
+                        <input ng-model="resourceUrl" type="text" name="formUrl"class="form-control"  placeholder="Enter {{name}} URL">
+                    </div>
+                    <div ng-if="name === 'Resource'"class="form-group">
+                        <label for="url">{{name}} Type</label>
+                        <select name="type" form="formId">
+                          <option value="article">Article</option>
+                          <option value="video">Video</option>
+                          <option value="tutorial">Tutorial</option>
+                          <option value="book">Book</option>
+                          <option value="other">Other</option>
+                        </select>
+                    </div>
+                </form>
+              <div ng-show="showError">
+                  <h5>BE CAREFUL! YOU ARE DOING SOMETHING WRONG!</h5>
                 </div>
-                <div class="form-group">
-                    <label for="description">{{name}} Description</label>
-                    <input type="text" class="form-control"  placeholder="Enter {{name}} Description">
-                </div>
-                <div ng-if="name === 'Resource'"class="form-group">
-                    <label for="url">{{name}} URL</label>
-                    <input type="text" class="form-control"  placeholder="Enter {{name}} URL">
-                </div>
-            </form>
               </div>
               <div class="modal-footer">
                   <button class="btn btn-primary" type="button" ng-click="add()">ADD</button>
@@ -117,6 +130,7 @@
           <button type="button" class="btn btn-default" ng-click="open('Resource')">Add Resource</button>
           <button type="button" class="btn btn-default" ng-click="open('Plan')">Add Plan</button>
       </div>
+      <!-- END OF ADDING RESOURCE AND PLAN FORM -->
 
       </uib-tabset>
     </div>
