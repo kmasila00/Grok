@@ -4,18 +4,21 @@ var Vote = require('../../db/models/vote');
 var VoteRelationship = Vote.voteRelationship;
 var VoteResource = Vote.voteResource;
 var VotePlan = Vote.votePlan;
+var Auth = require('../configure/auth-middleware');
+
 
 module.exports = router;
 
 
 //Vote Resource
+// get all votes
 router.get('/resource', function(req, res, next) {
-	VoteResource.findAll({ where: { userId: req.user.id }})
+	VoteResource.findAll({})
 	.then(votes => res.send(votes))
 	.catch(next);
 });
 
-router.post('/resource', function(req, res, next){
+router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
 	VoteResource.findOrCreate({ where: {
 		userId: req.user.id,
 		resourceId: req.body.resourceId
@@ -24,10 +27,7 @@ router.post('/resource', function(req, res, next){
   .catch(next);
 });
 
-router.delete('/resource/:resourceId', function(req, res, next){
-	console.log(req.body)
-	console.log(req.params)
-
+router.delete('/resource/:resourceId', Auth.assertAuthenticated, function(req, res, next){
 	VoteResource.destroy({ where: {
 		userId: req.user.id,
 		resourceId: req.params.resourceId

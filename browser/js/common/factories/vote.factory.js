@@ -4,10 +4,10 @@ app.factory('VoteFactory', function($http) {
 
   return {
 
-    // Returns array of existing votes
+    // Returns array of existing votes for all resources
     fetchResourceVotes: function() {
       return $http.get(upvotePath + 'resource')
-      .then(res => res.data);
+      .then(res => res.data)
     },
 
     // Resolves to true if the vote was successfully added

@@ -64,11 +64,11 @@
                   <div class="upvote-resource-box">
                     <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
                       <span class="glyphicon glyphicon-thumbs-up"></span>
-                      12
+                      {{ numVotes[resource.id] || 0 }}
                     </button>
                     <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-success hidden" ng-click="devoteResource(resource.id)">
                       <span class="glyphicon glyphicon-thumbs-up"></span>
-                      12
+                      {{ numVotes[resource.id] || 0 }}
                     </button>
                   </div>
                   <!-- Tags -->

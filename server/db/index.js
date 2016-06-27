@@ -21,3 +21,4 @@ Resource.belongsToMany(Tag, {through: 'ResourceTag'});
 User.belongsToMany(Resource, {through: Vote.voteResource});
 User.belongsToMany(Plan, {through: Vote.votePlan});
 User.belongsToMany(Prerequisite, {through: Vote.voteRelationship});
+Resource.hasMany(Vote.voteResource, { as: 'votes', targetKey: 'resourceId' });

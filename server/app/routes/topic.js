@@ -5,6 +5,7 @@ var db = require('../../db');
 var Topic = db.model('topic');
 var Resource = db.model('resource');
 var Tag = db.model('tag');
+var Vote = require('../../db/models/vote');
 var Prerequisite = db.model('prerequisites');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
@@ -12,10 +13,7 @@ var Promise = require('bluebird');
 module.exports = router;
 
 router.param('topicId', function(req, res, next, id) {
-  Topic.findById(id, { include: [{
-                          model: Resource,
-                          include: [Tag]
-                        }]})
+  Topic.findById(id)
   .then( function(topic) {
     if (!topic) res.sendStatus(404)
     req.topic = topic;
@@ -42,21 +40,26 @@ router.post('/', function(req, res, next) {
 });
 
 // Get a single topic, with all its prequisites and subsequent topics
+// Raw SQL queries are helpful to simplify pulling prereq/subseq topics
 router.get('/:topicId', function(req, res, next) {
 
-  var prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
+  var baseQuery = Topic.findById(req.params.topicId, {
+                  include: [{
+                    model: Resource,
+                      include: [ Tag, { model: Vote.voteResource, as: 'votes' }]
+                  }]}),
+      prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
       subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId" WHERE p."prerequisiteId" = ' + req.params.topicId;
 
-  // var findingResources = Resource.findAll({ where: })
-
   Promise.all([
+    baseQuery,
     db.query(prereqQuery, { type: Sequelize.QueryTypes.SELECT }),
     db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT })
   ])
-  .spread( function(prereqTopics, subseqTopics) {
-    req.topic.dataValues.prereqTopics = prereqTopics;
-    req.topic.dataValues.subseqTopics = subseqTopics;
-    res.json(req.topic);
+  .spread( function(topic, prereqTopics, subseqTopics) {
+    topic.prereqTopics = prereqTopics;
+    topic.subseqTopics = subseqTopics;
+    res.json(topic);
   })
   .catch(next);
 
