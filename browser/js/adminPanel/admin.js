@@ -39,7 +39,12 @@ app.config(function ($stateProvider) {
 
           $scope.update= ResourceFactory.updateResource;
 
-          $scope.types= ['article', 'video', 'book', 'tutorial', 'other']
+          $scope.types= ['article', 'video', 'book', 'tutorial', 'other'];
+
+          $scope.delete= function(id){
+            ResourceFactory.deleteResource(id)
+            .then(resources => $scope.resources= resources)
+          }
 
         },
         resolve: {

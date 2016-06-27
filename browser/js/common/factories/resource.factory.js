@@ -15,6 +15,10 @@ app.factory('ResourceFactory', function($http){
 		  return $http.put(baseUrl + resource.id, resource)
 		  .then(res => res.data);
 		},
+		deleteResource: function(id){
+			return $http.delete(baseUrl+id)
+			.then(() => obj.fetchAll());
+		}
 
 	}
 	return obj;
