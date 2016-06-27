@@ -5,6 +5,12 @@ var User = require('../../db/').model('user');
 
 module.exports = router;
 
+function sendError(message, status) {
+    var err = new Error(message);
+    err.status = status;
+    throw err;
+}
+
 router.param('userId', function(req, res, next, id) {
     User.findById(id)
         .then(function(user) {
@@ -19,21 +25,27 @@ router.get('/:userId', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    User.findOrCreate({
-        where: {
-            name: req.body.name,
-            email: req.body.email
-        },
+    if(!req.body.password || !req.body.email || !req.body.name) {
+        sendError('Missing a required field!', 400);
+    }
+    else {
+        User.findOrCreate({
+            where: {
+                name: req.body.name,
+                email: req.body.email
+            },
             defaults: { password: req.body.password }
-        })
-        .spread(function(user, created) {
-            if (!created) {
-                res.json('this user already exists!')
-            } else {
-                res.json(user);
-            }
-        })
-        .catch(next);
+            })
+            .spread(function(user, created) {
+                if (!created) {
+                    sendError('This user already exists!', 400);
+
+                } else {
+                    res.json(user);
+                }
+            })
+            .catch(next);
+    }
 });
 
 router.put('/:userId', function(req, res, next) {
@@ -51,9 +63,7 @@ router.get('/', function(req, res, next) {
             .then(users => res.json(users))
             .catch(next);
     } else {
-        var err = new Error('You must be an admin to get all users');
-        err.status = 401;
-        throw err;
+        sendError('You must be an admin to get all users', 401);
     }
 });
 
@@ -65,8 +75,6 @@ router.delete('/:userId', function(req, res, next) {
         })
         .catch(next);
     } else {
-        var err = new Error('You must be an admin to delete a user');
-        err.status = 401;
-        throw err;
+        sendError('You must be an admin to delete a user', 401);
     }
 });

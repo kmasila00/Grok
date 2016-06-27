@@ -9,10 +9,14 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('SignupCtrl', function ($scope, SignupFactory, $state) {
+  $scope.error = null;
   $scope.signup = function() {
     SignupFactory.createUser($scope.newUser)
-    .then(function () {
-      $state.go('home');
+    .then(function(data) {
+        $state.go('home');
+    })
+    .catch(function(err) {
+        $scope.error = err.data;
     });
   }
 });
