@@ -21,7 +21,7 @@ module.exports = db.define('resource', {
 		defaultValue: 'other'
 	},
 	status:{
-		type: Sequelize.ENUM('Pending', 'Approved'),
+		type: Sequelize.ENUM('pending', 'approved'),
 		defaultValue: 'pending',
 		allowNull:false
 	}
