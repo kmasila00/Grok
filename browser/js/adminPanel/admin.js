@@ -32,9 +32,23 @@ app.config(function ($stateProvider) {
 
     $stateProvider.state('admin.resources', {
         url: '/resources',
-        templateUrl: 'js/adminPanel/templates/resources.html'
+        templateUrl: 'js/adminPanel/templates/resources.html',
+        controller: function($scope, resources, ResourceFactory){
 
-    })
+          $scope.resources= resources;
+
+          $scope.update= ResourceFactory.updateResource;
+
+          $scope.types= ['article', 'video', 'book', 'tutorial', 'other']
+
+        },
+        resolve: {
+          resources: function(ResourceFactory){
+            return ResourceFactory.fetchAll();
+          }
+        }
+
+    });
 
 
 
