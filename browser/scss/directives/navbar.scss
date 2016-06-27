@@ -1,7 +1,7 @@
 navbar {
 
   display: block;
-  background: white;
+  background: #333;
   border-bottom: 1px solid black;
   box-shadow: 1px 1px 14px -3px black;
   margin-bottom: 0px;
@@ -19,7 +19,7 @@ navbar {
   }
 
   a {
-    color: black;
+    color: white;
     font-size: 16px;
   }
 
@@ -27,11 +27,11 @@ navbar {
     cursor: pointer;
     transition: color 0.2s;
     &.active {
-      color: darken(#f31214, 10%);
+      color: darken(#99ff99, 10%);
     }
     &:hover {
       background: none;
-      color: #f31214;
+      color: #99ff99;
     }
     &:focus {
       background: none;
@@ -40,33 +40,48 @@ navbar {
 
   .login-button {
     float: right;
-    border: 1px solid black;
+    color: white;
+    border: 1px solid white;
     margin-top: 10px;
     background: none;
     outline: none !important;
+    transition: color 0.2s;
+    &.active {
+      color: darken(#99ff99, 10%);
+    }
+    &:hover {
+      background: none;
+      color: #99ff99;
+    }
+    &:focus {
+      background: none;
+      color: #99ff99;
+    }
+
   }
 
   .welcome {
     float: right;
     margin-top: 12px;
     span {
-      color: black;
+      color: white;
       font-size: 16px;
       margin-right: 5px;
     }
     a {
-      color: #f30046;
+      color: #99ff99;
       cursor: pointer;
     }
   }
 
 }
 
+// sidebar
 #page-wrapper {
   position: fixed;
   width:50px;
   height:100%;
-  left:0;
+  z-index: 5;
 }
 
 #page-viewport {
@@ -79,11 +94,11 @@ navbar {
 #sidebar {
   position: absolute;
   width: 250px;
-  height: 100%;
   left:-200px;
   border-right: 1px solid black;
-  background-color:white;
+  background-color:#333;
   padding: 5px;
+  top: 0;
 }
 
 #sidebar h3 {
@@ -91,6 +106,18 @@ navbar {
   position:relative;
   top:5px;
   left:5px;
+  &.active {
+      color: darken(#99ff99, 10%);
+  }
+  &:hover {
+      background: none;
+      color: #99ff99;
+  }
+  &:focus {
+      background: none;
+      color: #99ff99;
+  }
+
 }
 #sidebar a:hover {
   text-decoration:none;
