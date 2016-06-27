@@ -49,44 +49,5 @@
 			  </uib-tabset>
 			</div>
 		</center>
-
-		<div ng-controller="SomethingCtrl">
-		    <script type="text/ng-template" id="myModalContent.html">
-		        <div class="modal-header">
-		            <h3 class="modal-title">Add New {{name}} To Grok!</h3>
-		        </div>
-		        <div class="modal-body">
-		            <!-- <ul>
-		                <li ng-repeat="item in items">
-		                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-		                </li>
-		            </ul>
-		            Selected: <b>{{ selected.item }}</b> -->
-		            <form id="topic-form" name="topicForm">
-					    <div class="form-group">
-					        <label for="name">{{name}} Name</label>
-					        <input type="text" class="form-control" placeholder="Enter {{name}} Name">
-					    </div>
-					    <div class="form-group">
-					        <label for="description">{{name}} Description</label>
-					        <input type="text" class="form-control"  placeholder="Enter {{name}} Description">
-					    </div>
-					    <div ng-if="name === 'Resource'"class="form-group">
-					        <label for="url">{{name}} URL</label>
-					        <input type="text" class="form-control"  placeholder="Enter {{name}} URL">
-					    </div>
-					    <!-- <button ng-click="submitNewTopic()" type="submit" class="btn btn-default">ADD</button> -->
-					</form>
-		        </div>
-		        <div class="modal-footer">
-		            <button class="btn btn-primary" type="button" ng-click="add()">ADD</button>
-		            <button class="btn btn-warning" type="button" ng-click="cancel()">CANCEL</button>
-		        </div>
-		    </script>
-
-		    <button type="button" class="btn btn-default" ng-click="open(); topic()">Add Topic</button>
-		    <button type="button" class="btn btn-default" ng-click="open(); resource()">Add Resource</button>
-		    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
-		</div>
 	</div>
 </section>
