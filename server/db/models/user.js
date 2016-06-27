@@ -15,6 +15,7 @@ module.exports = db.define('user', {
     },
     email: {
         type: Sequelize.STRING,
+    		unique: true,
         allowNull: false,
         validate: {
             notEmpty: true
@@ -27,6 +28,10 @@ module.exports = db.define('user', {
         type: Sequelize.STRING
     },
     isAdmin:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    passwordReset: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },

@@ -47,30 +47,27 @@
           <hr>
 
           <div class="row">
-            <div class="col-md-4" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
+            <div class="col-md-4" ng-repeat="resource in topic.resources">
               <div class="panel panel-default resource-panel">
                 <div class="panel-heading">
                   <div class="resource-title">
-                    <h3 class="panel-title">Resource #{{ resource }}&nbsp;</h3>
+                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a>&nbsp;</h3>
                     <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
-                    <span class="glyphicon glyphicon-pencil" ng-if="resource % 4 === 0"></span>
-                    <span class="glyphicon glyphicon-film" ng-if="resource % 4 === 1"></span>
-                    <span class="glyphicon glyphicon-text-height" ng-if="resource % 4 === 2"></span>
-                    <span class="glyphicon glyphicon-book" ng-if="resource % 4 === 3"></span>
+                    <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
+                    <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
+                    <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
+                    <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
+                    <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
                     <span class="glyphicon glyphicon-plus-sign"></span>
                   </div>
                   <div>
-                    <span class="tag">tag_one</span>
-                    <span class="tag">tag_two</span>
-                    <span class="tag">tag_three</span>
-                    <span class="tag">tag_four</span>
+                    <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </uib-tab>
-
+        </uib-tab> 
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>
@@ -86,6 +83,38 @@
             </div>
           </div>
         </uib-tab>
+
+        <!-- ADD A RESOURCE -->
+        <div ng-controller="ModalCtrl">
+          <script type="text/ng-template" id="myModalContent.html">
+              <div class="modal-header">
+                  <h3 class="modal-title">Add New {{name}} To Grok!</h3>
+              </div>
+              <div class="modal-body">
+                  <form id="topic-form" name="topicForm">
+                <div class="form-group">
+                    <label for="name">{{name}} Name</label>
+                    <input type="text" class="form-control" placeholder="Enter {{name}} Name">
+                </div>
+                <div class="form-group">
+                    <label for="description">{{name}} Description</label>
+                    <input type="text" class="form-control"  placeholder="Enter {{name}} Description">
+                </div>
+                <div ng-if="name === 'Resource'"class="form-group">
+                    <label for="url">{{name}} URL</label>
+                    <input type="text" class="form-control"  placeholder="Enter {{name}} URL">
+                </div>
+            </form>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-primary" type="button" ng-click="add()">ADD</button>
+                  <button class="btn btn-warning" type="button" ng-click="cancel()">CANCEL</button>
+              </div>
+          </script>
+
+          <button type="button" class="btn btn-default" ng-click="open('Resource')">Add Resource</button>
+          <button type="button" class="btn btn-default" ng-click="open('Plan')">Add Plan</button>
+      </div>
 
       </uib-tabset>
     </div>
