@@ -3,9 +3,10 @@
 const Promise = require('bluebird');
 const Resource = require('../server/db').model('resource');
 const Tag = require('../server/db').model('tag');
+const Topic = require('../server/db').model('topic');
 
 module.exports = function(){
-	var resources = [
+	var resourcesToAdd = [
     {
 			name: 'CodeSchool: JavaScript Road Trip',
       url: 'https://www.codeschool.com/courses/javascript-road-trip-part-1',
@@ -52,7 +53,7 @@ module.exports = function(){
 			name: 'How Browsers Work',
       url: 'http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/',
       type: 'article',
-      topics: ['jQuery','Angular'],
+      topics: ['jQuery','AngularJS'],
       tags: ['JavaScript','jQuery','DOM','AngularJS'],
       status: 'approved'
 		},{
@@ -178,32 +179,87 @@ module.exports = function(){
 		}
 	];
 
-	// create resources
-	console.log('Creating resources...')
-	return Resource.bulkCreate(resources)
-  .tap( function(newResources) {
-		// create tags
-		let tags = [];
-		resources.forEach( function(resource) {
-			tags = tags.concat(resource.tags);
-		})
-		console.log('Adding tags for resources...')
-		return Promise.all(tags.map( function(tag) {
-			return Tag.findOrCreate({ where: { name: tag }});
-		}));
-	})
-	.then( function(newResources) {
-		// append tags to resources - not working
-		let index, tags;
-		newResources.map( function(resource) {
-			index = findIndexByName(resources, resource.name);
-			tags = resources[index].tags;
-			console.log(resource.id,tags)
-			return resource.addTags(tags);
-		});
-		console.log('Adding resource associations...')
-		return Promise.all(newResources);
+	// pull out all tags & topics
+	var tags = [], tagsToAdd = [],
+			topics = [], topicsToAdd = [];
+	resourcesToAdd.forEach( function(resource) {
+		tags = tags.concat(resource.tags);
+		topics = topics.concat(resource.topics);
 	});
+	tags.forEach( function(tag) {
+		if(tagsToAdd.indexOf(tag) < 0) tagsToAdd.push({ name: tag });
+	});
+	topics.forEach( function(topic) {
+		if(topicsToAdd.indexOf(topic) < 0) topicsToAdd.push({ title: topic, status: 'approved' });
+	});
+
+	var dbResources, dbTags, dbTopics;
+
+	console.log('Creating resources...')
+	return Promise.all(
+		[ Resource.bulkCreate(resourcesToAdd) ].concat(
+			tagsToAdd.map( function(tag) {
+				return Tag.findOrCreate({ where: { name: tag.name }});
+			}),
+			topicsToAdd.map( function(topic) {
+				return Topic.findOrCreate({ where: { title: topic.title, status: topic.status }});
+			})
+	))
+	.then( function() {
+		// bulkCreate's resolved value doesn't include an ID - must also run findAll
+		// also need to find all topics/tags, including those not added above
+		return Promise.all([
+			Resource.findAll({}),
+			Topic.findAll({}),
+			Tag.findAll({})
+		]);
+	})
+	.spread( function(dbResources, dbTopics, dbTags) {
+		var seedIdx, tagsToAssociate = [];
+		console.log('Adding resource->tag associations...');
+		// return resources[0].addTag(1);
+		return Promise.all(
+			dbResources.map( function(resource) {
+				seedIdx = findIndexByName(resourcesToAdd, resource.name);
+				tagsToAssociate = resourcesToAdd[seedIdx].tags.map( function(tag) {
+					return dbTags[findIndexByName(dbTags, tag)].id;
+				});
+				return resource.addTags(tagsToAssociate);
+			})
+		);
+	})
+
+	// create resources
+	// console.log('Creating resources...')
+	// return Resource.bulkCreate(resources)
+  // .then( function() {
+	// 	// bulkCreate's resolved value doesn't include an ID - must also run findAll
+	// 	return Resource.findAll({});
+	// })
+	// .tap( function(newResources) {
+	// 	// create tags
+	// 	let tags = [];
+	// 	// console.log(newResources)
+	// 	resources.forEach( function(resource) {
+	// 		tags = tags.concat(resource.tags);
+	// 	})
+	// 	console.log('Adding tags for resources...')
+	// 	return Promise.all(tags.map( function(tag) {
+	// 		return Tag.findOrCreate({ where: { name: tag }});
+	// 	}));
+	// })
+	// .then( function(newResources) {
+	// 	// append tags to resources - not working
+	// 	let index, tags;
+	// 	let addingAssociations = newResources.map( function(resource) {
+	// 		index = findIndexByName(resources, resource.name);
+	// 		tags = resources[index].tags;
+	// 		console.log(resource.id,tags)
+	// 		return resource.addTags(tags); // should be tagId
+	// 	});
+	// 	console.log('Adding resource associations...')
+	// 	return Promise.all(addingAssociations);
+	// });
 };
 
 
