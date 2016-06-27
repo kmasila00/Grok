@@ -31,6 +31,10 @@ module.exports = db.define('user', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },
+    passwordReset: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
     facebook_id: {
         type: Sequelize.STRING
     },

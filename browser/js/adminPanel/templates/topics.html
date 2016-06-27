@@ -1,0 +1,19 @@
+<div  class='container'>
+  <h2>Topics</h2>
+  <div class='row'>
+    <table class='table table-hover'>
+      <th>Topic#</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th >Delete Topic</th>
+      <tr ng-repeat='topic in topics | orderBy: "id"'>
+        <td>{{ topic.id }}</td>
+        <td> {{topic.title}}</td>
+        <td>{{topic.description}}</td>
+        <td>{{topic.status}}</td>
+        <td><a style='color: red' ng-click='deleteUser(user)'><span class="glyphicon glyphicon-remove-sign"><span></a> </td>
+      </tr>
+    </table>
+  </div>
+</div>
