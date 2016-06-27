@@ -13,8 +13,8 @@
         <td> <textarea  ng-model="topic.description"  ng-change='update(topic)'></textarea></td>
         <td>
           <select  selected='{{typic.status}}' ng-model='topic.status' ng-change='update(topic)'>
-            <option value= 'Approved'> Approved</option>
-            <option value= 'Pending'> Pending</option>
+            <option value= 'approved'> Approved</option>
+            <option value= 'pending'> Pending</option>
           </select>
       </td>
         <td><a style='color: red' ng-click='delete(topic.id)'><span class="glyphicon glyphicon-remove-sign"><span></a> </td>
