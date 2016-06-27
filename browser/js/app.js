@@ -53,3 +53,18 @@ app.run(function ($rootScope, AuthService, $state) {
     });
 
 });
+
+app.filter('oAuthFilter', function() {
+    return function(input) {
+        input = input.trim().toLowerCase();
+        switch(input) {
+            case 'google':
+                return 'google-plus'
+            break;
+
+            default:
+                return input;
+            break;
+        }
+    }
+});

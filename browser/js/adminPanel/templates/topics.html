@@ -1,0 +1,24 @@
+<div  class='container'>
+  <h2>Topics</h2>
+  <div class='row'>
+    <table class='table table-hover'>
+      <th>Topic#</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th >Delete Topic</th>
+      <tr ng-repeat='topic in topics | orderBy: "id"' >
+        <td>{{ topic.id }}</td>
+        <td> <input type='text' ng-model='topic.title' ng-change='update(topic)'></td>
+        <td> <textarea  ng-model="topic.description"  ng-change='update(topic)'></textarea></td>
+        <td>
+          <select  selected='{{typic.status}}' ng-model='topic.status' ng-change='update(topic)'>
+            <option value= 'Approved'> Approved</option>
+            <option value= 'Pending'> Pending</option>
+          </select>
+      </td>
+        <td><a style='color: red' ng-click='delete(topic.id)'><span class="glyphicon glyphicon-remove-sign"><span></a> </td>
+      </tr>
+    </table>
+  </div>
+</div>

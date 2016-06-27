@@ -6,6 +6,7 @@ module.exports= db.define('tag', {
 	name:{
 		type: Sequelize.STRING,
 		allowNull: false,
+		unique: true,
 		validate: {
 			notEmpty: true
 		}

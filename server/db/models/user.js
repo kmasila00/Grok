@@ -15,19 +15,23 @@ module.exports = db.define('user', {
     },
     email: {
         type: Sequelize.STRING,
+    		unique: true,
         allowNull: false,
         validate: {
             notEmpty: true
         }
     },
     password: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
     },
     salt: {
         type: Sequelize.STRING
     },
     isAdmin:{
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    passwordReset: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },
