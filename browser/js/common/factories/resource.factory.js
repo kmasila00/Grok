@@ -1,6 +1,6 @@
 app.factory('ResourceFactory', function($http){
 	var baseUrl = '/api/resources/';
-	var obj= {
+	return {
 
 		fetchAll: function(){
 			return $http.get(baseUrl)
@@ -18,9 +18,12 @@ app.factory('ResourceFactory', function($http){
 		deleteResource: function(id){
 			return $http.delete(baseUrl+id)
 			.then(() => obj.fetchAll());
-		}
+		},
+		addNewResource: function(title, description){
+	      return $http.post(baseUrl, {title:title, description:description})
+	      .then(res => res.data);
+	    }
 
 	}
-	return obj;
 
 });
