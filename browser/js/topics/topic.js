@@ -18,7 +18,6 @@ app.config(function ($stateProvider) {
 app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService) {
 
   $scope.topic = topic;
-  console.log(topic)
 
   $scope.showPlans = false;
   $scope.showResources = true;
@@ -36,7 +35,11 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   // Voting
   // Get existing votes
-  VoteFactory.fetchResourceVotes()
+  VoteFactory.fetchResourceVotes(
+    topic.resources.map( function(resource) {
+      return resource.id;
+    })
+  )
   .then( function(votes) {
     votes.forEach( function(vote) {
       toggleVoteButton(vote.resourceId);

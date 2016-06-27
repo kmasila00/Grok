@@ -13,7 +13,7 @@ module.exports = router;
 //Vote Resource
 // get all votes
 router.get('/resource', function(req, res, next) {
-	VoteResource.findAll({})
+	VoteResource.findAll({ where: { resourceId: { $in: req.query.resourceIds } } })
 	.then(votes => res.send(votes))
 	.catch(next);
 });
