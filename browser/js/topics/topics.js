@@ -59,10 +59,13 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, TopicFactory, PlanFactory) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory) {
 
   $scope.name = modalName;
-  console.log($scope);
+  $scope.showit = false;
+  
+  if($scope.name === 'Resource')
+    $scope.showit = true;
 
   $scope.add = function(){
     //checks to see if form is not empty
@@ -75,10 +78,13 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalNa
           })
           $uibModalInstance.dismiss();
         } else if ($scope.name === 'Resource'){
-          //use routes
           //this is supposed to check to make sure url field and type is not empty
+          //have to edit to make sure all fields are required and get rid of description
           if($scope.form.formUrl.$dirty){
-            console.log($scope);
+            ResourceFactory.addNewResource($scope.TRPname, $scope.resourceUrl, $scope.resourceType)
+            .then(function(resource){
+              alert('Resource has been added!');
+            })
             $uibModalInstance.dismiss();
           } else {
             $scope.showError = true;
