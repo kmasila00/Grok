@@ -30,6 +30,16 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory) 
     $scope.showResources = !$scope.showResources;
   }
 
+  // Voting
+  // Get existing votes
+  VoteFactory.fetchResourceVotes()
+  .then( function(votes) {
+    votes.forEach( function(vote) {
+      toggleVoteButton(vote.resourceId);
+    })
+    console.log(votes);
+  })
+
   $scope.upvoteResource = function(resourceId) {
     VoteFactory.addResourceVote(resourceId)
     .then( function(success) {

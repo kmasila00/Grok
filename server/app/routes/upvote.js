@@ -9,6 +9,12 @@ module.exports = router;
 
 
 //Vote Resource
+router.get('/resource', function(req, res, next) {
+	VoteResource.findAll({ where: { userId: req.user.id }})
+	.then(votes => res.send(votes))
+	.catch(next);
+});
+
 router.post('/resource', function(req, res, next){
 	VoteResource.findOrCreate({ where: {
 		userId: req.user.id,

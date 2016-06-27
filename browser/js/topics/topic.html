@@ -51,7 +51,7 @@
               <div class="panel panel-default resource-panel">
                 <div class="panel-heading">
                   <div class="resource-title">
-                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a>&nbsp;</h3>
+                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> ({{ resource.id }})&nbsp;</h3>
                     <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
                     <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
                     <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
