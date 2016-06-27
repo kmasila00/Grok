@@ -60,7 +60,6 @@ router.get('/:topicId', function(req, res, next) {
 // ============================== ADMIN ROUTES ==============================
 
 router.put('/:topicId', function(req, res, next) {
-  console.log(req.user.isAdmin===true);
   if(req.user && req.user.isAdmin){
     req.topic.update(req.body)
     .then(topic => res.status(200).json(topic))

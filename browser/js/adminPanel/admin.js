@@ -20,17 +20,28 @@ app.config(function ($stateProvider) {
             .then( (topics) => {
                 $scope.topics= topics;
             })
-
            }
 
         },
-
         resolve: {
           topics: function(TopicFactory) {
             return TopicFactory.fetchAll();
           }
         }
     });
+
+    $stateProvider.state('admin.resources', {
+        url: '/resources',
+        templateUrl: 'js/adminPanel/templates/resources.html'
+
+    })
+
+
+
+
+
+
+
 });
 
 

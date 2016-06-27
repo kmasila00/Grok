@@ -15,7 +15,6 @@ app.factory('TopicFactory', function($http) {
     },
 
     updateTopic: function(topic){
-      console.log("llegue aqui in updateTopic");
       return $http.put(baseUrl + topic.id, topic)
       .then(res => res.data);
     },
