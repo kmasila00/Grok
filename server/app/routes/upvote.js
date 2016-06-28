@@ -13,8 +13,11 @@ module.exports = router;
 // Vote Resource
 // -- Get all votes for a list of Resources, or all votes for all Resources by default
 router.get('/resource', function(req, res, next) {
-	var whereCondition = {};
+	var whereCondition = {}, ids;
 	if(req.query && req.query.resourceIds) {
+		if(!Array.isArray(req.query.resourceIds)) {
+			req.query.resourceIds = [ req.query.resourceIds ];
+		}
 		whereCondition = { where: { resourceId: { $in: req.query.resourceIds } } };
 	}
 	VoteResource.findAll(whereCondition)
