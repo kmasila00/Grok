@@ -67,20 +67,6 @@
   color: lighten(#000, 60%);
 }
 
-.resource-panel {
-  .glyphicon-plus-sign {
-    display: none;
-    color: #d43f3a;
-    float: right;
-  }
-  &:hover {
-    cursor: pointer;
-    .glyphicon-plus-sign {
-      display: inline;
-    }
-  }
-}
-
 .plan-panel {
   .glyphicon-copy {
     display: none;
@@ -109,6 +95,6 @@
   padding: 5px;
 }
 
-.upvote-resource-box {
-  margin-top: 3px;
+.resource-action-box {
+  margin-top: 5px;
 }

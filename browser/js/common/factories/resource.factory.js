@@ -11,13 +11,15 @@ app.factory('ResourceFactory', function($http){
 			.then(res => res.data);
 		},
 		updateResource: function(resource){
-			console.log("Got to updateResource in factory");
 		  return $http.put(baseUrl + resource.id, resource)
 		  .then(res => res.data);
 		},
 		deleteResource: function(id){
 			return $http.delete(baseUrl+id)
 			.then(() => obj.fetchAll());
+		},
+		addTag: function(resourceId, tag) {
+			return $http.post(baseUrl + resourceId + '/tag', { tagName: tag });
 		},
 		addNewResource: function(name, url, type){
 	      return $http.post(baseUrl, {name:name, url:url, type:type})

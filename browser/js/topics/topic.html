@@ -36,44 +36,52 @@
 
           <!-- filters -->
           <div class="btn-group">
-            <label class="btn btn-sm"><span class="glyphicon glyphicon-filter"></span></label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.all" uib-btn-checkbox>all</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.one" uib-btn-checkbox>tag_one</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.two" uib-btn-checkbox>tag_two</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.three" uib-btn-checkbox>tag_three</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.four" uib-btn-checkbox>tag_four</label>
+            <label class="btn btn-sm" ng-click="showAllTags()"><span class="glyphicon glyphicon-filter"></span></label>
+            <span ng-repeat="(tagName, display) in tagDisplay">
+              <label class="btn btn-sm btn-default active btn-tag-filter" ng-click="toggleTagFilter(tagName, $event)">{{ tagName }}</label>
+            </span>
           </div>
 
           <hr>
 
           <div class="row">
-            <div class="col-md-4" ng-repeat="resource in topic.resources">
+            <div class="col-md-4" ng-repeat="resource in resources" ng-if="resource.display">
               <div class="panel panel-default resource-panel">
                 <div class="panel-heading">
                   <div class="resource-title">
-                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> ({{ resource.id }})&nbsp;</h3>
+                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> {{ resource.display }}&nbsp;</h3>
                     <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
                     <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
                     <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
                     <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
                     <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
                     <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                  </div>
-                  <!-- Voting -->
-                  <div class="upvote-resource-box">
-                    <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
-                      <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes[resource.id] || 0 }}
-                    </button>
-                    <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-success hidden" ng-click="devoteResource(resource.id)">
-                      <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes[resource.id] || 0 }}
-                    </button>
+
                   </div>
                   <!-- Tags -->
                   <div>
                     <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
+                  </div>
+                  <div class="resource-action-box">
+                    <!-- Voting -->
+                    <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      {{ numVotes[resource.id] || 0 }}
+                    </button>
+                    <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devoteResource(resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      {{ numVotes[resource.id] || 0 }}
+                    </button>
+                    <!-- Add a tag -->
+                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)" ng-if="isLoggedIn">
+                      <span class="glyphicon glyphicon-tags"></span>
+                      &nbsp;add tag
+                    </button>
+                    <!-- Add to plan -->
+                    <button type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      my plan
+                    </button>
                   </div>
                 </div>
               </div>
@@ -112,13 +120,13 @@
                         <label for="description">{{name}} Description</label>
                         <input ng-model="TRPdesc" type="text" name="formDesc" class="form-control"  placeholder="Enter {{name}} Description">
                     </div>
-                    <div ng-show="showit"class="form-group">
+                    <div ng-if="name === 'Resource'"class="form-group">
                         <label for="url">{{name}} URL</label>
-                        <input ng-model="resourceUrl" type="text" name="formUrl" class="form-control"  placeholder="Enter {{name}} URL">
+                        <input ng-model="resourceUrl" type="text" name="formUrl"class="form-control"  placeholder="Enter {{name}} URL">
                     </div>
-                    <div ng-show="showit" class="form-group">
+                    <div ng-if="name === 'Resource'"class="form-group">
                         <label for="url">{{name}} Type</label>
-                        <select ng-model="resourceType" name="type">
+                        <select name="type" form="formId">
                           <option value="article">Article</option>
                           <option value="video">Video</option>
                           <option value="tutorial">Tutorial</option>
