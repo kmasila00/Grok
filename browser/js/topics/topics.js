@@ -25,8 +25,6 @@ app.controller('TopicsCtrl', function ($scope, TopicFactory, topics) {
 
 app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
 
-  console.log($scope);
-
   $scope.animationsEnabled = true;
 
   $scope.open = function (name, size) {
@@ -63,7 +61,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalNa
 
   $scope.name = modalName;
   $scope.showit = false;
-  
+
   if($scope.name === 'Resource')
     $scope.showit = true;
 

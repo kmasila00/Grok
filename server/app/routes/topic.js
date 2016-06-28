@@ -57,8 +57,8 @@ router.get('/:topicId', function(req, res, next) {
     db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT })
   ])
   .spread( function(topic, prereqTopics, subseqTopics) {
-    topic.prereqTopics = prereqTopics;
-    topic.subseqTopics = subseqTopics;
+    topic.dataValues.prereqTopics = prereqTopics;
+    topic.dataValues.subseqTopics = subseqTopics;
     res.json(topic);
   })
   .catch(next);
