@@ -31,7 +31,6 @@ app.factory('TopicFactory', function($http) {
     },
 
     addPrerequisite: function(topicId, prerequisite) {
-      console.log(prerequisite)
       return $http.post(baseUrl + topicId + '/prerequisite', { title: prerequisite });
     }
 

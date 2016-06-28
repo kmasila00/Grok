@@ -102,8 +102,9 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
 
     addPrereqModal.result
-    .then(function (TBD) {
-      // add prerequisite + link to DOM
+    .then(function (newPrereq) {
+      // update DOM
+      $scope.topic.prereqTopics.push( newPrereq );
     });
   }
 
