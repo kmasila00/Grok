@@ -19,8 +19,8 @@ app.factory('ResourceFactory', function($http){
 			return $http.delete(baseUrl+id)
 			.then(() => obj.fetchAll());
 		},
-		addNewResource: function(title, description){
-	      return $http.post(baseUrl, {title:title, description:description})
+		addNewResource: function(name, url, type){
+	      return $http.post(baseUrl, {name:name, url:url, type:type})
 	      .then(res => res.data);
 	    }
 

@@ -112,13 +112,13 @@
                         <label for="description">{{name}} Description</label>
                         <input ng-model="TRPdesc" type="text" name="formDesc" class="form-control"  placeholder="Enter {{name}} Description">
                     </div>
-                    <div ng-if="name === 'Resource'"class="form-group">
+                    <div ng-show="showit"class="form-group">
                         <label for="url">{{name}} URL</label>
-                        <input ng-model="resourceUrl" type="text" name="formUrl"class="form-control"  placeholder="Enter {{name}} URL">
+                        <input ng-model="resourceUrl" type="text" name="formUrl" class="form-control"  placeholder="Enter {{name}} URL">
                     </div>
-                    <div ng-if="name === 'Resource'"class="form-group">
+                    <div ng-show="showit" class="form-group">
                         <label for="url">{{name}} Type</label>
-                        <select name="type" form="formId">
+                        <select ng-model="resourceType" name="type">
                           <option value="article">Article</option>
                           <option value="video">Video</option>
                           <option value="tutorial">Tutorial</option>
