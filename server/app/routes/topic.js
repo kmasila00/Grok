@@ -48,7 +48,7 @@ router.get('/:topicId', function(req, res, next) {
   var baseQuery = Topic.findById(req.params.topicId, {
                   include: [{
                     model: Resource,
-                      include: [ Tag, { model: Vote.voteResource, as: 'votes' }]
+                      include: [Tag]
                   }]}),
       prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
       subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId" WHERE p."prerequisiteId" = ' + req.params.topicId;

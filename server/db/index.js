@@ -18,4 +18,3 @@ User.hasMany(Plan);
 Topic.hasMany(Plan);
 Plan.belongsToMany(Resource, {through: 'PlanResource'});
 Resource.belongsToMany(Tag, {through: 'ResourceTag'});
-Resource.hasMany(Vote.voteResource, { as: 'votes', targetKey: 'resourceId' });

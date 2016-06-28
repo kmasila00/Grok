@@ -16,14 +16,10 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	console.log("Llegue Bien");
 	var whereCondition = { status: 'Approved' };
 	if(req.user && req.user.isAdmin) whereCondition= {};
 	Resource.findAll({where: whereCondition})
-	.then(resources => {
-		console.log(resources);
-		res.send(resources)
-	});
+	.then(resources => res.send(resources));
 })
 
 router.post('/', function(req,res,next){
