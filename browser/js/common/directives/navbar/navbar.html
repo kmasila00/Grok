@@ -4,16 +4,18 @@
             <capstone-logo></capstone-logo>
         </div>
         <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
+            <li ng-repeat="item in items" ng-if="!item.auth || isLoggedIn()">
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
             <li ng-if='user.isAdmin'>
                 <a  ui-sref-active='active' ui-sref="admin" >Admin</a>
             </li>
         </ul>
-        <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
-        <div ng-show="user" class="welcome">
+        <div ng-if="!user">
+            <button ui-sref="signup" class="btn login-button">Sign Up</button>
+            <button ui-sref="login" class="btn login-button">Login</button>
+        </div>
+        <div ng-if="user" class="welcome">
             <span>Welcome, <a ui-sref-active="active" ui-sref="userProfile">{{ user.name }}!</a></span>
             <a ng-click="logout()">Logout</a>
         </div>
