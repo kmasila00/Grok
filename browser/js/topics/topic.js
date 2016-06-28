@@ -88,6 +88,25 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
+  // Prerequisites
+  $scope.addPrerequisite = function( topicId ) {
+    var addPrereqModal = $uibModal.open({
+      animation: true, // ??
+      templateUrl: 'js/topics/addPrerequisite.html',
+      controller: 'PrereqModalCtrl',
+      size: 'sm',
+      resolve: {
+        topicId: topicId,
+        topics: TopicFactory.fetchAll()
+      }
+    });
+
+    addPrereqModal.result
+    .then(function (TBD) {
+      // add prerequisite + link to DOM
+    });
+  }
+
   // Voting
   // # votes for each resource; key = resourceId / value = # total votes
   $scope.numVotes = {};

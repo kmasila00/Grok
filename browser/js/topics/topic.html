@@ -6,6 +6,7 @@
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a></li>
+        <br><button type="button" class="btn btn-default btn-sm" ng-click="addPrerequisite(topic.id)"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
       </ul>
     </div>
 

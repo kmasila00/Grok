@@ -65,6 +65,22 @@ router.get('/:topicId', function(req, res, next) {
 
 });
 
+// Add a prerequisite to a given topic
+router.post('/:topicId/prerequisite', function(req, res, next) {
+  var prereqName = req.body.title;
+  Topic.findAll({ where: { title: prereqName }})
+  .then( function(prereq) {
+    console.log(req.topic);
+    console.log(prereq);
+    return req.topic.addPrerequisite(prereq);
+  })
+  .then(topic => {
+    console.log(topic);
+    res.status(201).send(topic)
+  })
+  .catch(next);
+});
+
 
 // ============================== ADMIN ROUTES ==============================
 
