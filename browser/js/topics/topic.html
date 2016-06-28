@@ -5,7 +5,18 @@
     <div class="col-md-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
-        <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a></li>
+        <li ng-repeat="prereq in topic.prereqTopics">
+          <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
+          <!-- Voting -->
+          <button id="btn-relationship-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('relationship', prereq.prerequisiteId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+          </button>
+          <button id="btn-relationship-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('relationship', prereq.prerequisiteId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+          </button>
+        </li>
         <br><button type="button" class="btn btn-default btn-sm" ng-click="addPrerequisite(topic.id)" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
       </ul>
     </div>
@@ -65,13 +76,13 @@
                   </div>
                   <div class="resource-action-box">
                     <!-- Voting -->
-                    <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
+                    <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
                       <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes[resource.id] || 0 }}
+                      {{ numVotes.resource[resource.id] || 0 }}
                     </button>
-                    <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devoteResource(resource.id)">
+                    <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
                       <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes[resource.id] || 0 }}
+                      {{ numVotes.resource[resource.id] || 0 }}
                     </button>
                     <!-- Add a tag -->
                     <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)" ng-if="isLoggedIn">

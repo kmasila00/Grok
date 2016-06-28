@@ -15,7 +15,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $q) {
 
   $scope.topic = topic;
   $scope.resources = $scope.topic.resources;
@@ -108,56 +108,76 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
+
   // Voting
-  // # votes for each resource; key = resourceId / value = # total votes
+  // # votes in nested object
+  // key = type of vote (resource, relationship)
+  // value = ...
+  //      key = type id / value = # total votes
   $scope.numVotes = {};
 
+  // Voting
   // Get existing votes
-  VoteFactory.fetchResourceVotes(
-    topic.resources.map( function(resource) {
-      return resource.id;
-    })
-  )
+  $q.all([
+    VoteFactory.fetchResourceVotes(
+      topic.resources.map( function(resource) {
+        return resource.id;
+    })),
+    VoteFactory.fetchRelationshipVotes(topic.id)
+  ])
   .then( function(votes) {
-    votes.forEach( function(vote) {
-      toggleVoteButton(vote.resourceId);
-      incrementVoteCount(vote.resourceId, 1);
+    var resourceVotes = votes[0],
+        relationshipVotes = votes[1];
+    resourceVotes.forEach( function(vote) {
+      toggleVoteButton('resource', vote.resourceId);
+      incrementVoteCount('resource', vote.resourceId, 1);
+    });
+    relationshipVotes.forEach( function(vote) {
+      toggleVoteButton('relationship', vote.prerequisiteId);
+      incrementVoteCount('relationship', vote.prerequisiteId, 1);
     });
   })
 
-  $scope.upvoteResource = function(resourceId) {
+  $scope.upvote = function(type, id) {
     if(AuthService.isAuthenticated()) {
-      VoteFactory.addResourceVote(resourceId)
+      VoteFactory.addVote(type, id, topic.id)
       .then( function(success) {
         if(success) {
-          toggleVoteButton(resourceId);
-          incrementVoteCount(resourceId, 1);
+          toggleVoteButton(type, id);
+          incrementVoteCount(type, id, 1);
         }
       })
     }
   }
 
-  $scope.devoteResource = function(resourceId) {
+  $scope.devote = function(type, id) {
     if(AuthService.isAuthenticated()) {
-      VoteFactory.rmResourceVote(resourceId)
+      VoteFactory.removeVote(type, id, topic.id)
       .then( function(success) {
         if(success) {
-          toggleVoteButton(resourceId);
-          incrementVoteCount(resourceId, -1);
+          toggleVoteButton(type, id);
+          incrementVoteCount(type, id, -1);
         }
       })
     }
   }
 
-  function toggleVoteButton(resourceId) {
-    $('#btn-upvote-' + resourceId).toggleClass('hidden');
-    $('#btn-voted-' + resourceId).toggleClass('hidden');
+
+  // show or hide vote/voted button
+  // -- type = string denoting type of vote (i.e., 'resource', 'relationship')
+  function toggleVoteButton(type, id) {
+    $('#btn-' + type + '-upvote-' + id).toggleClass('hidden');
+    $('#btn-' + type + '-voted-' + id).toggleClass('hidden');
   }
 
-  function incrementVoteCount(resourceId, amount) {
+  // add vote to the DOM
+  // -- type = string denoting type of vote (i.e., 'resource', 'relationship')
+  function incrementVoteCount(type, id, amount) {
     amount = amount || 1; // add by default
-    if(!$scope.numVotes[resourceId]) $scope.numVotes[resourceId] = amount;
-    else $scope.numVotes[resourceId] += amount;
+    if(!$scope.numVotes[type]) $scope.numVotes[type] = {};
+    var voteCounter = $scope.numVotes[type];
+    if(!voteCounter[id]) voteCounter[id] = amount;
+    else voteCounter[id] += amount;
   }
 
 });
