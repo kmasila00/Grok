@@ -64,7 +64,6 @@ router.get('/:topicId', function(req, res, next) {
 });
 
 router.get('/:topicId/flags', function(req, res, next){
-  console.log("Got to the topic/flags route");
   FlaggedTopic.findAll({
     where: {
       topicId: req.topic.id
@@ -73,6 +72,16 @@ router.get('/:topicId/flags', function(req, res, next){
   .then(flaggedTopics => res.status(200).send(flaggedTopics));
 
 });
+
+router.delete('/flags/:flagId', function(req, res, next){
+  console.log("I have reached the delete flag handler");
+  FlaggedTopic.destroy({
+    where:{
+      id: req.params.flagId
+    }
+  })
+  .then( () => res.sendStatus(204));
+})
 
 
 // ============================== ADMIN ROUTES ==============================

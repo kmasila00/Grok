@@ -12,7 +12,7 @@
         <td> <input type='text' ng-model='topic.title' ng-change='update(topic)'></td>
         <td> <textarea  ng-model="topic.description"  ng-change='update(topic)'></textarea></td>
         <td>
-          <a ng-click='openFlags()'>
+          <a ng-click='openFlags(topic.id)'>
             <span class='glyphicon glyphicon-flag'></span>
           </a>
       </td>

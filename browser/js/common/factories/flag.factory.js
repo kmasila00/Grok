@@ -3,10 +3,12 @@ app.factory('FlagFactory', function($http){
 	var obj= {
 		fetchTopicFlags: function(id){
 			return $http.get(baseUrl+ id +'/flags')
-			.then( (res) => {
-				console.log("BAck in factory with response",res.data);
-				return res.data
-			});
+			.then( res => res.data);
+		},
+		deleteTopicFlag: function(id){
+			console.log("Got over here whats up");
+			return $http.delete(baseUrl +'/flags/'+ id)
+			.then( res => res.data);
 		}
 
 	}

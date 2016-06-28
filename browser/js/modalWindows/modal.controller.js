@@ -1,14 +1,20 @@
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFactory) {
 
-  FlagFactory.fetchTopicFlags(1)
-  .then(topicFlags => $scope.flags= topicFlags)
 
   $scope.ok = function () {
     $uibModalInstance.close();
   };
 
-  $scope.cancel = function () {
+  $scope.close = function () {
     $uibModalInstance.dismiss('cancel');
+  };
+
+  $scope.delete= function(flagId){
+    console.log(flagId);
+    FlagFactory.deleteTopicFlag(flagId)
+    .then(function(){
+      console.log("Something");
+    });
   };
 
 

@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.topics', {
         url: '/topics',
         templateUrl: 'js/adminPanel/templates/topics.html',
-        controller: function($scope, topics, TopicFactory, $uibModal){
+        controller: function($scope, topics, TopicFactory,FlagFactory, $uibModal){
 
            $scope.topics= topics;
 
@@ -23,12 +23,16 @@ app.config(function ($stateProvider) {
             })
            }
 
-            $scope.openFlags = function (size) {
+            $scope.openFlags = function (topicId) {
+
+              FlagFactory.fetchTopicFlags(topicId)
+              .then(topicFlags => $scope.flags= topicFlags);
+
                var modalInstance = $uibModal.open({
                  animation: $scope.animationsEnabled,
+                 scope: $scope,
                  templateUrl: './js/modalWindows/topicFlagModal.html',
-                 controller: 'ModalInstanceCtrl',
-                 size: size
+                 controller: 'ModalInstanceCtrl'
                });
 
                // modalInstance.result.then(function (selectedItem) {
