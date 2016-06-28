@@ -6,6 +6,7 @@ var Topic = db.model('topic');
 var Resource = db.model('resource');
 var Tag = db.model('tag');
 var Prerequisite = db.model('prerequisites');
+var FlaggedTopic= db.model('flaggedTopic');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
 
@@ -59,6 +60,17 @@ router.get('/:topicId', function(req, res, next) {
     res.json(req.topic);
   })
   .catch(next);
+
+});
+
+router.get('/:topicId/flags', function(req, res, next){
+  console.log("Got to the topic/flags route");
+  FlaggedTopic.findAll({
+    where: {
+      topicId: req.topic.id
+    }
+  })
+  .then(flaggedTopics => res.status(200).send(flaggedTopics));
 
 });
 

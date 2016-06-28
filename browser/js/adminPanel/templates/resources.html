@@ -6,7 +6,7 @@
       <th>Name</th>
       <th>Url</th>
       <th>Type</th>
-      <th >Status</th>
+      <th >Flags</th>
       <th>Topic#</th>
       <th>User#</th>
       <tr ng-repeat='resource in resources | orderBy: "id"' >
@@ -20,11 +20,9 @@
           </select>
         </td>
         <td>
-          <select  selected= '{{resource.status}}'ng-model='resource.status' ng-change='update(resource)'>
-            <option value= 'approved'> Approved</option>
-            <option value= 'pending'> Pending</option>
-
-            </select>
+          <a>
+            <span class='glyphicon glyphicon-flag'></span>
+          </a>
         </td>
         <td><!-- <input type='text' ng-model='resource.topicId' ng-change='update(resource)'> -->{{resource.topicId}}</td>
         <td><!-- <input type='text' ng-model='resource.userId' ng-change='update(resource)'> -->{{resource.userId}}</td>

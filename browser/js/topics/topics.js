@@ -32,7 +32,7 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
+      controller: 'ModalInstanceFormCtrl',
       size: size,
       resolve: {
           modalName: function(){
@@ -58,7 +58,7 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, $rootScope) {
+app.controller('ModalInstanceFormCtrl', function ($scope, $uibModalInstance, modalName, $rootScope) {
 
   $scope.name = modalName;
 

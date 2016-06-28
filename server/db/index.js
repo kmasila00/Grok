@@ -9,7 +9,7 @@ var Plan = require('./models/plan');
 var Tag = require('./models/tag');
 var Vote = require('./models/vote');
 var Prerequisite = require('./models/prereq');
-var Flag= require('/.models/flag');
+var Flag= require('./models/flag');
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: Prerequisite});
 Resource.belongsToMany(Topic, {through: 'ResourceTopic'});
@@ -23,5 +23,5 @@ User.belongsToMany(Resource, {through: Vote.voteResource});
 User.belongsToMany(Plan, {through: Vote.votePlan});
 User.belongsToMany(Prerequisite, {through: Vote.voteRelationship});
 
-Topic.belongsToMany(User, {as: 'TopicFlagger', through: Flag.flaggedResource});
-Resource.belongsToMany(User, {as: 'ResourceFlagger', through: Flag.flaggedTopic});
+Topic.belongsToMany(User, {as: 'topicFlaggers', through: Flag.flaggedTopic});
+Resource.belongsToMany(User, {as: 'ResourceFlagger', through: Flag.flaggedResource});
