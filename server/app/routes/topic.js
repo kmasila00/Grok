@@ -9,6 +9,8 @@ var Vote = require('../../db/models/vote');
 var Prerequisite = db.model('prerequisites');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
+var Auth = require('../configure/auth-middleware');
+
 
 module.exports = router;
 
@@ -46,7 +48,7 @@ router.get('/:topicId', function(req, res, next) {
   var baseQuery = Topic.findById(req.params.topicId, {
                   include: [{
                     model: Resource,
-                      include: [ Tag, { model: Vote.voteResource, as: 'votes' }]
+                      include: [Tag]
                   }]}),
       prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
       subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId" WHERE p."prerequisiteId" = ' + req.params.topicId;
@@ -57,12 +59,23 @@ router.get('/:topicId', function(req, res, next) {
     db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT })
   ])
   .spread( function(topic, prereqTopics, subseqTopics) {
-    topic.prereqTopics = prereqTopics;
-    topic.subseqTopics = subseqTopics;
+    topic.dataValues.prereqTopics = prereqTopics;
+    topic.dataValues.subseqTopics = subseqTopics;
     res.json(topic);
   })
   .catch(next);
 
+});
+
+// Add a prerequisite to a given topic
+router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, res, next) {
+  var prereqName = req.body.title;
+  Topic.findOne({ where: { title: prereqName }})
+  .then( function(prereq) {
+    return req.topic.addPrerequisite(prereq);
+  })
+  .then(topic => res.status(200).send(topic))
+  .catch(next);
 });
 
 

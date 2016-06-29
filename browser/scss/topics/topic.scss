@@ -19,7 +19,11 @@
 }
 
 .links-cell {
-  .glyphicon {
+  .glyphicon-menu-left {
+    font-size: 60px;
+    margin-bottom: 10px;
+  }
+  .glyphicon-menu-right {
     font-size: 60px;
     margin-bottom: 10px;
   }
@@ -29,6 +33,14 @@
   }
   li {
     font-size: 24px;
+    button {
+      display: none;
+    }
+    &:hover {
+      button {
+        display: inline;
+      }
+    }
   }
 }
 

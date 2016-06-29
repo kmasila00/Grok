@@ -28,6 +28,10 @@ app.factory('TopicFactory', function($http) {
       return $http.delete(baseUrl + id)
       .then( ()=> obj.fetchAll());
 
+    },
+
+    addPrerequisite: function(topicId, prerequisite) {
+      return $http.post(baseUrl + topicId + '/prerequisite', { title: prerequisite });
     }
 
   }
