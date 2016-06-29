@@ -41,7 +41,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
-    console.log(resourceId);
     PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
     .then();
   }
@@ -114,23 +113,34 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
-  // Prerequisites
-  $scope.addPrerequisite = function( topicId ) {
-    var addPrereqModal = $uibModal.open({
+  // Suggest related topics (i.e., prerequisites or subsequent topics)
+  $scope.suggestRelatedTopic = function( options ) {
+    if(options.suggestionType === 'prereq') {
+      options.formTitle = "Add a prerequisite to " + $scope.topic.title;
+    } else if(options.suggestionType === 'subseq') {
+      options.formTitle = "Suggest a next topic for " + $scope.topic.title;
+    }
+    var suggestTopicModal = $uibModal.open({
       animation: true, // ??
-      templateUrl: 'js/topics/addPrerequisite.html',
-      controller: 'PrereqModalCtrl',
+      templateUrl: 'js/topics/suggestTopic.html',
+      controller: 'SuggestTopicModalCtrl',
       size: 'sm',
       resolve: {
-        topicId: topicId,
+        options: options,
         topics: TopicFactory.fetchAll()
       }
     });
 
-    addPrereqModal.result
-    .then(function (newPrereq) {
+    suggestTopicModal.result
+    .then(function (results) {
+      var type = results[0],
+          suggestedTopic = results[1];
       // update DOM
-      $scope.topic.prereqTopics.push( newPrereq );
+      if(type === 'prereq') {
+        $scope.topic.prereqTopics.push( suggestedTopic );
+      } else if(type === 'subseq'){
+        $scope.topic.subseqTopics.push( suggestedTopic );
+      }
     });
   }
 
@@ -156,18 +166,25 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       topic.resources.map( function(resource) {
         return resource.id;
     })),
-    VoteFactory.fetchRelationshipVotes(topic.id)
+    VoteFactory.fetchPrereqVotes(topic.id),
+    VoteFactory.fetchSubseqVotes(topic.id)
   ])
   .then( function(votes) {
     var resourceVotes = votes[0],
-        relationshipVotes = votes[1];
+        prereqVotes = votes[1],
+        subseqVotes = votes[2];
     resourceVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
     });
-    relationshipVotes.forEach( function(vote) {
-      if(vote.userId === userId) toggleVoteButton('relationship', vote.prerequisiteId);
-      incrementVoteCount('relationship', vote.prerequisiteId, 1);
+    prereqVotes.forEach( function(vote) {
+      if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
+      incrementVoteCount('prereq', vote.prerequisiteId, 1);
+    });
+    subseqVotes.forEach( function(vote) {
+      // console.log(vote)
+      if(vote.userId === userId) toggleVoteButton('subseq', vote.topicId);
+      incrementVoteCount('subseq', vote.topicId, 1);
     });
   })
 
