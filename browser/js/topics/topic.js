@@ -262,6 +262,8 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   // -- idKey = idKey on dataArr corresponding to the key in votes
   function sortData (dataArr, votes, idKey) {
 
+    if(!votes) return dataArr; // if no votes found, do not sort
+
     function inOrder (index) {
       if (index === dataArr.length - 1) return true;
       var baseId = dataArr[index][idKey],
