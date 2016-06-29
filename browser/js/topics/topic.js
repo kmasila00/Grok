@@ -188,7 +188,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
     // console.log($scope.numVotes)
     // sort prerequisite topics by # votes
-    $scope.topic.prereqTopics = sortTopics($scope.topic.prereqTopics);
+    $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
 
   })
 
@@ -235,32 +235,39 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     else voteCounter[id] += amount;
   }
 
+  // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and reosurces
+  // -- dataArr = $scope data array to be sorted
+  // -- votes = $scope.numVotes object value to sort by
+  // -- idKey = idKey on dataArr corresponding to the key in votes
+  function sortData (dataArr, votes, idKey) {
 
-  function sortTopics (topics) {
+    function inOrder (index) {
+      if (index === dataArr.length - 1) return true;
+      var baseId = dataArr[index][idKey],
+          nextId = dataArr[index + 1][idKey],
+          numVotesBase = votes[baseId] || 0,
+          numVotesNext = votes[nextId] || 0;
+      return numVotesBase < numVotesNext;
+    }
+
+    function swap (index) {
+      var oldLeftValue = dataArr[index];
+      dataArr[index] = dataArr[index + 1];
+      dataArr[index + 1] = oldLeftValue;
+    }
+
     var sorted = false;
-    for (var end = topics.length; end > 0 && !sorted; end--) { // passes
-      sorted = true; // assume until proven incorrect
-      for (var j = 0; j < end; j++) { // bubbling
-        if (!inOrder(topics, j)) {
-          swap(topics, j);
+    for (var end = dataArr.length; end > 0 && !sorted; end--) {
+      sorted = true;
+      for (var j = 0; j < end; j++) {
+        if (!inOrder(j)) {
+          swap(j);
           sorted = false;
         }
       }
     }
-    return topics.reverse();
+    return dataArr.reverse();
   }
 
-  function inOrder (array, index) {
-    if (index === array.length - 1) return true;
-    var numVotesBase = $scope.numVotes.prereq[array[index].prerequisiteId] || 0,
-        numVotesNext = $scope.numVotes.prereq[array[index + 1].prerequisiteId] || 0;
-    return numVotesBase < numVotesNext;
-  }
-
-  function swap (array, index) { // side effects
-    var oldLeftValue = array[index];
-    array[index] = array[index + 1];
-    array[index + 1] = oldLeftValue;
-  }
 
 });
