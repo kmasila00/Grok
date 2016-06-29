@@ -22,6 +22,11 @@ app.factory('PlanFactory', function($http) {
     fetchResourcesByPlan: function(planId){
     	return $http.get(baseUrl + planId + '/resources')
     	.then(res => res.data);
+    },
+
+    removeResourceFromPlan: function(planId, resourceId){
+    	return $http.delete(baseUrl + planId + '/resource/' + resourceId)
+    	.then(res => res.data);
     }
 
   }

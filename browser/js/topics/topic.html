@@ -182,7 +182,7 @@
         <ul class="list-group">
           <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resourcesArr">
             Resource: {{ resource.name }}
-            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span ng-click="removeResourceFromPlan()" class="glyphicon glyphicon-remove-circle"></span>
             <span class="glyphicon glyphicon-arrow-down"></span>
             <span class="glyphicon glyphicon-arrow-up"></span>
           </li>
