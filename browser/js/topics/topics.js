@@ -52,19 +52,53 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
     $scope.animationsEnabled = !$scope.animationsEnabled;
   };
 
-
 });
 
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, $rootScope) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory, $rootScope) {
 
   $scope.name = modalName;
+  $scope.showit = false;
 
-  $scope.ok = function () {
-    $uibModalInstance.close($scope.selected.item);
-  };
+  if($scope.name === 'Resource')
+    $scope.showit = true;
+
+  $scope.add = function(){
+    //checks to see if form is not empty
+    if($scope.form.formTitle.$dirty && $scope.form.formDesc.$dirty){
+        //checks to see what we are creating
+        if($scope.name === 'Topic'){
+          TopicFactory.addNewTopic($scope.TRPname, $scope.TRPdesc)
+          .then(function(newTopic){
+            alert('You Created the Topic!');
+          })
+          $uibModalInstance.dismiss();
+        } else if ($scope.name === 'Resource'){
+          //this is supposed to check to make sure url field and type is not empty
+          //have to edit to make sure all fields are required and get rid of description
+          if($scope.form.formUrl.$dirty){
+            ResourceFactory.addNewResource($scope.TRPname, $scope.resourceUrl, $scope.resourceType)
+            .then(function(resource){
+              alert('Resource has been added!');
+            })
+            $uibModalInstance.dismiss();
+          } else {
+            $scope.showError = true;
+          }
+        } else {
+          //uses the rootscope from topic.js to create a plan that has the topic id
+          PlanFactory.addNewPlan($scope.TRPname, $scope.TRPdesc, $rootScope.topicId)
+          .then(function(newPlan){
+            alert('You Created A New Plan');
+          })
+          $uibModalInstance.dismiss();
+        }
+    } else {
+      $scope.showError = true;
+    }
+  }
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

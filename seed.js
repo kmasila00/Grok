@@ -35,6 +35,11 @@ var seedUsers = function () {
             name: 'grok',
             email: 'grok@gmail.com',
             password: 'grok'
+        },
+        {
+            name: 'John',
+            email: 'j.szymanowski@gmail.com',
+            password: '1234'
         }
     ];
 

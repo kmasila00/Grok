@@ -19,7 +19,11 @@
 }
 
 .links-cell {
-  .glyphicon {
+  .glyphicon-menu-left {
+    font-size: 60px;
+    margin-bottom: 10px;
+  }
+  .glyphicon-menu-right {
     font-size: 60px;
     margin-bottom: 10px;
   }
@@ -29,6 +33,14 @@
   }
   li {
     font-size: 24px;
+    button {
+      display: none;
+    }
+    &:hover {
+      button {
+        display: inline;
+      }
+    }
   }
 }
 
@@ -67,20 +79,6 @@
   color: lighten(#000, 60%);
 }
 
-.resource-panel {
-  .glyphicon-plus-sign {
-    display: none;
-    color: #d43f3a;
-    float: right;
-  }
-  &:hover {
-    cursor: pointer;
-    .glyphicon-plus-sign {
-      display: inline;
-    }
-  }
-}
-
 .plan-panel {
   .glyphicon-copy {
     display: none;
@@ -107,4 +105,8 @@
 
 .tag-panel-body {
   padding: 5px;
+}
+
+.resource-action-box {
+  margin-top: 5px;
 }

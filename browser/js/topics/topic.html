@@ -5,7 +5,19 @@
     <div class="col-md-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
-        <li ng-repeat="prereq in topic.prereqTopics"><a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a></li>
+        <li ng-repeat="prereq in topic.prereqTopics">
+          <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
+          <!-- Voting -->
+          <button id="btn-relationship-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('relationship', prereq.prerequisiteId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+          </button>
+          <button id="btn-relationship-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('relationship', prereq.prerequisiteId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+          </button>
+        </li>
+        <br><button type="button" class="btn btn-default btn-sm" ng-click="addPrerequisite(topic.id)" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
       </ul>
     </div>
 
@@ -36,75 +48,108 @@
 
           <!-- filters -->
           <div class="btn-group">
-            <label class="btn btn-sm"><span class="glyphicon glyphicon-filter"></span></label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.all" uib-btn-checkbox>all</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.one" uib-btn-checkbox>tag_one</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.two" uib-btn-checkbox>tag_two</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.three" uib-btn-checkbox>tag_three</label>
-            <label class="btn btn-sm btn-default" ng-model="resourceFilter.four" uib-btn-checkbox>tag_four</label>
+            <label class="btn btn-sm" ng-click="showAllTags()"><span class="glyphicon glyphicon-filter"></span></label>
+            <span ng-repeat="(tagName, display) in tagDisplay">
+              <label class="btn btn-sm btn-default active btn-tag-filter" ng-click="toggleTagFilter(tagName, $event)">{{ tagName }}</label>
+            </span>
           </div>
 
           <hr>
 
           <div class="row">
-            <div class="col-md-4" ng-repeat="resource in topic.resources">
+            <div class="col-md-4" ng-repeat="resource in resources" ng-if="resource.display">
               <div class="panel panel-default resource-panel">
                 <div class="panel-heading">
                   <div class="resource-title">
-                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a>&nbsp;</h3>
+                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> {{ resource.display }}&nbsp;</h3>
                     <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
                     <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
                     <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
                     <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
                     <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
                     <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
-                    <span class="glyphicon glyphicon-plus-sign"></span>
+
                   </div>
+                  <!-- Tags -->
                   <div>
                     <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
+                  </div>
+                  <div class="resource-action-box">
+                    <!-- Voting -->
+                    <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      {{ numVotes.resource[resource.id] || 0 }}
+                    </button>
+                    <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      {{ numVotes.resource[resource.id] || 0 }}
+                    </button>
+                    <!-- Add a tag -->
+                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)" ng-if="isLoggedIn">
+                      <span class="glyphicon glyphicon-tags"></span>
+                      &nbsp;add tag
+                    </button>
+                    <!-- Add to plan -->
+                    <button ng-click="addToPlan(resource.id)" type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      {{selectedPlan.name}}
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </uib-tab> 
+        </uib-tab>
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>
-          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+          <div class="col-md-4" ng-repeat="plan in plans">
             <div class="panel panel-default plan-panel">
               <div class="panel-heading">
-                <h3 class="panel-title">Plan #{{ plan }}</h3>
+                <h3 class="panel-title">Plan:{{ plan.name }}</h3>
                 <span class="glyphicon glyphicon-copy"></span>
               </div>
               <ul class="list-group">
-                <li class="list-group-item" ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+                <li class="list-group-item" ng-repeat="resource in plan.resourcesArr">Resource: {{ resource.name }}</li>
               </ul>
             </div>
           </div>
         </uib-tab>
 
-        <!-- ADD A RESOURCE -->
+        <!-- ADD A RESOURCE AND PLAN FORM -->
         <div ng-controller="ModalCtrl">
           <script type="text/ng-template" id="myModalContent.html">
               <div class="modal-header">
                   <h3 class="modal-title">Add New {{name}} To Grok!</h3>
               </div>
               <div class="modal-body">
-                  <form id="topic-form" name="topicForm">
-                <div class="form-group">
-                    <label for="name">{{name}} Name</label>
-                    <input type="text" class="form-control" placeholder="Enter {{name}} Name">
+                  <form id="formId" name="form">
+                    <div class="form-group">
+                        <label for="name">{{name}} Name</label>
+                        <input ng-model="TRPname"type="text" name="formTitle" class="form-control" placeholder="Enter {{name}} Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">{{name}} Description</label>
+                        <input ng-model="TRPdesc" type="text" name="formDesc" class="form-control"  placeholder="Enter {{name}} Description">
+                    </div>
+                    <div ng-show="showit"class="form-group">
+                        <label for="url">{{name}} URL</label>
+                        <input ng-model="resourceUrl" type="text" name="formUrl" class="form-control"  placeholder="Enter {{name}} URL">
+                    </div>
+                    <div ng-show="showit" class="form-group">
+                        <label for="url">{{name}} Type</label>
+                        <select ng-model="resourceType" name="type">
+                          <option value="article">Article</option>
+                          <option value="video">Video</option>
+                          <option value="tutorial">Tutorial</option>
+                          <option value="book">Book</option>
+                          <option value="other">Other</option>
+                        </select>
+                    </div>
+                </form>
+              <div ng-show="showError">
+                  <h5>BE CAREFUL! YOU ARE DOING SOMETHING WRONG!</h5>
                 </div>
-                <div class="form-group">
-                    <label for="description">{{name}} Description</label>
-                    <input type="text" class="form-control"  placeholder="Enter {{name}} Description">
-                </div>
-                <div ng-if="name === 'Resource'"class="form-group">
-                    <label for="url">{{name}} URL</label>
-                    <input type="text" class="form-control"  placeholder="Enter {{name}} URL">
-                </div>
-            </form>
               </div>
               <div class="modal-footer">
                   <button class="btn btn-primary" type="button" ng-click="add()">ADD</button>
@@ -115,6 +160,7 @@
           <button type="button" class="btn btn-default" ng-click="open('Resource')">Add Resource</button>
           <button type="button" class="btn btn-default" ng-click="open('Plan')">Add Plan</button>
       </div>
+      <!-- END OF ADDING RESOURCE AND PLAN FORM -->
 
       </uib-tabset>
     </div>
@@ -127,18 +173,15 @@
           <h3 class="panel-title">My Plan</h3>
         </div>
 
-        <select class="form-control">
-          <option>Learning JS</option>
-          <option>Learning HTML and CSS</option>
-        </select>
+        <select ng-options="plan as plan.name for plan in plans" ng-model="selectedPlan" class="form-control"></select>
 
         <div class="panel-body">
-          Must...learn....Java...Script.
+          {{selectedPlan.description}}
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item my-plan-list-item" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
-            Resource #{{ resource }}
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resourcesArr">
+            Resource: {{ resource.name }}
             <span class="glyphicon glyphicon-remove-circle"></span>
             <span class="glyphicon glyphicon-arrow-down"></span>
             <span class="glyphicon glyphicon-arrow-up"></span>
