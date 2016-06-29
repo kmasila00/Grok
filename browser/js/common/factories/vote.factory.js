@@ -18,6 +18,12 @@ app.factory('VoteFactory', function($http) {
       .then(res => res.data );
     },
 
+    // Returns array of existing votes for all prerequisites of a topic
+    fetchSubseqVotes: function(topicId) {
+      return $http.get(upvotePath + 'relationship', { params: { prerequisiteId: topicId } })
+      .then(res => res.data );
+    },
+
 
     // Resolves to true if the vote was successfully added
     // -- topicId is optional; only used for relationship voting
@@ -53,6 +59,9 @@ app.factory('VoteFactory', function($http) {
       var path = upvotePath;
       if(type === 'prereq') {
         path += 'relationship/topic/' + topicId + '/prereq/' + id;
+      } else if(type === 'subseq') {
+        // the prereq of a subsequent topics = the current topic
+        path += 'relationship/topic/' + id + '/prereq/' + topicId;
       } else {
         path += type + '/' + id;
       }

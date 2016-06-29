@@ -166,11 +166,13 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       topic.resources.map( function(resource) {
         return resource.id;
     })),
-    VoteFactory.fetchPrereqVotes(topic.id)
+    VoteFactory.fetchPrereqVotes(topic.id),
+    VoteFactory.fetchSubseqVotes(topic.id)
   ])
   .then( function(votes) {
     var resourceVotes = votes[0],
-        prereqVotes = votes[1];
+        prereqVotes = votes[1],
+        subseqVotes = votes[2];
     resourceVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
@@ -178,6 +180,11 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     prereqVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
       incrementVoteCount('prereq', vote.prerequisiteId, 1);
+    });
+    subseqVotes.forEach( function(vote) {
+      // console.log(vote)
+      if(vote.userId === userId) toggleVoteButton('subseq', vote.topicId);
+      incrementVoteCount('subseq', vote.topicId, 1);
     });
   })
 
