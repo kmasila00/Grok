@@ -35,7 +35,7 @@ router.get('/topic/:topicId', function(req, res, next){
 });
 
 //Gets all plans for a specific user
-router.get('/:userId', function(req, res, next){
+router.get('/user/:userId', function(req, res, next){
 	Plan.findAll({
 		where:{
 			userId: req.user.dataValues.id

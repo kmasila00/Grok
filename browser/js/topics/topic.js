@@ -9,6 +9,9 @@ app.config(function ($stateProvider) {
         resolve: {
           topic: function(TopicFactory, $stateParams) {
             return TopicFactory.fetchById($stateParams.topicId);
+          },
+          currentUser: function(AuthService) {
+            return AuthService.getLoggedInUser();
           }
         }
     });
@@ -16,18 +19,19 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q, currentUser) {
 
   //need it for adding plan in topics.js
   $rootScope.topicId = topic.id;
+  $scope.user = currentUser;
 
-  //fetch all plans for the topic
+  //fetch all plans for the Topic
   PlanFactory.fetchPlansByTopic(topic.id)
   .then(function(plansForTopic){
-    $scope.plans = plansForTopic;
+    $scope.topicPlans = plansForTopic;
 
     //attach the resources for each plan on the plan object
-    $scope.plans.forEach(function(elem){
+    $scope.topicPlans.forEach(function(elem){
       PlanFactory.fetchResourcesByPlan(elem.id)
       .then(function(res){
         elem.resourcesArr = res;
@@ -36,12 +40,70 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   });
 
+  //fetch all plans for the USER
+  PlanFactory.fetchPlansByUser($scope.user.id)
+  .then(function(plansForUser){
+    $scope.userPlans = plansForUser;
+
+    //attach the resources for each plan on the plan object
+    $scope.userPlans.forEach(function(elem){
+      PlanFactory.fetchResourcesByPlan(elem.id)
+      .then(function(res){
+        elem.resourcesArr = res;
+      })
+    });
+
+  });
+
+  $scope.copyPlan = function(planId){
+    $scope.selectedPlan.resourcesArr = [];
+    PlanFactory.fetchResourcesByPlan(planId)
+    .then(function(newResources){
+      $scope.selectedPlan.resourcesArr = newResources;
+    })
+  }
+
+  $scope.moveUp = function(resourceId){
+    var plan = $scope.selectedPlan;
+    var rArr = plan.resourcesArr;
+
+    for(var i = 1; i < rArr.length; i++){
+        
+          if(rArr[i].id === resourceId){
+            var temp = rArr[i];
+            rArr[i] = rArr[i-1];
+            rArr[i-1] = temp;
+          }
+
+    }
+  }
+
+  $scope.moveDown = function(resourceId){
+    var plan = $scope.selectedPlan;
+    var rArr = plan.resourcesArr;
+
+    for(var i = 0; i < rArr.length; i++){
+        
+          if(rArr[i].id === resourceId){
+            var temp = rArr[i];
+            rArr[i] = rArr[i+1];
+            rArr[i+1] = temp;
+          }
+
+    }
+  }
+
   $scope.topic = topic;
   $scope.resources = $scope.topic.resources;
 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
     PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
+    .then();
+  }
+
+  $scope.removeFromPlan = function(planId, resourceId){
+    PlanFactory.removeResourceFromPlan(planId, resourceId)
     .then();
   }
 
