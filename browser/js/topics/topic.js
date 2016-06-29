@@ -16,7 +16,7 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
 
   //need it for adding plan in topics.js
   $rootScope.topicId = topic.id;
@@ -25,7 +25,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   PlanFactory.fetchPlansByTopic(topic.id)
   .then(function(plansForTopic){
     $scope.plans = plansForTopic;
-    
+
     //attach the resources for each plan on the plan object
     $scope.plans.forEach(function(elem){
       PlanFactory.fetchResourcesByPlan(elem.id)
