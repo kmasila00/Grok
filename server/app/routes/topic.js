@@ -78,6 +78,19 @@ router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, re
   .catch(next);
 });
 
+// Add a subsequent topic to a given topic
+router.post('/:topicId/subsequent', Auth.assertAuthenticated, function(req, res, next) {
+  var subseqName = req.body.title,
+      thisTopic = req.topic;
+  Topic.findOne({ where: { title: subseqName }})
+  .then( function(subseq) {
+    return subseq.addPrerequisite(thisTopic);
+  })
+  .then(topic => res.status(200).send(topic))
+  .catch(next);
+});
+
+
 
 // ============================== ADMIN ROUTES ==============================
 

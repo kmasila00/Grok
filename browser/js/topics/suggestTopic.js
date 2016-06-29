@@ -1,6 +1,7 @@
 app.controller('SuggestTopicModalCtrl', function ($scope, $uibModalInstance, options, topics, TopicFactory) {
 
   $scope.topics = topics;
+  $scope.formTitle = options.formTitle;
   $scope.suggestionType = options.suggestionType;
   var topicId = options.topicId;
 
@@ -10,13 +11,14 @@ app.controller('SuggestTopicModalCtrl', function ($scope, $uibModalInstance, opt
     .then(function(res) {
       // returns to TopicCtrl with "fake" object representing the suggested topic object
       var returnObj = { title: newTopicName };
-      console.log(res.data[0][0]);
       if(type === 'prereq') {
         returnObj.prerequisiteId = res.data[0][0].prerequisiteId;
       } else if (type === 'subseq') {
-        returnObj.subsequentId = res.data[0][0].topicId;
+        // subsequent topics are stored on a topics page where:
+        // -- current topic = prereqTopic
+        // -- prereqTopic = current topic's subsequent topic
+        returnObj.topicId = res.data[0][0].topicId;
       }
-      console.log(returnObj)
       $uibModalInstance.close([type, returnObj]);
     });
   }

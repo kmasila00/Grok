@@ -115,6 +115,12 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
+    if(options.suggestionType === 'prereq') {
+      options.formTitle = "Add a prerequisite to " + $scope.topic.title;
+    } else if(options.suggestionType === 'subseq') {
+      options.formTitle = "Suggest a next topic for " + $scope.topic.title;
+    }
+    console.log(options)
     var suggestTopicModal = $uibModal.open({
       animation: true, // ??
       templateUrl: 'js/topics/suggestTopic.html',
