@@ -1,4 +1,4 @@
-//Controller for flag modals!!!
+//***********************Controller for flag modals!!!***************//
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFactory) {
 
   $scope.heading= $scope.flagType ? 'Resource Flags' : 'Topic Flags';
@@ -27,7 +27,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFac
 });
 
 
-//Controller for topic/resource/plan
+//*******************Controller for topic/resource/plan**************//
 app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory) {
 
   $scope.name = modalName;
@@ -70,6 +70,24 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
       $scope.showError = true;
     }
   }
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
+
+//****************ADD FLAG MODAL******************//
+
+app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, $uibModalInstance, FlagFactory){
+  $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
+
+  $scope.flagIt= function(flag){
+    FlagFactory.addTopicFlag($rootScope.topicId, flag)
+    .then(function(){
+      $uibModalInstance.close();
+    })
+  }
+
 
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

@@ -1,6 +1,6 @@
 <!-- HEADER -->
 <div class="jumbotron">
-  <div class="container">
+  <div class="container" style='position: relative'>
 
     <div class="col-md-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
@@ -46,7 +46,8 @@
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
       </ul>
     </div>
-
+        <!-- Flag This Topic -->
+         <a style='position: absolute; bottom: -10px;' ng-click="addFlag()"><span class='glyphicon glyphicon-flag'></span></a>
   </div>
 </div>
 

@@ -5,13 +5,21 @@ app.factory('FlagFactory', function($http){
 			return $http.get(baseUrl+ id +'/flags')
 			.then( res => res.data);
 		},
-		fetchResourceFlags: function(id){
-			return $http.get('/api/resources/'+ id +'/flags')
+		addTopicFlag: function(id, flag){
+			return $http.post(baseUrl+ id +'/flags', flag)
 			.then( res => res.data);
 		},
 		deleteTopicFlag: function(flagId, topicId){
 			return $http.delete(baseUrl +'/flags/'+ flagId)
 			.then( () => obj.fetchTopicFlags(topicId));
+		},
+		fetchResourceFlags: function(id){
+			return $http.get('/api/resources/'+ id +'/flags')
+			.then( res => res.data);
+		},
+		addResourceFlag: function(){
+			return $http.post('/api/resources/flags/'+ id +'/flags', flag)
+			.then( res => res.data);
 		},
 		deleteResourceFlag: function(id, resourceId){
 			return $http.delete('/api/resources/flags/'+id)

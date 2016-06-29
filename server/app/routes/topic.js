@@ -80,6 +80,17 @@ router.get('/:topicId/flags', function(req, res, next){
 
 });
 
+router.post('/:topicId/flags', function(req, res, next){
+  req.body.userId= req.user.dataValues.id;
+  req.body.topicId= req.topic.id
+  FlaggedTopic.create(req.body)
+  .then(function(flaggedTopic){
+    res.status(200).send(flaggedTopic);
+  })
+  .catch(next);
+
+});
+
 router.delete('/flags/:flagId', function(req, res, next){
   FlaggedTopic.destroy({
     where:{
