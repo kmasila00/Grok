@@ -29,6 +29,7 @@ router.post('/', function(req,res,next){
 
     var topicId = req.body.topicId;
     delete req.body.topicId;
+    req.body.userId= req.user.dataValues.id;
     //create resource
     Resource.create(req.body)
     .then(function(newResource){

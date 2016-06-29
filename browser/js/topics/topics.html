@@ -1,6 +1,8 @@
 <div class="container">
 	<ul>
-	  <li ng-repeat="topic in topics"><a ui-sref="topic({ topicId: topic.id })">{{ topic.title }}</a> - {{ topic.description }}</li>
+	  <li ng-repeat="topic in topics">
+	  	<a ui-sref="topic({ topicId: topic.id })">{{ topic.title }}</a> - {{ topic.description }}
+	  </li>
 	</ul>
 
 	<!-- ADDING TOPIC FORM -->
@@ -8,4 +10,4 @@
 	    <button type="button" class="btn btn-default" ng-click="open('Topic')">Add Topic</button>
 	</div>
 	<!-- END OF ADDING TOPIC FORM -->
-</div>	
+</div>
