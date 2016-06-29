@@ -15,10 +15,36 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $q) {
+
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory) {
+
+  //need it for adding plan in topics.js
+  $rootScope.topicId = topic.id;
+
+  //fetch all plans for the topic
+  PlanFactory.fetchPlansByTopic(topic.id)
+  .then(function(plansForTopic){
+    $scope.plans = plansForTopic;
+    
+    //attach the resources for each plan on the plan object
+    $scope.plans.forEach(function(elem){
+      PlanFactory.fetchResourcesByPlan(elem.id)
+      .then(function(res){
+        elem.resourcesArr = res;
+      })
+    });
+
+  });
 
   $scope.topic = topic;
   $scope.resources = $scope.topic.resources;
+
+  //adds resource to a specific plan
+  $scope.addToPlan = function(resourceId){
+    console.log(resourceId);
+    PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
+    .then();
+  }
 
   $scope.isLoggedIn = AuthService.isAuthenticated();
   $scope.showPlans = false;
