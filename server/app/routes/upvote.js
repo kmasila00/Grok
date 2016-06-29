@@ -1,73 +1,105 @@
-var router= require('express').Router();
+var router = require('express').Router();
 
 var Vote = require('../../db/models/vote');
-var VoteRelationship= Vote.voteRelationship;
-var VoteResource= Vote.voteResource;
-var VotePlan= Vote.votePlan;
+var VoteRelationship = Vote.voteRelationship;
+var VoteResource = Vote.voteResource;
+var VotePlan = Vote.votePlan;
+var Auth = require('../configure/auth-middleware');
 
-module.exports= router;
+
+module.exports = router;
 
 
-//Vote Resource
-router.post('/resource', function(req, res, next){
-	VoteResource.findOrCreate({
-		userId: req.body.userId,
+// Vote Resource
+// -- Get all votes for a list of Resources, or all votes for all Resources by default
+router.get('/resource', function(req, res, next) {
+	var whereCondition = {}, ids;
+	if(req.query && req.query.resourceIds) {
+		if(!Array.isArray(req.query.resourceIds)) {
+			req.query.resourceIds = [ req.query.resourceIds ];
+		}
+		whereCondition = { where: { resourceId: { $in: req.query.resourceIds } } };
+	}
+	VoteResource.findAll(whereCondition)
+	.then(votes => res.send(votes))
+	.catch(next);
+});
+
+router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
+	VoteResource.findOrCreate({ where: {
+		userId: req.user.id,
 		resourceId: req.body.resourceId
-	})
+	}})
 	.then(voteResource => res.sendStatus(201))
-  	.catch(next);
+  .catch(next);
 });
 
-router.delete('/resource', function(req, res, next){
-	VoteResource.destroy({where:{
-		userId: req.body.userId,
-		resourceId: req.body.resourceId
+router.delete('/resource/:resourceId', Auth.assertAuthenticated, function(req, res, next){
+	VoteResource.destroy({ where: {
+		userId: req.user.id,
+		resourceId: req.params.resourceId
 	}})
 	.then(() => res.sendStatus(204))
-  	.catch(next);
-
-
+  .catch(next);
 });
 
-//Vote Plan
+// Vote Plan
+router.get('/plan', function(req, res, next) {
+	var whereCondition = {};
+	if(req.query && req.query.topicId) {
+		whereCondition = { where: { topicId: req.query.topicId } };
+	}
+	VoteRelationship.findAll(whereCondition)
+	.then(votes => res.send(votes))
+	.catch(next);
+});
+
 router.post('/plan', function(req, res, next){
-	VotePlan.findOrCreate({
-		userId: req.body.userId,
-		planId: req.body.planId
-	})
-	.then(votePlan => res.sendStatus(201))
-  	.catch(next);
-
-});
-
-router.delete('/plan', function(req, res, next){
-	VotePlan.destroy({where:{
-		userId: req.body.userId,
+	VotePlan.findOrCreate({ where: {
+		userId: req.user.id,
 		planId: req.body.planId
 	}})
-	.then(() => res.sendStatus(204))
-  	.catch(next);
-
+	.then(votePlan => res.sendStatus(201))
+  .catch(next);
 });
 
-//Vote Relationship
-router.post('/relationship', function(req, res, next){
-	VoteRelationship.findOrCreate({
-		userId: req.body.userId,
-		prerequisiteId: req.body.prerequisiteId
-	})
-	.then(voteRelationship => res.sendStatus(201))
-  	.catch(next);
+router.delete('/plan/:planId', function(req, res, next){
+	VotePlan.destroy({ where: {
+		userId: req.user.id,
+		planId: req.params.planId
+	}})
+	.then(() => res.sendStatus(204))
+  .catch(next);
+});
 
+// Vote Relationship
+// -- Get all votes for prerequisites of a topic
+router.get('/relationship', function(req, res, next) {
+	var whereCondition = {};
+	if(req.query && req.query.topicId) {
+		whereCondition = { where: { topicId: req.query.topicId } };
+	}
+	VoteRelationship.findAll(whereCondition)
+	.then(votes => res.send(votes))
+	.catch(next);
+});
+
+router.post('/relationship', Auth.assertAuthenticated, function(req, res, next){
+	VoteRelationship.findOrCreate({ where: {
+		userId: req.user.id,
+		topicId: req.body.topicId,
+		prerequisiteId: req.body.prerequisiteId
+	}})
+	.then(voteRelationship => res.sendStatus(201))
+  .catch(next);
 })
 
-router.delete('/relationship', function(req, res, next){
-	VoteRelationship.destroy({where:{
-		userId: req.body.userId,
-		prerequisiteId: req.body.prerequisiteId
+router.delete('/relationship/:prerequisiteId/topic/:topicId', Auth.assertAuthenticated, function(req, res, next){
+	VoteRelationship.destroy({ where: {
+		userId: req.user.id,
+		prerequisiteId: req.params.prerequisiteId,
+		topicId: req.params.topicId
 	}})
 	.then(() => res.sendStatus(204))
-  	.catch(next);
-
-
+  .catch(next);
 });

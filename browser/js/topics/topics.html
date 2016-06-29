@@ -3,32 +3,9 @@
 	  <li ng-repeat="topic in topics"><a ui-sref="topic({ topicId: topic.id })">{{ topic.title }}</a> - {{ topic.description }}</li>
 	</ul>
 
-	<div ng-controller="ModalCtrl">
-	    <script type="text/ng-template" id="myModalContent.html">
-	        <div class="modal-header">
-	            <h3 class="modal-title">Add New {{name}} To Grok!</h3>
-	        </div>
-	        <div class="modal-body">
-	            <form id="topic-form" name="topicForm">
-				    <div class="form-group">
-				        <label for="name">{{name}} Name</label>
-				        <input type="text" class="form-control" placeholder="Enter {{name}} Name">
-				    </div>
-				    <div class="form-group">
-				        <label for="description">{{name}} Description</label>
-				        <input type="text" class="form-control"  placeholder="Enter {{name}} Description">
-				    </div>
-				    <div ng-if="name === 'Resource'"class="form-group">
-				        <label for="url">{{name}} URL</label>
-				        <input type="text" class="form-control"  placeholder="Enter {{name}} URL">
-				    </div>
-				</form>
-	        </div>
-	        <div class="modal-footer">
-	            <button class="btn btn-primary" type="button" ng-click="add()">ADD</button>
-	            <button class="btn btn-warning" type="button" ng-click="cancel()">CANCEL</button>
-	        </div>
-	    </script>
+	<!-- ADDING TOPIC FORM -->
+	<div ng-controller="ModalFormCtrl">
 	    <button type="button" class="btn btn-default" ng-click="open('Topic')">Add Topic</button>
-	</div>	
+	</div>
+	<!-- END OF ADDING TOPIC FORM -->
 </div>	

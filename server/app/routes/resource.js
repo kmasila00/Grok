@@ -21,16 +21,23 @@ router.get('/', function(req, res, next) {
 	var whereCondition = { status: 'Approved' };
 	if(req.user && req.user.isAdmin) whereCondition= {};
 	Resource.findAll({where: whereCondition})
-	.then(resources => {
-		res.send(resources)
-	});
+	.then(resources => res.send(resources))
+  .catch(next);
 })
 
 router.post('/', function(req,res,next){
-	Resource.create(req.body)
-	.then(function(newResource){
-		res.send(newResource);
-	})
+
+    var topicId = req.body.topicId;
+    delete req.body.topicId;
+    //create resource
+    Resource.create(req.body)
+    .then(function(newResource){
+        return newResource.addTopic(topicId);
+    })
+    .then(function(resource){
+        res.status(201).send(resource);
+    })
+
 });
 
 router.get('/:resourceId', function(req, res, next){

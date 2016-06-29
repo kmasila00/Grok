@@ -24,4 +24,5 @@ User.belongsToMany(Plan, {through: Vote.votePlan});
 User.belongsToMany(Prerequisite, {through: Vote.voteRelationship});
 
 Topic.belongsToMany(User, {as: 'topicFlaggers', through: Flag.flaggedTopic});
-Resource.belongsToMany(User, {as: 'ResourceFlagger', through: Flag.flaggedResource});
+Resource.belongsToMany(User, {as: 'ResourceFlaggers', through: Flag.flaggedResource});
+
