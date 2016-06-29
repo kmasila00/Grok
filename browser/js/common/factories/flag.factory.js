@@ -14,7 +14,7 @@ app.factory('FlagFactory', function($http){
 			.then( () => obj.fetchTopicFlags(topicId));
 		},
 		deleteResourceFlag: function(id, resourceId){
-			return $http.delete('/api/resources/'+ id+ '/flags')
+			return $http.delete('/api/resources/flags/'+id)
 			.then( () => obj.fetchResourceFlags(resourceId));
 		}
 

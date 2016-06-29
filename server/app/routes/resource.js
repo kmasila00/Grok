@@ -18,8 +18,7 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	// var whereCondition = { status: 'approved' };
-	// if(req.user && req.user.isAdmin) whereCondition= {};
+
 	Resource.findAll()
 	.then(resources => res.send(resources))
   .catch(next);
@@ -28,7 +27,6 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req,res,next){
 
     var topicId = req.body.topicId;
-    delete req.body.topicId;
     req.body.userId= req.user.dataValues.id;
     //create resource
     Resource.create(req.body)
@@ -55,7 +53,7 @@ router.get('/:resourceId/flags', function(req, res, next){
 
 });
 
-router.delete('/:flagId/flags', function(req, res, next){
+router.delete('/flags/:flagId', function(req, res, next){
   FlaggedResource.destroy({
     where:{
       id: req.params.flagId
