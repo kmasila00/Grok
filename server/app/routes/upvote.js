@@ -76,8 +76,12 @@ router.delete('/plan/:planId', function(req, res, next){
 // -- Get all votes for prerequisites of a topic
 router.get('/relationship', function(req, res, next) {
 	var whereCondition = {};
-	if(req.query && req.query.topicId) {
-		whereCondition = { where: { topicId: req.query.topicId } };
+	if(req.query) {
+		if(req.query.topicId) {
+			whereCondition = { where: { topicId: req.query.topicId } };
+		} else if(req.query.prerequisiteId) {
+			whereCondition = { where: { prerequisiteId: req.query.prerequisiteId } };
+		}
 	}
 	VoteRelationship.findAll(whereCondition)
 	.then(votes => res.send(votes))
@@ -94,7 +98,7 @@ router.post('/relationship', Auth.assertAuthenticated, function(req, res, next){
   .catch(next);
 })
 
-router.delete('/relationship/:prerequisiteId/topic/:topicId', Auth.assertAuthenticated, function(req, res, next){
+router.delete('/relationship/topic/:topicId/prereq/:prerequisiteId', Auth.assertAuthenticated, function(req, res, next){
 	VoteRelationship.destroy({ where: {
 		userId: req.user.id,
 		prerequisiteId: req.params.prerequisiteId,

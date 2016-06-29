@@ -6,18 +6,19 @@
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics">
+          <!-- prerequisite topic title -->
           <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
-          <!-- Voting -->
-          <button id="btn-relationship-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('relationship', prereq.prerequisiteId)">
+          <!-- prerequisite voting -->
+          <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('prereq', prereq.prerequisiteId)">
             <span class="glyphicon glyphicon-chevron-up"></span>
-            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
-          <button id="btn-relationship-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('relationship', prereq.prerequisiteId)">
+          <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
             <span class="glyphicon glyphicon-chevron-up"></span>
-            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
         </li>
-        <br><button type="button" class="btn btn-default btn-sm" ng-click="addPrerequisite(topic.id)" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
+        <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
       </ul>
     </div>
 
@@ -29,7 +30,20 @@
     <div class="col-md-3 topic-jumbotron links-cell text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
-        <li ng-repeat="subseq in topic.subseqTopics"><a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a></li>
+        <li ng-repeat="subseq in topic.subseqTopics">
+          <!-- subsequent voting -->
+          <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('subseq', subseq.topicId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.subseq[subseq.topicId] || 0 }}
+          </button>
+          <button id="btn-subseq-voted-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('subseq', subseq.topicId)">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+            {{ numVotes.subseq[subseq.topicId] || 0 }}
+          </button>
+          <!-- subsequent topic title -->
+          <a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a>
+        </li>
+        <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
       </ul>
     </div>
 
@@ -61,7 +75,7 @@
               <div class="panel panel-default resource-panel">
                 <div class="panel-heading">
                   <div class="resource-title">
-                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> {{ resource.display }}&nbsp;</h3>
+                    <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a>&nbsp;</h3>
                     <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
                     <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
                     <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>

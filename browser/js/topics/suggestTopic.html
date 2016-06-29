@@ -1,6 +1,7 @@
 <div class="modal-body">
-  <form name="addPrereqForm" ng-submit="addPrereq(prereq)" class="form-inline">
-    <select class="form-control" ng-model="prereq" style="width: 65%">
+  <div class="topic-modal-title">{{ formTitle }}</div>
+  <form name="suggestTopicForm" ng-submit="suggestTopic(suggestionType, newTopicName)" class="form-inline">
+    <select class="form-control" ng-model="newTopicName" style="width: 65%">
       <option ng-repeat="topic in topics">{{ topic.title }}</option>
     </select>
     <button class="btn btn-primary" type="submit">
