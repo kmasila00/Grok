@@ -17,7 +17,8 @@ function getCurrentTabUrl(callback) {
 
     // A tab is a plain object that provides information about the tab.
     // See https://developer.chrome.com/extensions/tabs#type-Tab
-    var url = tab.url;
+    var url = tab.url,
+        title = tab.title;
 
     // tab.url is only available if the "activeTab" permission is declared.
     // If you want to see the URL of other tabs (e.g. after removing active:true
@@ -25,8 +26,32 @@ function getCurrentTabUrl(callback) {
     // "url" properties.
     console.assert(typeof url == 'string', 'tab.url should be a string');
 
-    callback(url);
+    callback(url, title);
   });
+}
+
+function submitResource(url, title) {
+  console.log('submitted resource')
+  var topic = $('#topic-select').val();
+  var x = new XMLHttpRequest();
+  var data = {
+    url: url,
+    name: title,
+    topicName: topic
+  }
+  x.open("POST", "http://localhost:1337/api/chrome/resource", true);
+  x.setRequestHeader('Content-Type', 'application/json')
+  x.send(JSON.stringify(data));
+}
+
+function getTopics(callback) {
+  var x = new XMLHttpRequest();
+  x.open("GET", "http://localhost:1337/api/chrome/topics", true);
+  x.responseType = 'json';
+  x.onload = function() {
+    callback(x.response);
+  }
+  x.send();
 }
 
 // Render status text
@@ -36,12 +61,18 @@ function renderStatus(statusText) {
 
 // Code to be executed when extension is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  var submitResourceButton = document.getElementById('submit-resource-button');
-  submitResourceButton.addEventListener('click', function() {
-    getCurrentTabUrl(function(url) {
-      renderStatus(url)
-    }, function(errorMessage) {
-      renderStatus('Cannot display image. ' + errorMessage);
+  $('#get-topics-button').on('click', function() {
+    getTopics(function(topics) {
+      topics.forEach( function(topic) {
+        $('#topic-select').append('<option>' + topic + '</option>');
+      });
     });
   });
+
+  $('#submit-resource-button').on('click', function() {
+    getCurrentTabUrl(submitResource, function(errorMessage) {
+      renderStatus('Cannot submit resource. ' + errorMessage);
+    });
+  });
+
 });
