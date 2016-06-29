@@ -142,6 +142,13 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //      key = type id / value = # total votes
   $scope.numVotes = {};
 
+  // get current user ID - used to determine whether a user has voted
+  var userId;
+  AuthService.getLoggedInUser()
+  .then( function(user) {
+    if(user) userId = user.id;
+  });
+
   // Voting
   // Get existing votes
   $q.all([
@@ -155,11 +162,11 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     var resourceVotes = votes[0],
         relationshipVotes = votes[1];
     resourceVotes.forEach( function(vote) {
-      toggleVoteButton('resource', vote.resourceId);
+      if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
     });
     relationshipVotes.forEach( function(vote) {
-      toggleVoteButton('relationship', vote.prerequisiteId);
+      if(vote.userId === userId) toggleVoteButton('relationship', vote.prerequisiteId);
       incrementVoteCount('relationship', vote.prerequisiteId, 1);
     });
   })
