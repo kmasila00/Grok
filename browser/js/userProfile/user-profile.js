@@ -12,10 +12,19 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('UserProfileCtrl', function ($scope, UsersFactory, currentUser) {
+app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactory, currentUser) {
     $scope.error = null;
     $scope.user = currentUser;
     $scope.userUpdate = $scope.user;
     $scope.updateUser = UsersFactory.updateUser;
     $scope.reset = function() { $scope.userUpdate = $scope.user; };
+    $scope.tabs = [
+        { title:'Resources', content:[] },
+        { title:'Plans', content:[] }
+    ];
+
+    ResourceFactory.fetchAll({ where:{ userId: $scope.user.id } })
+                   .then(function(Resources){ $scope.tabs[0].content = Resources; });
+
 });
+
