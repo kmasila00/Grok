@@ -10,6 +10,10 @@ var flaggedResource = db.define('flaggedResource', {
       autoIncrement: true
 	},
 	reason: {
+		type: Sequelize.ENUM("Rude or Abusive", "Spam", "Duplicate", "Off-Topic"),
+		allowNull: false
+	},
+	description: {
 		type: Sequelize.STRING,
 		allowNull: false
 	}
@@ -22,6 +26,10 @@ var flaggedTopic = db.define('flaggedTopic', {
       autoIncrement: true
 	},
 	reason: {
+		type: Sequelize.ENUM("Rude or Abusive", "Spam", "Duplicate"),
+		allowNull: false
+	},
+	description: {
 		type: Sequelize.STRING,
 		allowNull: false
 	}

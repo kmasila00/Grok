@@ -48,24 +48,6 @@ router.get('/:resourceId', function(req, res, next){
 	res.send(req.resource);
 });
 
-router.get('/:resourceId/flags', function(req, res, next){
-  FlaggedResource.findAll({
-    where: {
-      resourceId: req.resource.id
-    }
-  })
-  .then(flaggedResource => res.status(200).send(flaggedResource));
-
-});
-
-router.delete('/flags/:flagId', function(req, res, next){
-  FlaggedResource.destroy({
-    where:{
-      id: req.params.flagId
-    }
-  })
-  .then( () => res.sendStatus(204));
-})
 
 
 // ============================== ADMIN ROUTES ==============================

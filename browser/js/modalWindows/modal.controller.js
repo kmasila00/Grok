@@ -1,4 +1,4 @@
-//Controller for flag modals!!!
+//***********************Controller for flag modals!!!***************//
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFactory) {
 
   $scope.heading= $scope.flagType ? 'Resource Flags' : 'Topic Flags';
@@ -20,14 +20,10 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFac
     });
   };
 
-
-
-
-
 });
 
 
-//Controller for topic/resource/plan
+//*******************Controller for topic/resource/plan**************//
 app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory) {
 
   $scope.name = modalName;
@@ -72,6 +68,40 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
     $uibModalInstance.dismiss('cancel');
   };
 });
+
+
+//****************ADD FLAG MODAL******************//
+
+app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, resourceId, $uibModalInstance, FlagFactory){
+
+  $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
+
+  if(resourceId){
+    $scope.reasons.push('Off-Topic');
+    $scope.addFlag= "addResourceFlag";
+    $scope.id= resourceId;
+    $scope.heading= 'Resource';
+  }
+  else{
+    $scope.addFlag= "addTopicFlag";
+    $scope.id= $rootScope.topicId;
+    $scope.heading= 'Topic';
+  }
+
+  $scope.flagIt= function(flag){
+
+    FlagFactory[$scope.addFlag]($scope.id, flag)
+    .then(function(){
+      $uibModalInstance.close();
+    })
+  }
+
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
+//**********************************************//
 
 
 
