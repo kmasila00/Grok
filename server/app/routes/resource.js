@@ -15,14 +15,19 @@ router.param('resourceId', function(req, res, next, id) {
     req.resource = resource;
     next();
   }).catch(next)
-})
+});
 
 router.get('/', function(req, res, next) {
+    Resource.findAll()
+            .then(resources => res.send(resources))
+            .catch(next);
+});
 
-	Resource.findAll()
-	.then(resources => res.send(resources))
-  .catch(next);
-})
+router.get('/user/:userId', function(req, res, next) {
+    Resource.findAll({ where: { userId: req.params.userId } })
+            .then(resources => res.send(resources))
+            .catch(next);
+});
 
 router.post('/', function(req,res,next){
 
@@ -35,7 +40,7 @@ router.post('/', function(req,res,next){
     })
     .then(function(resource){
         res.status(201).send(resource);
-    })
+    });
 
 });
 

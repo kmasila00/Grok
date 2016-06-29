@@ -26,7 +26,8 @@ router.get('/topic/:topicId', function(req, res, next){
 	Plan.findAll({
 		where:{
 			topicId: req.params.topicId
-		}
+		},
+		include: [Resource]
 	})
 	.then(function(topics){
 		res.send(topics);
@@ -34,20 +35,19 @@ router.get('/topic/:topicId', function(req, res, next){
 	.catch(next);
 });
 
-//Gets all resources for a plan
-router.get('/:planId/resources', function(req, res, next){
-	Plan.findOne({
+//Gets all plans for a specific user
+router.get('/user/:userId', function(req, res, next){
+	Plan.findAll({
 		where:{
-			id: req.params.planId
-		}
+			userId: req.user.dataValues.id
+		},
+		include:[Resource]
 	})
-	.then(function(plan){
-		return plan.getResources()
-	})
-	.then(function(planResources){
-		res.send(planResources);
+	.then(function(plans){
+		res.send(plans);
 	})
 });
+
 
 //adds resource to a specific plan
 router.post('/:planId/resource/:resourceId', function(req, res, next){

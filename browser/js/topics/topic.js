@@ -9,6 +9,9 @@ app.config(function ($stateProvider) {
         resolve: {
           topic: function(TopicFactory, $stateParams) {
             return TopicFactory.fetchById($stateParams.topicId);
+          },
+          currentUser: function(AuthService) {
+            return AuthService.getLoggedInUser();
           }
         }
     });
@@ -16,25 +19,72 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q, currentUser) {
 
-  //need it for adding plan in topics.js
+  //need it for adding plan
   $rootScope.topicId = topic.id;
+  
+  // get current user ID - used to determine whether a user has voted
+  var userId;
+  AuthService.getLoggedInUser()
+  .then( function(user) {
+    if(user) userId = user.id;
+  });
 
-  //fetch all plans for the topic
+  //fetch all plans for the Topic
   PlanFactory.fetchPlansByTopic(topic.id)
   .then(function(plansForTopic){
-    $scope.plans = plansForTopic;
-
-    //attach the resources for each plan on the plan object
-    $scope.plans.forEach(function(elem){
-      PlanFactory.fetchResourcesByPlan(elem.id)
-      .then(function(res){
-        elem.resourcesArr = res;
-      })
-    });
-
+    $scope.topicPlans = plansForTopic;
   });
+
+
+  if(AuthService.isAuthenticated()){
+      
+      //fetch all plans for the USER for a TOPIC
+      PlanFactory.fetchPlansByUser(userId)
+      .then(function(plansForUser){
+        $scope.userPlans = [];
+        plansForUser.forEach(function(elem){
+          if(elem.topicId === topic.id)
+            $scope.userPlans.push(elem);
+        })
+      });
+
+      $scope.copyPlan = function(plan){
+        $scope.selectedPlan.resources = plan.resources;
+      }
+
+      $scope.moveUp = function(resourceId){
+        var plan = $scope.selectedPlan;
+        var rArr = plan.resources;
+
+        for(var i = 1; i < rArr.length; i++){
+            
+              if(rArr[i].id === resourceId){
+                var temp = rArr[i];
+                rArr[i] = rArr[i-1];
+                rArr[i-1] = temp;
+              }
+
+        }
+      }
+
+      $scope.moveDown = function(resourceId){
+        var plan = $scope.selectedPlan;
+        var rArr = plan.resources;
+
+        for(var i = 0; i < rArr.length-1; i++){
+            
+              if(rArr[i].id === resourceId){
+                var temp = rArr[i];
+                rArr[i] = rArr[i+1];
+                rArr[i+1] = temp;
+                break;
+              }
+
+        }
+      }
+  }
 
   $scope.topic = topic;
   $scope.resources = $scope.topic.resources;
@@ -42,6 +92,11 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
     PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
+    .then();
+  }
+
+  $scope.removeFromPlan = function(planId, resourceId){
+    PlanFactory.removeResourceFromPlan(planId, resourceId)
     .then();
   }
 
@@ -147,17 +202,12 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   // Voting
   // # votes in nested object
-  // key = type of vote (resource, relationship)
+  // key = type of vote (resource, prereq, subseq)
   // value = ...
   //      key = type id / value = # total votes
   $scope.numVotes = {};
 
-  // get current user ID - used to determine whether a user has voted
-  var userId;
-  AuthService.getLoggedInUser()
-  .then( function(user) {
-    if(user) userId = user.id;
-  });
+
 
   // Voting
   // Get existing votes
@@ -173,20 +223,28 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     var resourceVotes = votes[0],
         prereqVotes = votes[1],
         subseqVotes = votes[2];
+
     resourceVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
     });
+    sort('resources');
+
     prereqVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
       incrementVoteCount('prereq', vote.prerequisiteId, 1);
     });
+    sort('prereq');
+
     subseqVotes.forEach( function(vote) {
       // console.log(vote)
       if(vote.userId === userId) toggleVoteButton('subseq', vote.topicId);
       incrementVoteCount('subseq', vote.topicId, 1);
     });
-  })
+    sort('subseq');
+
+  });
+
 
   $scope.upvote = function(type, id) {
     if(AuthService.isAuthenticated()) {
@@ -195,6 +253,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         if(success) {
           toggleVoteButton(type, id);
           incrementVoteCount(type, id, 1);
+          sort(type);
         }
       })
     }
@@ -207,6 +266,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         if(success) {
           toggleVoteButton(type, id);
           incrementVoteCount(type, id, -1);
+          sort(type);
         }
       })
     }
@@ -245,5 +305,59 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     if(!voteCounter[id]) voteCounter[id] = amount;
     else voteCounter[id] += amount;
   }
+
+  // DATA SORTING
+  // Sort master routing function
+  function sort(type) {
+    switch(type) {
+      case 'resources':
+        $scope.topic.resources = sortData($scope.topic.resources, $scope.numVotes.resource, 'id');
+        break;
+      case 'prereq':
+        $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
+        break;
+      case 'subseq':
+        $scope.topic.subseqTopics = sortData($scope.topic.subseqTopics, $scope.numVotes.subseq, 'topicId');
+        break;
+    }
+  }
+
+  // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and reosurces
+  // -- dataArr = $scope data array to be sorted
+  // -- votes = $scope.numVotes object value to sort by
+  // -- idKey = idKey on dataArr corresponding to the key in votes
+  function sortData (dataArr, votes, idKey) {
+
+    if(!votes) return dataArr; // if no votes found, do not sort
+
+    function inOrder (index) {
+      if (index === dataArr.length - 1) return true;
+      var baseId = dataArr[index][idKey],
+          nextId = dataArr[index + 1][idKey],
+          numVotesBase = votes[baseId] || 0,
+          numVotesNext = votes[nextId] || 0;
+      return numVotesBase < numVotesNext;
+    }
+
+    function swap (index) {
+      // console.log('swapping',index,' & ', index+1);
+      var oldLeftValue = dataArr[index];
+      dataArr[index] = dataArr[index + 1];
+      dataArr[index + 1] = oldLeftValue;
+    }
+
+    var sorted = false;
+    for (var end = dataArr.length; end > 0 && !sorted; end--) {
+      sorted = true;
+      for (var j = 0; j < end; j++) {
+        if (!inOrder(j)) {
+          swap(j);
+          sorted = false;
+        }
+      }
+    }
+    return dataArr.reverse();
+  }
+
 
 });

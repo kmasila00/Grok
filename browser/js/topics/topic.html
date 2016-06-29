@@ -122,14 +122,14 @@
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>
-          <div class="col-md-4" ng-repeat="plan in plans">
+          <div class="col-md-4" ng-repeat="plan in topicPlans">
             <div class="panel panel-default plan-panel">
               <div class="panel-heading">
                 <h3 class="panel-title">Plan:{{ plan.name }}</h3>
-                <span class="glyphicon glyphicon-copy"></span>
+                <span ng-click="copyPlan(plan)" class="glyphicon glyphicon-copy"></span>
               </div>
               <ul class="list-group">
-                <li class="list-group-item" ng-repeat="resource in plan.resourcesArr">Resource: {{ resource.name }}</li>
+                <li class="list-group-item" ng-repeat="resource in plan.resources">Resource: {{ resource.name }}</li>
               </ul>
             </div>
           </div>
@@ -154,18 +154,18 @@
           <h3 class="panel-title">My Plan</h3>
         </div>
 
-        <select ng-options="plan as plan.name for plan in plans" ng-model="selectedPlan" class="form-control"></select>
+        <select ng-options="plan as plan.name for plan in userPlans" ng-model="selectedPlan" class="form-control"></select>
 
         <div class="panel-body">
           {{selectedPlan.description}}
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resourcesArr">
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resources">
             Resource: {{ resource.name }}
-            <span class="glyphicon glyphicon-remove-circle"></span>
-            <span class="glyphicon glyphicon-arrow-down"></span>
-            <span class="glyphicon glyphicon-arrow-up"></span>
+            <span ng-click="removeFromPlan(selectedPlan.id, resource.id)"class="glyphicon glyphicon-remove-circle"></span>
+            <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>
+            <span ng-click="moveUp(resource.id)" class="glyphicon glyphicon-arrow-up"></span>
           </li>
         </ul>
       </div>

@@ -14,17 +14,19 @@ app.config(function ($stateProvider) {
 
 app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactory, currentUser) {
     $scope.error = null;
-    $scope.user = currentUser;
-    $scope.userUpdate = $scope.user;
+    $scope.userUpdate = cloneObj(currentUser);
     $scope.updateUser = UsersFactory.updateUser;
-    $scope.reset = function() { $scope.userUpdate = $scope.user; };
+    $scope.reset =  function() { $scope.userUpdate =  cloneObj(currentUser) };
+
     $scope.tabs = [
         { title:'Resources', content:[] },
         { title:'Plans', content:[] }
     ];
 
-    ResourceFactory.fetchAll({ where:{ userId: $scope.user.id } })
+
+    ResourceFactory.fetchByUser(currentUser.id)
                    .then(function(Resources){ $scope.tabs[0].content = Resources; });
 
 });
 
+function cloneObj(obj) { return Object.assign({}, obj) };

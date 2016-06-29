@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        font-family: "Arial", "Helvetica", sans-serif;
+        font-size: 75%;
+        width: 600px;
+        height: 300px;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    </style>
+    <script src="jquery-2.2.0.min.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+
+    <button type="button" id="get-topics-button">get topics</button>
+    <select id="topic-select"></select>
+    <button type="button" id="submit-resource-button">submit resource</button>
+
+    <div id="status"></div>
+
+  </body>
+</html>
