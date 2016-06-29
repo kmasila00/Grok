@@ -43,35 +43,6 @@ router.get('/:resourceId', function(req, res, next){
 	res.send(req.resource);
 });
 
-router.get('/:resourceId/flags', function(req, res, next){
-  FlaggedResource.findAll({
-    where: {
-      resourceId: req.resource.id
-    }
-  })
-  .then(flaggedResource => res.status(200).send(flaggedResource));
-
-});
-
-router.post('/:resourceId/flags', function(req, res, next){
-  req.body.userId= req.user.dataValues.id;
-  req.body.resourceId= req.resource.id
-  FlaggedResource.create(req.body)
-  .then(function(flaggedResource){
-    res.status(200).send(flaggedResource);
-  })
-  .catch(next);
-
-});
-
-router.delete('/flags/:flagId', function(req, res, next){
-  FlaggedResource.destroy({
-    where:{
-      id: req.params.flagId
-    }
-  })
-  .then( () => res.sendStatus(204));
-})
 
 
 // ============================== ADMIN ROUTES ==============================

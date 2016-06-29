@@ -68,37 +68,6 @@ router.get('/:topicId', function(req, res, next) {
 
 });
 
-router.get('/:topicId/flags', function(req, res, next){
-  FlaggedTopic.findAll({
-    where: {
-      topicId: req.topic.id
-    }
-  })
-  .then(flaggedTopics => {
-    res.status(200).send(flaggedTopics)
-  });
-
-});
-
-router.post('/:topicId/flags', function(req, res, next){
-  req.body.userId= req.user.dataValues.id;
-  req.body.topicId= req.topic.id
-  FlaggedTopic.create(req.body)
-  .then(function(flaggedTopic){
-    res.status(200).send(flaggedTopic);
-  })
-  .catch(next);
-
-});
-
-router.delete('/flags/:flagId', function(req, res, next){
-  FlaggedTopic.destroy({
-    where:{
-      id: req.params.flagId
-    }
-  })
-  .then( () => res.sendStatus(204));
-})
 
 // Add a prerequisite to a given topic
 router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, res, next) {
