@@ -6,28 +6,25 @@
       <th>Name</th>
       <th>Url</th>
       <th>Type</th>
-      <th >Status</th>
+      <th >Flags</th>
       <th>Topic#</th>
       <th>User#</th>
       <tr ng-repeat='resource in resources | orderBy: "id"' >
         <td>{{ resource.id }}</td>
         <td> <input type='text' ng-model='resource.name' ng-change='update(resource)'></td>
         <td> <input  ng-model="resource.url"  ng-change='update(resource)'></td>
-        <!-- <td><input type='text' ng-model='resource.type' ng-change='update(resource)'></td> -->
         <td>
           <select selected='{{resource.type}}' ng-model='resource.type' ng-change='update(resource)'>
             <option ng-repeat='type in types' value='{{type}}'> {{type}}<option>
           </select>
         </td>
         <td>
-          <select  selected= '{{resource.status}}'ng-model='resource.status' ng-change='update(resource)'>
-            <option value= 'Approved'> Approved</option>
-            <option value= 'Pending'> Pending</option>
-
-            </select>
+          <a ng-click='openFlags(resource.id)'>
+            <span class='glyphicon glyphicon-flag'></span>
+          </a>
         </td>
-        <td><!-- <input type='text' ng-model='resource.topicId' ng-change='update(resource)'> -->{{resource.topicId}}</td>
-        <td><!-- <input type='text' ng-model='resource.userId' ng-change='update(resource)'> -->{{resource.userId}}</td>
+        <td>{{resource.topicId}}</td>
+        <td>{{resource.userId}}</td>
         <td><a style='color: red' ng-click='delete(resource.id)'><span class="glyphicon glyphicon-remove-sign"><span></a> </td>
       </tr>
     </table>

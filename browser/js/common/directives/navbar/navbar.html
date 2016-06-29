@@ -16,7 +16,7 @@
             <button ui-sref="login" class="btn login-button">Login</button>
         </div>
         <div ng-if="user" class="welcome">
-            <span>Welcome, <a ui-sref-active="active" ui-sref="userProfile">{{ user.name }}!</a></span>
+            <span>Welcome, <a ui-sref-active="active" ui-sref="userProfile">{{ user.username }}!</a></span>
             <a ng-click="logout()">Logout</a>
         </div>
     </div>
@@ -37,6 +37,7 @@
         <li><a ui-sref="#">Plans<span class="pull-right"><i class="fa fa-list"></i></span></a></li>
         <li><a ui-sref="#">Statistics<span class="pull-right"><i class="fa fa-line-chart"></i></span></a></li>
         <li><a ui-sref="#">Search<span class="pull-right"><i class="fa fa-code"></i></span></a></li>
+        <hr>
       </ul>
     </div>
   </div>
