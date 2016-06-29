@@ -43,7 +43,6 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
         if($scope.name === 'Topic'){
           TopicFactory.addNewTopic($scope.TRPname, $scope.TRPdesc)
           .then(function(newTopic){
-            alert('You Created the Topic!');
           })
           $uibModalInstance.dismiss();
         } else if ($scope.name === 'Resource'){
@@ -52,7 +51,6 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
           if($scope.form.formUrl.$dirty){
             ResourceFactory.addNewResource($scope.TRPname, $scope.resourceUrl, $scope.resourceType, $rootScope.topicId)
             .then(function(resource){
-              alert('Resource has been added!');
             })
             $uibModalInstance.dismiss();
           } else {
@@ -62,7 +60,6 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
           //uses the rootscope from topic.js to create a plan that has the topic id
           PlanFactory.addNewPlan($scope.TRPname, $scope.TRPdesc, $rootScope.topicId)
           .then(function(newPlan){
-            alert('You Created A New Plan');
           })
           $uibModalInstance.dismiss();
         }

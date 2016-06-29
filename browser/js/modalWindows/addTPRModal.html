@@ -8,7 +8,7 @@
           <label for="name">{{name}} Name</label>
           <input ng-model="TRPname"type="text" name="formTitle" class="form-control" placeholder="Enter {{name}} Name">
       </div>
-      <div class="form-group">
+      <div ng-hide="showit" class="form-group">
           <label for="description">{{name}} Description</label>
           <input ng-model="TRPdesc" type="text" name="formDesc" class="form-control"  placeholder="Enter {{name}} Description">
       </div>

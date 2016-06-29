@@ -34,6 +34,18 @@ router.get('/topic/:topicId', function(req, res, next){
 	.catch(next);
 });
 
+//Gets all plans for a specific user
+router.get('/:userId', function(req, res, next){
+	Plan.findAll({
+		where:{
+			userId: req.user.dataValues.id
+		}
+	})
+	.then(function(plans){
+		res.send(plans);
+	})
+});
+
 //Gets all resources for a plan
 router.get('/:planId/resources', function(req, res, next){
 	Plan.findOne({
