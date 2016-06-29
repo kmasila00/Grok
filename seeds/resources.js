@@ -12,169 +12,145 @@ module.exports = function(){
       url: 'https://www.codeschool.com/courses/javascript-road-trip-part-1',
       type: 'tutorial',
       topics: ['JavaScript'],
-      tags: ['JavaScript','basics'],
-      status: 'approved'
+      tags: ['JavaScript','basics']
 		},{
 			name: 'CodeSchool: Try jQuery',
       url: 'https://www.codeschool.com/courses/try-jquery',
       type: 'tutorial',
       topics: ['jQuery'],
-      tags: ['JavaScript','jQuery'],
-      status: 'approved'
+      tags: ['JavaScript','jQuery']
 		},{
 			name: 'CodeSchool: Shaping up with Angular.js',
       url: 'https://www.codeschool.com/courses/shaping-up-with-angular-js',
       type: 'tutorial',
       topics: ['AngularJS'],
-      tags: ['JavaScript','AngularJS'],
-      status: 'approved'
+      tags: ['JavaScript','AngularJS']
 		},{
 			name: 'CodeSchool: Real-time Web with Node.js',
       url: 'https://www.codeschool.com/courses/real-time-web-with-node-js',
       type: 'tutorial',
       topics: ['Node.js'],
-      tags: ['JavaScript','Node.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js']
 		},{
 			name: 'CodeSchool: Building Blocks of Express.js',
       url: 'https://www.codeschool.com/courses/building-blocks-of-express-js',
       type: 'tutorial',
       topics: ['Express.js'],
-      tags: ['JavaScript','Node.js','Express.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js','Express.js']
 		},{
 			name: 'DOM Enlightment',
       url: 'http://www.domenlightenment.com/',
       type: 'article',
       topics: ['JavaScript'],
-      tags: ['JavaScript','jQuery','DOM','AngularJS'],
-      status: 'approved'
+      tags: ['JavaScript','jQuery','DOM','AngularJS']
 		},{
 			name: 'How Browsers Work',
       url: 'http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/',
       type: 'article',
       topics: ['jQuery','AngularJS'],
-      tags: ['JavaScript','jQuery','DOM','AngularJS'],
-      status: 'approved'
+      tags: ['JavaScript','jQuery','DOM','AngularJS']
 		},{
 			name: 'Node.js Documentation',
       url: 'https://nodejs.org/en/docs/',
       type: 'documentation',
       topics: ['Node.js'],
-      tags: ['JavaScript','Node.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js']
 		},{
 			name: 'Express.js Routing',
       url: 'http://expressjs.com/en/guide/routing.html',
       type: 'article',
       topics: ['Express.js'],
-      tags: ['JavaScript','Node.js','Express.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js','Express.js']
 		},{
 			name: 'Express.js Documentation',
       url: 'http://expressjs.com/en/4x/api.html',
       type: 'documentation',
       topics: ['Express.js'],
-      tags: ['JavaScript','Node.js','Express.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js','Express.js']
 		},{
 			name: 'Build Your Own AngularJS',
       url: 'http://teropa.info/build-your-own-angular/build_your_own_angularjs_sample.pdf',
       type: 'book',
       topics: ['AngularJS'],
-      tags: ['JavaScript','AngularJS'],
-      status: 'approved'
+      tags: ['JavaScript','AngularJS']
 		},{
 			name: 'Understanding Passport.js Authentication Flow',
       url: 'http://toon.io/understanding-passportjs-authentication-flow/',
       type: 'article',
       topics: ['Passport.js'],
-      tags: ['JavaScript','Node.js','Express.js','Passport.js'],
-      status: 'approved'
+      tags: ['JavaScript','Node.js','Express.js','Passport.js']
 		},{
 			name: 'Digging into Angular\'s "Controller as" syntax',
       url: 'https://toddmotto.com/digging-into-angulars-controller-as-syntax/',
       type: 'article',
       topics: ['JavaScript'],
-      tags: ['JavaScript','AngularJS'],
-      status: 'approved'
+      tags: ['JavaScript','AngularJS']
 		},{
 			name: 'React Tutorial: Cloning Yelp',
       url: 'https://www.fullstackreact.com/articles/react-tutorial-cloning-yelp/',
       type: 'tutorial',
       topics: ['React'],
-      tags: ['JavaScript','React','DOM'],
-      status: 'approved'
+      tags: ['JavaScript','React','DOM']
 		},{
 			name: 'React Documentation',
       url: 'https://facebook.github.io/react/docs/getting-started.html',
       type: 'documentation',
       topics: ['React'],
-      tags: ['JavaScript','React','DOM'],
-      status: 'approved'
+      tags: ['JavaScript','React','DOM']
 		},{
 			name: 'Learn React.js in a weekend!',
       url: 'https://nodecasts.io/learn-react-js-weekend/',
       type: 'tutorial',
       topics: ['React'],
-      tags: ['JavaScript','React','DOM'],
-      status: 'approved'
+      tags: ['JavaScript','React','DOM']
 		},{
 			name: 'You Don\'t Know JS',
       url: 'https://github.com/getify/You-Dont-Know-JS',
       type: 'book',
       topics: ['JavaScript'],
-      tags: ['JavaScript','basics'],
-      status: 'approved'
+      tags: ['JavaScript','basics']
 		},{
 			name: 'D3 on AngularJS',
       url: 'http://www.ng-newsletter.com/posts/d3-on-angular.html',
       type: 'article',
       topics: ['AngularJS','D3.js'],
-      tags: ['JavaScript','AngularJS','D3.js','visualization','SVG'],
-      status: 'approved'
+      tags: ['JavaScript','AngularJS','D3.js','visualization','SVG']
 		},{
 			name: 'D3.js Documentation',
       url: 'https://d3js.org/',
       type: 'documentation',
       topics: ['D3.js'],
-      tags: ['JavaScript','D3','visualization','SVG'],
-      status: 'approved'
+      tags: ['JavaScript','D3','visualization','SVG']
 		},{
 			name: 'Learn D3.js Basics by Planing a Vegetable Garden',
       url: 'https://www.rtfmanual.io/d3garden/?utm_source=javascriptweekly&utm_medium=email',
       type: 'tutorial',
       topics: ['D3.js'],
-      tags: ['JavaScript','D3','visualization','SVG'],
-      status: 'approved'
+      tags: ['JavaScript','D3','visualization','SVG']
 		},{
 			name: 'Atlassian Git Tutorial',
       url: 'https://www.atlassian.com/git/tutorials/what-is-version-control',
       type: 'tutorial',
       topics: ['Git'],
-      tags: ['git','version_control'],
-      status: 'approved'
+      tags: ['git','version_control']
 		},{
 			name: 'Building a Multi-Line Chart Using D3.js',
       url: 'http://code.tutsplus.com/tutorials/building-a-multi-line-chart-using-d3js--cms-22935',
       type: 'tutorial',
       topics: ['D3.js'],
-      tags: ['JavaScript','D3','visualization','SVG'],
-      status: 'approved'
+      tags: ['JavaScript','D3','visualization','SVG']
 		},{
 			name: 'A Complete Guide to Flexbox',
       url: 'https://css-tricks.com/snippets/css/a-guide-to-flexbox/',
       type: 'article',
       topics: ['Flexbox'],
-      tags: ['JavaScript','CSS','Flexbox'],
-      status: 'approved'
+      tags: ['JavaScript','CSS','Flexbox']
 		},{
 			name: 'd3Vienno d3 Tutorials',
       url: 'https://www.youtube.com/watch?v=n5NcCoa9dDU&list=PLEXqkjhEUCf3cEWddeBggyWy_e4FD-9p1',
       type: 'video',
       topics: ['D3.js'],
-      tags: ['JavaScript','D3','visualization','SVG'],
-      status: 'approved'
+      tags: ['JavaScript','D3','visualization','SVG']
 		}
 	];
 
@@ -189,7 +165,7 @@ module.exports = function(){
 		if(tagsToAdd.indexOf(tag) < 0) tagsToAdd.push({ name: tag });
 	});
 	topics.forEach( function(topic) {
-		if(topicsToAdd.indexOf(topic) < 0) topicsToAdd.push({ title: topic, status: 'approved' });
+		if(topicsToAdd.indexOf(topic) < 0) topicsToAdd.push({ title: topic});
 	});
 
 	var dbResources, dbTags, dbTopics;
@@ -201,7 +177,7 @@ module.exports = function(){
 				return Tag.findOrCreate({ where: { name: tag.name }});
 			}),
 			topicsToAdd.map( function(topic) {
-				return Topic.findOrCreate({ where: { title: topic.title, status: topic.status }});
+				return Topic.findOrCreate({ where: { title: topic.title}});
 			})
 	))
 	.then( function() {
