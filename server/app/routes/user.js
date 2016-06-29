@@ -25,13 +25,15 @@ router.get('/:userId', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    if(!req.body.password || !req.body.email || !req.body.name) {
+    if(!req.body.password || !req.body.email || !req.body.username) {
         sendError('Missing a required field!', 400);
     }
     else {
         User.findOrCreate({
             where: {
-                name: req.body.name,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                username: req.body.username,
                 email: req.body.email
             },
             defaults: { password: req.body.password }
