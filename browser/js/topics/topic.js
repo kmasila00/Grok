@@ -120,7 +120,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     } else if(options.suggestionType === 'subseq') {
       options.formTitle = "Suggest a next topic for " + $scope.topic.title;
     }
-    console.log(options)
     var suggestTopicModal = $uibModal.open({
       animation: true, // ??
       templateUrl: 'js/topics/suggestTopic.html',

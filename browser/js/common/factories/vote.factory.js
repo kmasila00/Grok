@@ -30,6 +30,12 @@ app.factory('VoteFactory', function($http) {
           prerequisiteId: id
         }
         path += 'relationship';
+      } else if(type === 'subseq') {
+        idObj = {
+          topicId: id,
+          prerequisiteId: topicId
+        }
+        path += 'relationship';
       } else {
         idObj[type + 'Id'] = id;
         path += type;
