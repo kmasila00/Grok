@@ -18,9 +18,9 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	var whereCondition = { status: 'Approved' };
-	if(req.user && req.user.isAdmin) whereCondition= {};
-	Resource.findAll({where: whereCondition})
+	// var whereCondition = { status: 'approved' };
+	// if(req.user && req.user.isAdmin) whereCondition= {};
+	Resource.findAll()
 	.then(resources => res.send(resources))
   .catch(next);
 })

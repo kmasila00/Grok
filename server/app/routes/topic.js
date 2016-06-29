@@ -28,11 +28,11 @@ router.param('topicId', function(req, res, next, id) {
 // -- ordinary users: only approved topics
 // -- admins: all topics
 router.get('/', function(req, res, next) {
-  var user = req.user,
-      whereCondition = { status: 'approved' };
-  if(req.user && req.user.isAdmin) whereCondition = {}; // show all
-  Topic.findAll({ where: whereCondition })
-  .then(topics => res.send(topics))
+  var user = req.user;
+      // whereCondition = { status: 'approved' };
+  // if(req.user && req.user.isAdmin) whereCondition = {}; // show all
+  Topic.findAll()
+  .then(topics => res.status(200).send(topics))
   .catch(next);
 });
 
