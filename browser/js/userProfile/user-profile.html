@@ -10,6 +10,9 @@
       </div>
     </div>
     <!-- edit form column -->
+    <uib-alert type="danger" ng-show="error">
+        {{ error }}
+    </uib-alert>
     <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
       <h3>Personal info</h3>
       <form class="form-horizontal" role="form">
@@ -60,9 +63,9 @@
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-success" value="My Resources">
+            <input ng-click="" class="btn btn-success" value="My Resources" type="button">
             <span></span>
-            <input class="btn btn-info" value="My Plans">
+            <input ng-click="" class="btn btn-info" value="My Plans" type="button">
           </div>
         </div>
       </form>

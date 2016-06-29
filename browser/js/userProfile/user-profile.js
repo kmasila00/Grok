@@ -13,8 +13,9 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('UserProfileCtrl', function ($scope, UsersFactory, currentUser) {
+    $scope.error = null;
     $scope.user = currentUser;
     $scope.userUpdate = $scope.user;
     $scope.updateUser = UsersFactory.updateUser;
-    $scope.reset = function() { $scope.user = $scope.user };
+    $scope.reset = function() { $scope.userUpdate = $scope.user; };
 });
