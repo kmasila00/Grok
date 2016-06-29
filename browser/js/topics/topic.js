@@ -40,57 +40,61 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   });
 
-  //fetch all plans for the USER
-  PlanFactory.fetchPlansByUser($scope.user.id)
-  .then(function(plansForUser){
-    $scope.userPlans = plansForUser;
 
-    //attach the resources for each plan on the plan object
-    $scope.userPlans.forEach(function(elem){
-      PlanFactory.fetchResourcesByPlan(elem.id)
-      .then(function(res){
-        elem.resourcesArr = res;
-      })
-    });
+  if(AuthService.isAuthenticated()){
+      //fetch all plans for the USER
+      PlanFactory.fetchPlansByUser($scope.user.id)
+      .then(function(plansForUser){
+        $scope.userPlans = plansForUser;
 
-  });
+        //attach the resources for each plan on the plan object
+        $scope.userPlans.forEach(function(elem){
+          PlanFactory.fetchResourcesByPlan(elem.id)
+          .then(function(res){
+            elem.resourcesArr = res;
+          })
+        });
 
-  $scope.copyPlan = function(planId){
-    $scope.selectedPlan.resourcesArr = [];
-    PlanFactory.fetchResourcesByPlan(planId)
-    .then(function(newResources){
-      $scope.selectedPlan.resourcesArr = newResources;
-    })
-  }
+      });
 
-  $scope.moveUp = function(resourceId){
-    var plan = $scope.selectedPlan;
-    var rArr = plan.resourcesArr;
+      $scope.copyPlan = function(planId){
+        $scope.selectedPlan.resourcesArr = [];
+        PlanFactory.fetchResourcesByPlan(planId)
+        .then(function(newResources){
+          $scope.selectedPlan.resourcesArr = newResources;
+        })
+      }
 
-    for(var i = 1; i < rArr.length; i++){
-        
-          if(rArr[i].id === resourceId){
-            var temp = rArr[i];
-            rArr[i] = rArr[i-1];
-            rArr[i-1] = temp;
-          }
+      $scope.moveUp = function(resourceId){
+        var plan = $scope.selectedPlan;
+        var rArr = plan.resourcesArr;
 
-    }
-  }
+        for(var i = 1; i < rArr.length; i++){
+            
+              if(rArr[i].id === resourceId){
+                var temp = rArr[i];
+                rArr[i] = rArr[i-1];
+                rArr[i-1] = temp;
+              }
 
-  $scope.moveDown = function(resourceId){
-    var plan = $scope.selectedPlan;
-    var rArr = plan.resourcesArr;
+        }
+      }
 
-    for(var i = 0; i < rArr.length; i++){
-        
-          if(rArr[i].id === resourceId){
-            var temp = rArr[i];
-            rArr[i] = rArr[i+1];
-            rArr[i+1] = temp;
-          }
+      $scope.moveDown = function(resourceId){
+        var plan = $scope.selectedPlan;
+        var rArr = plan.resourcesArr;
 
-    }
+        for(var i = 0; i < rArr.length; i++){
+            
+              if(rArr[i].id === resourceId){
+                console.log('swapping', i, i+1)
+                var temp = rArr[i];
+                rArr[i] = rArr[i+1];
+                rArr[i+1] = temp;
+              }
+
+        }
+      }
   }
 
   $scope.topic = topic;
