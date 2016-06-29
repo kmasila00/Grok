@@ -13,10 +13,5 @@ module.exports = db.define('topic', {
     },
     description: {
       type: Sequelize.TEXT
-    },
-    status:{
-      type: Sequelize.ENUM('pending', 'approved'),
-      defaultValue: 'pending',
-      allowNull:false
     }
   });

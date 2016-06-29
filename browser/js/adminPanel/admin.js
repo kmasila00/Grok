@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.topics', {
         url: '/topics',
         templateUrl: 'js/adminPanel/templates/topics.html',
-        controller: function($scope, topics, TopicFactory){
+        controller: function($scope, topics, TopicFactory,FlagFactory, $uibModal){
 
            $scope.topics= topics;
 
@@ -23,6 +23,19 @@ app.config(function ($stateProvider) {
             })
            }
 
+            $scope.openFlags = function (topicId) {
+
+              FlagFactory.fetchTopicFlags(topicId)
+              .then(topicFlags => $scope.flags= topicFlags);
+
+               var modalInstance = $uibModal.open({
+                 animation: $scope.animationsEnabled,
+                 scope: $scope,
+                 templateUrl: './js/modalWindows/topicFlagModal.html',
+                 controller: 'ModalInstanceCtrl'
+               });
+             };
+
         },
         resolve: {
           topics: function(TopicFactory) {
@@ -34,18 +47,34 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.resources', {
         url: '/resources',
         templateUrl: 'js/adminPanel/templates/resources.html',
-        controller: function($scope, resources, ResourceFactory){
+        controller: function($scope, resources, ResourceFactory, FlagFactory, $uibModal){
 
           $scope.resources= resources;
 
           $scope.update= ResourceFactory.updateResource;
 
-          $scope.types= ['article', 'video', 'book', 'tutorial', 'other'];
+          $scope.types= ['article', 'video', 'book', 'documentation', 'tutorial', 'other'];
+
+          $scope.flagType= 'resource';
 
           $scope.delete= function(id){
             ResourceFactory.deleteResource(id)
             .then(resources => $scope.resources= resources)
           }
+
+          $scope.openFlags = function (resourceId) {
+
+            FlagFactory.fetchResourceFlags(resourceId)
+            .then(resourceFlags => $scope.flags= resourceFlags);
+
+             var modalInstance = $uibModal.open({
+               animation: $scope.animationsEnabled,
+               scope: $scope,
+               templateUrl: './js/modalWindows/topicFlagModal.html',
+               controller: 'ModalInstanceCtrl'
+             });
+
+           };
 
         },
         resolve: {
@@ -56,19 +85,10 @@ app.config(function ($stateProvider) {
 
     });
 
-
-
-
-
-
-
 });
 
 
 app.controller('AdminCtrl', function ($scope) {
 
+});
 
-
-
-
-}); 

@@ -19,11 +19,7 @@ module.exports = db.define('resource', {
 		type: Sequelize.ENUM('article', 'video', 'book', 'documentation', 'tutorial', 'other'),
 		allowNull: false,
 		defaultValue: 'other'
-	},
-	status: {
-		type: Sequelize.ENUM('pending', 'approved'),
-		defaultValue: 'pending',
-		allowNull:false
 	}
+
 });
 
