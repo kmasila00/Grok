@@ -94,7 +94,7 @@ router.post('/relationship', Auth.assertAuthenticated, function(req, res, next){
   .catch(next);
 })
 
-router.delete('/relationship/:prerequisiteId/topic/:topicId', Auth.assertAuthenticated, function(req, res, next){
+router.delete('/relationship/topic/:topicId/prereq/:prerequisiteId', Auth.assertAuthenticated, function(req, res, next){
 	VoteRelationship.destroy({ where: {
 		userId: req.user.id,
 		prerequisiteId: req.params.prerequisiteId,

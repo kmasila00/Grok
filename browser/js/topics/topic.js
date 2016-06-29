@@ -41,7 +41,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
-    console.log(resourceId);
     PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
     .then();
   }
@@ -156,18 +155,18 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       topic.resources.map( function(resource) {
         return resource.id;
     })),
-    VoteFactory.fetchRelationshipVotes(topic.id)
+    VoteFactory.fetchPrereqVotes(topic.id)
   ])
   .then( function(votes) {
     var resourceVotes = votes[0],
-        relationshipVotes = votes[1];
+        prereqVotes = votes[1];
     resourceVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
     });
-    relationshipVotes.forEach( function(vote) {
-      if(vote.userId === userId) toggleVoteButton('relationship', vote.prerequisiteId);
-      incrementVoteCount('relationship', vote.prerequisiteId, 1);
+    prereqVotes.forEach( function(vote) {
+      if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
+      incrementVoteCount('prereq', vote.prerequisiteId, 1);
     });
   })
 

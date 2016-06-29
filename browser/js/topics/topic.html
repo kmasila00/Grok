@@ -8,13 +8,13 @@
         <li ng-repeat="prereq in topic.prereqTopics">
           <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
           <!-- Voting -->
-          <button id="btn-relationship-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('relationship', prereq.prerequisiteId)">
+          <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('prereq', prereq.prerequisiteId)">
             <span class="glyphicon glyphicon-chevron-up"></span>
-            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
-          <button id="btn-relationship-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('relationship', prereq.prerequisiteId)">
+          <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
             <span class="glyphicon glyphicon-chevron-up"></span>
-            {{ numVotes.relationship[prereq.prerequisiteId] || 0 }}
+            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
         </li>
         <br><button type="button" class="btn btn-default btn-sm" ng-click="addPrerequisite(topic.id)" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
