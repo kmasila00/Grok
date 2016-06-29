@@ -1,13 +1,33 @@
-<div class="container">
-	<ul>
-	  <li ng-repeat="topic in topics">
-	  	<a ui-sref="topic({ topicId: topic.id })">{{ topic.title }}</a> - {{ topic.description }}
-	  </li>
-	</ul>
-
-	<!-- ADDING TOPIC FORM -->
-	<div ng-controller="ModalFormCtrl">
-	    <button type="button" class="btn btn-default" ng-click="open('Topic')">Add Topic</button>
-	</div>
-	<!-- END OF ADDING TOPIC FORM -->
-</div>
+<!-- Topic Grid -->
+<section id="topic">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Topics</h2>
+                <h3 class="section-subheading text-muted">Grok all the things.</h3>
+            </div>
+        </div>
+        <hr>
+	    <!-- ADDING TOPIC FORM -->
+	    <div ng-controller="ModalFormCtrl">
+	        <button type="button" class="btn btn-success btn-topic" ng-click="open('Topic')">Add</button>
+	    </div>
+	    <!-- END OF ADDING TOPIC FORM -->
+	    <br>
+        <div class="row">
+            <div ng-repeat="topic in topics" class="text-center">
+                <div class="col-md-4 col-sm-6 bg-light-gray panel panel-default">
+                    <a ui-sref="topic({ topicId: topic.id })">
+                        <div class="panel-heading">
+                            <img class="topic-img" src="http://susannekappler.github.io/grok/img/GROK_logo_orange.png">
+                        </div>
+                    </a>
+                    <div class="panel-body">
+                        <h4>{{topic.title}}</h4>
+                        <p class="text-muted">{{topic.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
