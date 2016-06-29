@@ -21,8 +21,8 @@ app.factory('ResourceFactory', function($http){
 		addTag: function(resourceId, tag) {
 			return $http.post(baseUrl + resourceId + '/tag', { tagName: tag });
 		},
-		addNewResource: function(name, url, type){
-	      return $http.post(baseUrl, {name:name, url:url, type:type})
+		addNewResource: function(name, url, type, topicId){
+	      return $http.post(baseUrl, {name:name, url:url, type:type, topicId: topicId})
 	      .then(res => res.data);
 	    }
 

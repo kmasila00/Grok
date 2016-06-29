@@ -7,6 +7,7 @@ var Resource = db.model('resource');
 var Tag = db.model('tag');
 var Vote = require('../../db/models/vote');
 var Prerequisite = db.model('prerequisites');
+var FlaggedTopic= db.model('flaggedTopic');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
 var Auth = require('../configure/auth-middleware');
@@ -27,11 +28,11 @@ router.param('topicId', function(req, res, next, id) {
 // -- ordinary users: only approved topics
 // -- admins: all topics
 router.get('/', function(req, res, next) {
-  var user = req.user,
-      whereCondition = { status: 'approved' };
-  if(req.user && req.user.isAdmin) whereCondition = {}; // show all
-  Topic.findAll({ where: whereCondition })
-  .then(topics => res.send(topics))
+  var user = req.user;
+      // whereCondition = { status: 'approved' };
+  // if(req.user && req.user.isAdmin) whereCondition = {}; // show all
+  Topic.findAll()
+  .then(topics => res.status(200).send(topics))
   .catch(next);
 });
 
@@ -66,6 +67,27 @@ router.get('/:topicId', function(req, res, next) {
   .catch(next);
 
 });
+
+router.get('/:topicId/flags', function(req, res, next){
+  FlaggedTopic.findAll({
+    where: {
+      topicId: req.topic.id
+    }
+  })
+  .then(flaggedTopics => {
+    res.status(200).send(flaggedTopics)
+  });
+
+});
+
+router.delete('/flags/:flagId', function(req, res, next){
+  FlaggedTopic.destroy({
+    where:{
+      id: req.params.flagId
+    }
+  })
+  .then( () => res.sendStatus(204));
+})
 
 // Add a prerequisite to a given topic
 router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, res, next) {
