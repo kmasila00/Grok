@@ -10,6 +10,10 @@ app.factory('ResourceFactory', function($http){
 			return $http.get(baseUrl+id)
 			.then(res => res.data);
 		},
+                fetchByUser: function(id) {
+                        return $http.get(baseUrl + 'user/' + id)
+                        .then(res => res.data);
+                },
 		updateResource: function(resource){
 		  return $http.put(baseUrl + resource.id, resource)
 		  .then(res => res.data);
