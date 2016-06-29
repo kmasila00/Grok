@@ -59,7 +59,7 @@ app.controller('ModalCtrl', function ($scope, $uibModal, $log, $rootScope) {
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
 // It is not the same as the $uibModal service used above.
 
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalName, ResourceFactory, TopicFactory, PlanFactory, $rootScope) {
 
   $scope.name = modalName;
   $scope.showit = false;
@@ -90,7 +90,8 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalNa
             $scope.showError = true;
           }
         } else {
-          PlanFactory.addNewPlan($scope.TRPname, $scope.TRPdesc)
+          //uses the rootscope from topic.js to create a plan that has the topic id
+          PlanFactory.addNewPlan($scope.TRPname, $scope.TRPdesc, $rootScope.topicId)
           .then(function(newPlan){
             alert('You Created A New Plan');
           })

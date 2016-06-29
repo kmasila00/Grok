@@ -78,9 +78,9 @@
                       &nbsp;add tag
                     </button>
                     <!-- Add to plan -->
-                    <button type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
+                    <button ng-click="addToPlan(resource.id)" type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
                       <span class="glyphicon glyphicon-plus"></span>
-                      my plan
+                      {{selectedPlan.name}}
                     </button>
                   </div>
                 </div>
@@ -91,14 +91,14 @@
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>
-          <div class="col-md-4" ng-repeat="plan in [1,2,3,4,5,6,7,8,9]">
+          <div class="col-md-4" ng-repeat="plan in plans">
             <div class="panel panel-default plan-panel">
               <div class="panel-heading">
-                <h3 class="panel-title">Plan #{{ plan }}</h3>
+                <h3 class="panel-title">Plan:{{ plan.name }}</h3>
                 <span class="glyphicon glyphicon-copy"></span>
               </div>
               <ul class="list-group">
-                <li class="list-group-item" ng-repeat="x in [1,2,3]">Resource #{{ x }}</li>
+                <li class="list-group-item" ng-repeat="resource in plan.resourcesArr">Resource: {{ resource.name }}</li>
               </ul>
             </div>
           </div>
@@ -161,18 +161,15 @@
           <h3 class="panel-title">My Plan</h3>
         </div>
 
-        <select class="form-control">
-          <option>Learning JS</option>
-          <option>Learning HTML and CSS</option>
-        </select>
+        <select ng-options="plan as plan.name for plan in plans" ng-model="selectedPlan" class="form-control"></select>
 
         <div class="panel-body">
-          Must...learn....Java...Script.
+          {{selectedPlan.description}}
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item my-plan-list-item" ng-repeat="resource in [1,2,3,4,5,6,7,8,9]">
-            Resource #{{ resource }}
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resourcesArr">
+            Resource: {{ resource.name }}
             <span class="glyphicon glyphicon-remove-circle"></span>
             <span class="glyphicon glyphicon-arrow-down"></span>
             <span class="glyphicon glyphicon-arrow-up"></span>

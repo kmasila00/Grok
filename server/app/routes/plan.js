@@ -9,7 +9,12 @@ module.exports = router;
 
 //Creates a new plan
 router.post('/', function(req, res, next){
-	Plan.create(req.body)
+	Plan.create({
+		name: req.body.name,
+		description: req.body.description,
+		userId: req.user.dataValues.id,
+		topicId: req.body.topicId
+	})
 	.then(function(newPlan){
 		return res.send(newPlan);
 	})
@@ -17,7 +22,7 @@ router.post('/', function(req, res, next){
 });
 
 //Gets all plans for a specific topic
-router.get('/:topicId', function(req, res, next){
+router.get('/topic/:topicId', function(req, res, next){
 	Plan.findAll({
 		where:{
 			topicId: req.params.topicId
@@ -27,6 +32,21 @@ router.get('/:topicId', function(req, res, next){
 		res.send(topics);
 	})
 	.catch(next);
+});
+
+//Gets all resources for a plan
+router.get('/:planId/resources', function(req, res, next){
+	Plan.findOne({
+		where:{
+			id: req.params.planId
+		}
+	})
+	.then(function(plan){
+		return plan.getResources()
+	})
+	.then(function(planResources){
+		res.send(planResources);
+	})
 });
 
 //adds resource to a specific plan
