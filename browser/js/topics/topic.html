@@ -121,10 +121,10 @@
             <div class="panel panel-default plan-panel">
               <div class="panel-heading">
                 <h3 class="panel-title">Plan:{{ plan.name }}</h3>
-                <span ng-click="copyPlan(plan.id)" class="glyphicon glyphicon-copy"></span>
+                <span ng-click="copyPlan(plan)" class="glyphicon glyphicon-copy"></span>
               </div>
               <ul class="list-group">
-                <li class="list-group-item" ng-repeat="resource in plan.resourcesArr">Resource: {{ resource.name }}</li>
+                <li class="list-group-item" ng-repeat="resource in plan.resources">Resource: {{ resource.name }}</li>
               </ul>
             </div>
           </div>
@@ -156,7 +156,7 @@
         </div>
 
         <ul class="list-group">
-          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resourcesArr">
+          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resources">
             Resource: {{ resource.name }}
             <span ng-click="removeFromPlan(selectedPlan.id, resource.id)"class="glyphicon glyphicon-remove-circle"></span>
             <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>

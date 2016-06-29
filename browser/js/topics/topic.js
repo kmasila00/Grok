@@ -21,53 +21,42 @@ app.config(function ($stateProvider) {
 
 app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q, currentUser) {
 
-  //need it for adding plan in topics.js
+  //need it for adding plan
   $rootScope.topicId = topic.id;
-  $scope.user = currentUser;
+  
+  // get current user ID - used to determine whether a user has voted
+  var userId;
+  AuthService.getLoggedInUser()
+  .then( function(user) {
+    if(user) userId = user.id;
+  });
 
   //fetch all plans for the Topic
   PlanFactory.fetchPlansByTopic(topic.id)
   .then(function(plansForTopic){
     $scope.topicPlans = plansForTopic;
-
-    //attach the resources for each plan on the plan object
-    $scope.topicPlans.forEach(function(elem){
-      PlanFactory.fetchResourcesByPlan(elem.id)
-      .then(function(res){
-        elem.resourcesArr = res;
-      })
-    });
-
   });
 
 
   if(AuthService.isAuthenticated()){
-      //fetch all plans for the USER
-      PlanFactory.fetchPlansByUser($scope.user.id)
+      
+      //fetch all plans for the USER for a TOPIC
+      PlanFactory.fetchPlansByUser(userId)
       .then(function(plansForUser){
-        $scope.userPlans = plansForUser;
-
-        //attach the resources for each plan on the plan object
-        $scope.userPlans.forEach(function(elem){
-          PlanFactory.fetchResourcesByPlan(elem.id)
-          .then(function(res){
-            elem.resourcesArr = res;
-          })
-        });
-
+        $scope.userPlans = [];
+        plansForUser.forEach(function(elem){
+          if(elem.topicId === topic.id)
+            $scope.userPlans.push(elem);
+        })
       });
 
-      $scope.copyPlan = function(planId){
-        $scope.selectedPlan.resourcesArr = [];
-        PlanFactory.fetchResourcesByPlan(planId)
-        .then(function(newResources){
-          $scope.selectedPlan.resourcesArr = newResources;
-        })
+      $scope.copyPlan = function(plan){
+        $scope.selectedPlan.resources = plan.resources;
       }
 
       $scope.moveUp = function(resourceId){
         var plan = $scope.selectedPlan;
-        var rArr = plan.resourcesArr;
+        var rArr = plan.resources;
 
         for(var i = 1; i < rArr.length; i++){
             
@@ -82,15 +71,15 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
       $scope.moveDown = function(resourceId){
         var plan = $scope.selectedPlan;
-        var rArr = plan.resourcesArr;
+        var rArr = plan.resources;
 
-        for(var i = 0; i < rArr.length; i++){
+        for(var i = 0; i < rArr.length-1; i++){
             
               if(rArr[i].id === resourceId){
-                console.log('swapping', i, i+1)
                 var temp = rArr[i];
                 rArr[i] = rArr[i+1];
                 rArr[i+1] = temp;
+                break;
               }
 
         }
@@ -218,12 +207,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //      key = type id / value = # total votes
   $scope.numVotes = {};
 
-  // get current user ID - used to determine whether a user has voted
-  var userId;
-  AuthService.getLoggedInUser()
-  .then( function(user) {
-    if(user) userId = user.id;
-  });
+
 
   // Voting
   // Get existing votes
