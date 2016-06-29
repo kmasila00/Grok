@@ -53,6 +53,17 @@ router.get('/:resourceId/flags', function(req, res, next){
 
 });
 
+router.post('/:resourceId/flags', function(req, res, next){
+  req.body.userId= req.user.dataValues.id;
+  req.body.resourceId= req.resource.id
+  FlaggedResource.create(req.body)
+  .then(function(flaggedResource){
+    res.status(200).send(flaggedResource);
+  })
+  .catch(next);
+
+});
+
 router.delete('/flags/:flagId', function(req, res, next){
   FlaggedResource.destroy({
     where:{

@@ -109,6 +109,10 @@
                       <span class="glyphicon glyphicon-plus"></span>
                       {{selectedPlan.name}}
                     </button>
+                    <!-- Flag this resource -->
+                    <button type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn" ng-click="addFlag(resource.id)">
+                      <span class="glyphicon glyphicon-flag"></span>
+                    </button>
                   </div>
                 </div>
               </div>

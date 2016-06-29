@@ -17,8 +17,8 @@ app.factory('FlagFactory', function($http){
 			return $http.get('/api/resources/'+ id +'/flags')
 			.then( res => res.data);
 		},
-		addResourceFlag: function(){
-			return $http.post('/api/resources/flags/'+ id +'/flags', flag)
+		addResourceFlag: function(id, flag){
+			return $http.post('/api/resources/'+ id +'/flags', flag)
 			.then( res => res.data);
 		},
 		deleteResourceFlag: function(id, resourceId){

@@ -20,10 +20,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFac
     });
   };
 
-
-
-
-
 });
 
 
@@ -76,13 +72,28 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
   };
 });
 
+
 //****************ADD FLAG MODAL******************//
 
-app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, $uibModalInstance, FlagFactory){
+app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, resourceId, $uibModalInstance, FlagFactory){
+
   $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
 
+  if(resourceId){
+    $scope.reasons.push('Off-Topic');
+    $scope.addFlag= "addResourceFlag";
+    $scope.id= resourceId;
+    $scope.heading= 'Resource';
+  }
+  else{
+    $scope.addFlag= "addTopicFlag";
+    $scope.id= $rootScope.topicId;
+    $scope.heading= 'Topic';
+  }
+
   $scope.flagIt= function(flag){
-    FlagFactory.addTopicFlag($rootScope.topicId, flag)
+
+    FlagFactory[$scope.addFlag]($scope.id, flag)
     .then(function(){
       $uibModalInstance.close();
     })
@@ -93,6 +104,7 @@ app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, $uibModal
     $uibModalInstance.dismiss('cancel');
   };
 });
+//**********************************************//
 
 
 
