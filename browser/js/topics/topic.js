@@ -113,23 +113,29 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
-  // Prerequisites
-  $scope.addPrerequisite = function( topicId ) {
-    var addPrereqModal = $uibModal.open({
+  // Suggest related topics (i.e., prerequisites or subsequent topics)
+  $scope.suggestRelatedTopic = function( options ) {
+    var suggestTopicModal = $uibModal.open({
       animation: true, // ??
-      templateUrl: 'js/topics/addPrerequisite.html',
-      controller: 'PrereqModalCtrl',
+      templateUrl: 'js/topics/suggestTopic.html',
+      controller: 'SuggestTopicModalCtrl',
       size: 'sm',
       resolve: {
-        topicId: topicId,
+        options: options,
         topics: TopicFactory.fetchAll()
       }
     });
 
-    addPrereqModal.result
-    .then(function (newPrereq) {
+    suggestTopicModal.result
+    .then(function (results) {
+      var type = results[0],
+          suggestedTopic = results[1];
       // update DOM
-      $scope.topic.prereqTopics.push( newPrereq );
+      if(type === 'prereq') {
+        $scope.topic.prereqTopics.push( suggestedTopic );
+      } else if(type === 'subseq'){
+        $scope.topic.subseqTopics.push( suggestedTopic );
+      }
     });
   }
 

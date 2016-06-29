@@ -30,8 +30,12 @@ app.factory('TopicFactory', function($http) {
 
     },
 
-    addPrerequisite: function(topicId, prerequisite) {
-      return $http.post(baseUrl + topicId + '/prerequisite', { title: prerequisite });
+    suggestTopic: function(type, topicId, newTopicName) {
+      // convert to route format
+      if(type === 'prereq') type = 'prerequisite';
+      else if(type === 'subseq') type = 'subsequent';
+
+      return $http.post(baseUrl + topicId + '/' + type, { title: newTopicName });
     }
 
   }
