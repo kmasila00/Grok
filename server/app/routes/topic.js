@@ -9,6 +9,8 @@ var Vote = require('../../db/models/vote');
 var Prerequisite = db.model('prerequisites');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
+var Auth = require('../configure/auth-middleware');
+
 
 module.exports = router;
 
@@ -63,6 +65,17 @@ router.get('/:topicId', function(req, res, next) {
   })
   .catch(next);
 
+});
+
+// Add a prerequisite to a given topic
+router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, res, next) {
+  var prereqName = req.body.title;
+  Topic.findOne({ where: { title: prereqName }})
+  .then( function(prereq) {
+    return req.topic.addPrerequisite(prereq);
+  })
+  .then(topic => res.status(200).send(topic))
+  .catch(next);
 });
 
 
