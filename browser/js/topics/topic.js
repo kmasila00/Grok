@@ -147,7 +147,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   // Voting
   // # votes in nested object
-  // key = type of vote (resource, relationship)
+  // key = type of vote (resource, prereq, subseq)
   // value = ...
   //      key = type id / value = # total votes
   $scope.numVotes = {};
@@ -173,20 +173,28 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     var resourceVotes = votes[0],
         prereqVotes = votes[1],
         subseqVotes = votes[2];
+
     resourceVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
       incrementVoteCount('resource', vote.resourceId, 1);
     });
+    sort('resources');
+
     prereqVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
       incrementVoteCount('prereq', vote.prerequisiteId, 1);
     });
+    sort('prereq');
+
     subseqVotes.forEach( function(vote) {
       // console.log(vote)
       if(vote.userId === userId) toggleVoteButton('subseq', vote.topicId);
       incrementVoteCount('subseq', vote.topicId, 1);
     });
-  })
+    sort('subseq');
+
+  });
+
 
   $scope.upvote = function(type, id) {
     if(AuthService.isAuthenticated()) {
@@ -195,6 +203,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         if(success) {
           toggleVoteButton(type, id);
           incrementVoteCount(type, id, 1);
+          sort(type);
         }
       })
     }
@@ -207,6 +216,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         if(success) {
           toggleVoteButton(type, id);
           incrementVoteCount(type, id, -1);
+          sort(type);
         }
       })
     }
@@ -229,5 +239,59 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     if(!voteCounter[id]) voteCounter[id] = amount;
     else voteCounter[id] += amount;
   }
+
+  // DATA SORTING
+  // Sort master routing function
+  function sort(type) {
+    switch(type) {
+      case 'resources':
+        $scope.topic.resources = sortData($scope.topic.resources, $scope.numVotes.resource, 'id');
+        break;
+      case 'prereq':
+        $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
+        break;
+      case 'subseq':
+        $scope.topic.subseqTopics = sortData($scope.topic.subseqTopics, $scope.numVotes.subseq, 'topicId');
+        break;
+    }
+  }
+
+  // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and reosurces
+  // -- dataArr = $scope data array to be sorted
+  // -- votes = $scope.numVotes object value to sort by
+  // -- idKey = idKey on dataArr corresponding to the key in votes
+  function sortData (dataArr, votes, idKey) {
+
+    if(!votes) return dataArr; // if no votes found, do not sort
+
+    function inOrder (index) {
+      if (index === dataArr.length - 1) return true;
+      var baseId = dataArr[index][idKey],
+          nextId = dataArr[index + 1][idKey],
+          numVotesBase = votes[baseId] || 0,
+          numVotesNext = votes[nextId] || 0;
+      return numVotesBase < numVotesNext;
+    }
+
+    function swap (index) {
+      // console.log('swapping',index,' & ', index+1);
+      var oldLeftValue = dataArr[index];
+      dataArr[index] = dataArr[index + 1];
+      dataArr[index + 1] = oldLeftValue;
+    }
+
+    var sorted = false;
+    for (var end = dataArr.length; end > 0 && !sorted; end--) {
+      sorted = true;
+      for (var j = 0; j < end; j++) {
+        if (!inOrder(j)) {
+          swap(j);
+          sorted = false;
+        }
+      }
+    }
+    return dataArr.reverse();
+  }
+
 
 });
