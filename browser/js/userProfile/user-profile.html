@@ -60,15 +60,23 @@
             <input ng-click="reset()" class="btn btn-default" value="Cancel" type="reset">
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label"></label>
-          <div class="col-md-8">
-            <input ng-click="" class="btn btn-success" value="My Resources" type="button">
-            <span></span>
-            <input ng-click="" class="btn btn-info" value="My Plans" type="button">
-          </div>
-        </div>
       </form>
     </div>
   </div>
+  <hr>
+  <center>
+    <div>
+      <uib-tabset active="active">
+        <uib-tab index="$index" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+          <div class="row">
+                    <div ng-repeat="content in tab.content"class="well col-lg-12">
+                        <h5>{{content.name}}</h5>
+                        <p>{{content.url}}</p>
+                        <p>{{content.description}}</p>
+                    </div>    
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+  </center>
 </div>
