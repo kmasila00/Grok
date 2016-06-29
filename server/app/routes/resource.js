@@ -1,8 +1,10 @@
 'use strict';
 var express = require('express');
 var router = express.Router();
-var Resource = require('../../db/').model('resource');
-var Tag = require('../../db/').model('tag');
+var db= require('../../db/');
+var Resource = db.model('resource');
+var Tag = db.model('tag');
+var FlaggedResource= db.model('flaggedResource');
 
 module.exports = router;
 
@@ -16,12 +18,10 @@ router.param('resourceId', function(req, res, next, id) {
 })
 
 router.get('/', function(req, res, next) {
-	console.log("Llegue Bien");
 	var whereCondition = { status: 'Approved' };
 	if(req.user && req.user.isAdmin) whereCondition= {};
 	Resource.findAll({where: whereCondition})
 	.then(resources => {
-		console.log(resources);
 		res.send(resources)
 	});
 })
@@ -36,6 +36,25 @@ router.post('/', function(req,res,next){
 router.get('/:resourceId', function(req, res, next){
 	res.send(req.resource);
 });
+
+router.get('/:resourceId/flags', function(req, res, next){
+  FlaggedResource.findAll({
+    where: {
+      resourceId: req.resource.id
+    }
+  })
+  .then(flaggedResource => res.status(200).send(flaggedResource));
+
+});
+
+router.delete('/:flagId/flags', function(req, res, next){
+  FlaggedResource.destroy({
+    where:{
+      id: req.params.flagId
+    }
+  })
+  .then( () => res.sendStatus(204));
+})
 
 
 // ============================== ADMIN ROUTES ==============================

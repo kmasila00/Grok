@@ -34,10 +34,6 @@ app.config(function ($stateProvider) {
                  templateUrl: './js/modalWindows/topicFlagModal.html',
                  controller: 'ModalInstanceCtrl'
                });
-
-               // modalInstance.result.then(function (selectedItem) {
-               //   $scope.selected = selectedItem;
-               // });
              };
 
         },
@@ -51,7 +47,7 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.resources', {
         url: '/resources',
         templateUrl: 'js/adminPanel/templates/resources.html',
-        controller: function($scope, resources, ResourceFactory){
+        controller: function($scope, resources, ResourceFactory, FlagFactory, $uibModal){
 
           $scope.resources= resources;
 
@@ -59,10 +55,26 @@ app.config(function ($stateProvider) {
 
           $scope.types= ['article', 'video', 'book', 'documentation', 'tutorial', 'other'];
 
+          $scope.flagType= 'resource';
+
           $scope.delete= function(id){
             ResourceFactory.deleteResource(id)
             .then(resources => $scope.resources= resources)
           }
+
+          $scope.openFlags = function (resourceId) {
+
+            FlagFactory.fetchResourceFlags(resourceId)
+            .then(resourceFlags => $scope.flags= resourceFlags);
+
+             var modalInstance = $uibModal.open({
+               animation: $scope.animationsEnabled,
+               scope: $scope,
+               templateUrl: './js/modalWindows/topicFlagModal.html',
+               controller: 'ModalInstanceCtrl'
+             });
+
+           };
 
         },
         resolve: {
@@ -72,12 +84,6 @@ app.config(function ($stateProvider) {
         }
 
     });
-
-
-
-
-
-
 
 });
 

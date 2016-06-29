@@ -69,12 +69,13 @@ router.get('/:topicId/flags', function(req, res, next){
       topicId: req.topic.id
     }
   })
-  .then(flaggedTopics => res.status(200).send(flaggedTopics));
+  .then(flaggedTopics => {
+    res.status(200).send(flaggedTopics)
+  });
 
 });
 
 router.delete('/flags/:flagId', function(req, res, next){
-  console.log("I have reached the delete flag handler");
   FlaggedTopic.destroy({
     where:{
       id: req.params.flagId
