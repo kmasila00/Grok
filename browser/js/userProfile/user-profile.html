@@ -84,7 +84,7 @@
                       <tbody>
                           <tr ng-repeat="content in tab.content">
                               <td>{{content.name}}</td>
-                              <td ng-if="tab.title === 'Resources'"><a href="{{content.url}}">{{content.url}}</a></td>
+                              <td ng-if="tab.title === 'Resources'"><a href="{{content.url}}" target="_blank">{{content.url}}</a></td>
                               <td ng-if="tab.title === 'Resources'"><span class="label label-success">{{content.type}}</span></td>
                               <td ng-if="tab.title === 'Plans'">{{content.description}}</td>
                               <td ng-if="tab.title === 'Plans'"><button ng-click="removePlan(content.id)" class="btn btn-danger btn-xs">Delete</button></td>
