@@ -275,7 +275,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   $scope.addFlag= function(resource_Id){
 
     // if(resourceId) $scope.resourceId= resourceId;
-
+    console.log("I reachedthe add flag method");
     $uibModal.open({
       animation: true,
       templateUrl: './js/modalWindows/addFlagModal.html',

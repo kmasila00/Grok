@@ -7,7 +7,8 @@ app.factory('FlagFactory', function($http){
 		},
 		addTopicFlag: function(id, flag){
 			return $http.post('/api/flags/topic/'+ id, flag)
-			.then( res => res.data);
+			.then( res => res.data)
+			.catch(err => err.data);
 		},
 		deleteTopicFlag: function(flagId, topicId){
 			return $http.delete('/api/flags/topic/'+ flagId)
@@ -19,7 +20,8 @@ app.factory('FlagFactory', function($http){
 		},
 		addResourceFlag: function(id, flag){
 			return $http.post('/api/flags/resource/'+ id, flag)
-			.then( res => res.data);
+			.then( res => res.data)
+			.catch(err => err.data);
 		},
 		deleteResourceFlag: function(flagId, resourceId){
 			return $http.delete('/api/flags/resource/'+ flagId)

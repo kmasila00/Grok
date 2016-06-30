@@ -7,6 +7,11 @@ var FlaggedResource= db.model('flaggedResource');
 
 module.exports = router;
 
+function sendError(message, status) {
+    var err = new Error(message);
+    err.status = status;
+    throw err;
+}
 
 //***********Topic flags******************//
 router.get('/topic/:topicId', function(req, res, next){
@@ -23,11 +28,28 @@ router.get('/topic/:topicId', function(req, res, next){
 });
 
 router.post('/topic/:topicId', function(req, res, next){
+
   req.body.userId= req.user.dataValues.id;
-  req.body.topicId= req.params.topicId
-  FlaggedTopic.create(req.body)
-  .then(function(flaggedTopic){
-    res.status(200).send(flaggedTopic);
+  req.body.topicId= req.params.topicId;
+  FlaggedTopic.findOrCreate({
+    where: {
+      userId: req.body.userId,
+      topicId: req.body.topicId
+    }
+  })
+  .spread(function(flaggedTopic, created){
+    if(!created){
+      //send the error
+      sendError("You've already flagged this topic!", 400);
+    }
+    else{
+      flaggedTopic.update({
+        reason: req.body.reason,
+        description: req.body.description
+      })
+      .then(flaggedTopic => res.send(flaggedTopic))
+    }
+
   })
   .catch(next);
 
@@ -62,9 +84,26 @@ router.get('/resource/:resourceId', function(req, res, next){
 router.post('/resource/:resourceId', function(req, res, next){
   req.body.userId= req.user.dataValues.id;
   req.body.resourceId= req.params.resourceId
-  FlaggedResource.create(req.body)
-  .then(function(flaggedResource){
-    res.status(200).send(flaggedResource);
+
+  FlaggedResource.findOrCreate({
+    where: {
+      userId: req.body.userId,
+      resourceId: req.body.resourceId
+    }
+  })
+  .spread(function(flaggedResource, created){
+    if(!created){
+      //send the error
+      sendError("You've already flagged this resource!", 400);
+    }
+    else{
+      flaggedResource.update({
+        reason: req.body.reason,
+        description: req.body.description
+      })
+      .then(flaggedResource => res.send(flaggedResource))
+    }
+
   })
   .catch(next);
 
