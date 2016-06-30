@@ -272,6 +272,22 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     }
   }
 
+  $scope.addFlag= function(resource_Id){
+
+    // if(resourceId) $scope.resourceId= resourceId;
+
+    $uibModal.open({
+      animation: true,
+      templateUrl: './js/modalWindows/addFlagModal.html',
+      controller: 'AddFlagModalInstanceCtrl',
+      resolve:{
+        resourceId: function(){
+          return resource_Id
+        }
+      }
+    });
+  }
+
 
   // show or hide vote/voted button
   // -- type = string denoting type of vote (i.e., 'resource', 'relationship')
