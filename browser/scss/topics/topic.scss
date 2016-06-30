@@ -1,6 +1,9 @@
 
 .jumbotron {
-  background-color: rgba(230,230,230,1.0);
+  background-color: rgba(0,0,0,0.10);
+
+  background-image: url(images/low-contrast-linen.png);
+  border-bottom: 2px solid rgba(0,0,0,0.25);
 }
 
 .topic-jumbotron {
@@ -61,6 +64,7 @@
 }
 
 .panel-title {
+  font-size: 18px;
   display: inline;
 }
 
@@ -71,6 +75,17 @@
     font-size: 24px;
     margin: 0 20px 0 20px;
   }
+}
+
+#filter-bar {
+  width: 30%;
+  height: 54px;
+  font-size: 24px;
+  padding: 10px;
+}
+
+.btn-lg {
+  font-weight: 300;
 }
 
 .resource-list-item {
@@ -102,14 +117,23 @@
 
 .resource-title .glyphicon {
   color: lighten(#000, 60%);
+  position: absolute;
+  float: right;
+  display: inline!important;
 }
 
 .resource-panel {
-  .resource-action-box {
+  .btn-add-to-plan {
+    display: none;
+  }
+  .btn-flag-resource {
     display: none;
   }
   &:hover {
-    .resource-action-box {
+    .btn-add-to-plan {
+      display: inline;
+    }
+    .btn-flag-resource {
       display: inline;
     }
   }
