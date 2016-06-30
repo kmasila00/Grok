@@ -27,10 +27,9 @@
         "https://*/*"
       ],
       "js": [
-        "scripts/contentscript.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": false
+        "bower_components/jquery/dist/jquery.min.js",
+        "scripts/inject.js"
+      ]
     }
   ],
   "browser_action": {
@@ -39,6 +38,6 @@
       "38": "images/icon-38.png"
     },
     "default_title": "GrokChrome",
-    "default_popup": "popup.html"
+    "default_popup": "index.html"
   }
 }
