@@ -5,6 +5,7 @@ var Promise = require('bluebird');
 var Resource = require('../../db/').model('resource');
 var Topic = require('../../db/').model('topic');
 var Plan = require('../../db/').model('plan');
+var Auth = require('../configure/auth-middleware');
 
 module.exports = router;
 
@@ -20,11 +21,8 @@ router.get('/topics', function(req, res, next){
   .catch(next);
 });
 
-router.post('/resource', function(req, res, next){
-  req.body.topicId = 1; // TEMP / DEV
-  var topicId = req.body.topicId;
-  // req.body.userId = req.user.dataValues.id;
-
+router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
+  req.body.userId = req.user.dataValues.id;
   Promise.all([
     Resource.create(req.body),
     Topic.findOrCreate({ where: { title: req.body.topicName }})

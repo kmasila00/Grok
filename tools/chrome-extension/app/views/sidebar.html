@@ -3,14 +3,22 @@
 
 <hr>
 
-<ul class="nav nav-pills nav-stacked">
-  <!-- only show if not logged in -->
-  <li role="presentation"><a ui-sref="login">login</a></li>
+<!-- only show if not logged in -->
+<div ng-if="!isLoggedIn()">
+  <ul class="nav nav-pills nav-stacked">
+    <li role="presentation"><a ui-sref="login">login</a></li>
+  </ul>
   <hr>
+</div>
 
-  <!-- only show if logged in -->
-  <li role="presentation"><a ui-sref="addResource">add resource</a></li>
-  <li role="presentation"><a>show my plan</a></li>
-  <hr>
-  <li role="presentation"><a>logout</a></li>
-</ul>
+<!-- only show if logged in -->
+<div ng-if="isLoggedIn()">
+  <center>Hi, {{ user.username }}!</center>
+
+  <ul class="nav nav-pills nav-stacked">
+    <li role="presentation"><a ui-sref="addResource">add resource</a></li>
+    <li role="presentation"><a>show my plan</a></li>
+    <hr>
+    <li role="presentation"><a ng-click="logout()">logout</a></li>
+  </ul>
+</div>
