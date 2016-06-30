@@ -1,7 +1,6 @@
 
 .jumbotron {
   background-color: rgba(0,0,0,0.10);
-
   background-image: url(images/low-contrast-linen.png);
   border-bottom: 2px solid rgba(0,0,0,0.25);
 }
@@ -34,6 +33,8 @@
 }
 
 .links-cell {
+  max-height: 200px;
+  overflow: scroll;
   .glyphicon-menu-left {
     font-size: 60px;
     margin-bottom: 10px;
