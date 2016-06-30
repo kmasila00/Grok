@@ -1,0 +1,14 @@
+<div class="bubble">
+  Grok learns when you do!  Help me help others by submitting interesting resources to share with the community.
+</div>
+
+<hr>
+
+<form class="form-inline">
+
+  <select class="form-control" ng-model="topicName">
+    <option ng-repeat="topic in topics">{{ topic.title }}</option>
+  </select>
+  <button type="submit" class="btn btn-primary" ng-click="submitResource(topicName)">Add resource</button>
+
+</form>

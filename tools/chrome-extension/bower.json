@@ -1,0 +1,15 @@
+{
+  "name": "grokchrome",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "jqcloud2": "^2.0.2",
+    "angular-jqcloud": "^1.0.3"
+  },
+  "devDependencies": {
+    "angular": "^1.5.0-beta.0",
+    "angular-ui-router": "^0.2.15",
+    "jquery": "^3.0.0",
+    "bootstrap": "^3.3.4"
+  }
+}
