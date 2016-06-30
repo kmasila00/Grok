@@ -75,16 +75,19 @@
                       <thead>
                           <tr>
                               <th>Name</th>
-                              <th>URL</th>
-                              <th>Type</th>
+                              <th ng-if="tab.title === 'Resources'">URL</th>
+                              <th ng-if="tab.title === 'Resources'">Type</th>
+                              <th ng-if="tab.title === 'Plans'">Description</th>
+                              <th ng-if="tab.title === 'Plans'">Remove</th>
                           </tr>
                       </thead>   
                       <tbody>
                           <tr ng-repeat="content in tab.content">
                               <td>{{content.name}}</td>
-                              <td>{{content.url}}</td>
-                              <td><span class="label label-success">{{content.type}}</span>
-                              </td>                                       
+                              <td ng-if="tab.title === 'Resources'"><a href="{{content.url}}">{{content.url}}</a></td>
+                              <td ng-if="tab.title === 'Resources'"><span class="label label-success">{{content.type}}</span></td>
+                              <td ng-if="tab.title === 'Plans'">{{content.description}}</td>
+                              <td ng-if="tab.title === 'Plans'"><button ng-click="removePlan(content.id)" class="btn btn-danger btn-xs">Delete</button></td>
                           </tr>                                
                       </tbody>
                   </table>
