@@ -1,4 +1,4 @@
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('/');
 

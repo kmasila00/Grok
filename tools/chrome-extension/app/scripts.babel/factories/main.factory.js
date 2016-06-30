@@ -1,4 +1,4 @@
-app.factory('MainFactory', function($http, AuthService) {
+app.factory('MainFactory', function($http) {
 
   const baseUrl = 'http://localhost:1337/api/chrome/';
 
@@ -25,7 +25,7 @@ app.factory('MainFactory', function($http, AuthService) {
         currentWindow: true
       };
 
-      return new Promise( function(resolve, reject) {
+      return new Promise( function(resolve) {
         chrome.tabs.query(queryInfo, function(tabs) {
           // chrome.tabs.query invokes the callback with a list of tabs that match the
           // query. When the popup is opened, there is certainly a window and at least

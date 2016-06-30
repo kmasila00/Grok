@@ -1,7 +1,8 @@
-app.controller('LoginCtrl', function ($scope, AuthService, $state) {
+app.controller('LoginCtrl', function ($scope, AuthService, $state, SERVER) {
 
   $scope.login = {};
   $scope.error = null;
+  $scope.signupPath = SERVER + '/signup';
 
   $scope.sendLogin = function (loginInfo) {
       $scope.error = null;
