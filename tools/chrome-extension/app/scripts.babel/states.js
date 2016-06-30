@@ -5,7 +5,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider.state('home', {
     url: '/',
     templateUrl: 'views/home.html',
-    controller: 'MainController',
+    controller: 'HomeCtrl',
     resolve: {
       topics: function(MainFactory) {
         return MainFactory.fetchTopics();

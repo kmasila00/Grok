@@ -1,1 +1,11 @@
-Hello!
+<!-- If not logged in => show login form -->
+<div ng-if="!isLoggedIn()">
+
+</div>
+
+<!-- If logged in -->
+<div ng-if="isLoggedIn()">
+  <div class="bubble">
+    Hi, {{ user.username }}!  What would you like to learn about today?
+  </div>
+</div>
