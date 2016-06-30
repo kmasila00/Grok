@@ -10,11 +10,11 @@
           <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
           <!-- prerequisite voting -->
           <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('prereq', prereq.prerequisiteId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+            <span class="fa fa-thumbs-o-up"></span>
             {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
           <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+            <span class="fa fa-thumbs-up"></span>
             {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
         </li>
@@ -25,14 +25,13 @@
     <div class="col-md-6 topic-jumbotron topic-title-cell text-center">
       <div>
         <h1>{{ topic.title }}</h1>
+        <!-- Flag This Topic -->
         <button type="button" class="btn btn-xs btn-default" ng-click="addFlag()">
           <span class='glyphicon glyphicon-flag'></span>
           flag this topic
         </button>
       </div>
       <h3>{{ topic.description }}</h3>
-      <!-- Flag This Topic -->
-
     </div>
 
     <div class="col-md-3 topic-jumbotron links-cell text-right">
@@ -41,11 +40,11 @@
         <li ng-repeat="subseq in topic.subseqTopics">
           <!-- subsequent voting -->
           <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('subseq', subseq.topicId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+            <span class="fa fa-thumbs-o-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
           </button>
           <button id="btn-subseq-voted-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('subseq', subseq.topicId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+            <span class="fa fa-thumbs-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
           </button>
           <!-- subsequent topic title -->
@@ -87,11 +86,11 @@
                     <div class="resource-action-box">
                       <!-- Voting -->
                       <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span class="fa fa-thumbs-o-up"></span>
                         {{ numVotes.resource[resource.id] || 0 }}
                       </button>
                       <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
-                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span class="fa fa-thumbs-up"></span>
                         {{ numVotes.resource[resource.id] || 0 }}
                       </button>
                       <!-- Add to plan -->
