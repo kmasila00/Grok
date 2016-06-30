@@ -21,13 +21,9 @@ router.get('/topics', function(req, res, next){
 });
 
 router.post('/resource', function(req, res, next){
-  req.body.topicId = 1; // TEMP / DEV
-  var topicId = req.body.topicId;
-  // req.body.userId = req.user.dataValues.id;
-
   Promise.all([
     Resource.create(req.body),
-    Topic.findOrCreate({ where: { title: req.body.topicName }})
+    Topic.findOrCreate({ where: { title: req.body.topicName } })
   ])
   .spread(function(newResource, topic){
     return newResource.addTopic(topic[0].id);
