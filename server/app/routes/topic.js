@@ -31,7 +31,9 @@ router.get('/', function(req, res, next) {
   var user = req.user;
       // whereCondition = { status: 'approved' };
   // if(req.user && req.user.isAdmin) whereCondition = {}; // show all
-  Topic.findAll()
+  Topic.findAll({
+    include:[Resource]
+  })
   .then(topics => res.status(200).send(topics))
   .catch(next);
 });
