@@ -1,4 +1,4 @@
-app.factory('MainFactory', function($http) {
+app.factory('MainFactory', function($http, AuthService) {
 
   const baseUrl = 'http://localhost:1337/api/chrome/';
 
@@ -6,6 +6,11 @@ app.factory('MainFactory', function($http) {
 
     fetchTopics: function() {
       return $http.get(baseUrl + 'topics')
+      .then(res => res.data);
+    },
+
+    fetchPlans: function(userId) {
+      return $http.get(baseUrl + 'plans/user/' + userId)
       .then(res => res.data);
     },
 

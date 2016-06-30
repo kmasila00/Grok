@@ -22,10 +22,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider.state('addResource', {
     url: '/',
     templateUrl: 'views/addResource.html',
-    controller: 'MainController',
+    controller: 'ResourceCtrl',
     resolve: {
       topics: function(MainFactory) {
         return MainFactory.fetchTopics();
+      }
+    }
+  });
+
+  $stateProvider.state('plans', {
+    url: '/:userId',
+    templateUrl: 'views/plans.html',
+    controller: 'PlanCtrl',
+    resolve: {
+      plans: function(MainFactory, $stateParams) {
+        return MainFactory.fetchPlans($stateParams.userId);
       }
     }
   });

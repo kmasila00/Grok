@@ -32,3 +32,11 @@ router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
   })
   .then(() => res.status(201).end());
 });
+
+router.get('/plans/user/:userId', function(req, res, next){
+	Plan.findAll({ where: {
+			userId: req.params.userId
+		}, include: [ Resource ]
+	})
+	.then(plans => res.send(plans));
+});
