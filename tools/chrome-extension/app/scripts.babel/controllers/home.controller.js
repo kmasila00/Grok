@@ -1,4 +1,4 @@
-app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $sce) {
+app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $sce, SERVER) {
 
   $scope.user = null;
   $scope.topics = topics;
@@ -28,5 +28,17 @@ app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $s
 
   setUser();
 
+  $scope.cloudWords = topics.map( function(topic) {
+    return {
+      text: topic.title,
+      weight: Math.random()*10,
+      link: SERVER.baseUrl + '/topic/' + topic.id
+    }
+  });
+
+  // Add target="_blank" to word cloud
+  $(document).ready(function(){
+    $('#topicCloud').find('a').attr('target', '_blank');
+  });
 
 });

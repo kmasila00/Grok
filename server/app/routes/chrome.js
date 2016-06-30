@@ -12,12 +12,7 @@ module.exports = router;
 // Sends list of topic titles
 router.get('/topics', function(req, res, next){
   Topic.findAll()
-  .then( function(dbTopics) {
-    var topics = dbTopics.map( function(dbTopic) {
-      return dbTopic.title;
-    });
-    res.json(topics);
-  })
+  .then(topics => res.json(topics))
   .catch(next);
 });
 
