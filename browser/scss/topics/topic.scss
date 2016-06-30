@@ -11,10 +11,21 @@
   h1 {
     font-size: 80px;
     margin-top: 0;
+    display: inline;
   }
   h3 {
     font-size: 18px;
     font-weight: normal;
+  }
+  button {
+    display: none;
+  }
+  &:hover {
+    button {
+      position: absolute;
+      float: right;
+      display: inline;
+    }
   }
 }
 
@@ -33,11 +44,15 @@
   }
   li {
     font-size: 24px;
-    button {
+    .btn {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    .btn-upvote {
       display: none;
     }
     &:hover {
-      button {
+       .btn-upvote {
         display: inline;
       }
     }
@@ -46,6 +61,15 @@
 
 .panel-title {
   display: inline;
+}
+
+#topic-details .nav-pills {
+  display: flex;
+  justify-content: center;
+  li {
+    font-size: 24px;
+    margin: 0 20px 0 20px;
+  }
 }
 
 .resource-list-item {

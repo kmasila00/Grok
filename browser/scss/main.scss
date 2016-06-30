@@ -48,9 +48,13 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
 @import 'admin/main';
 @import 'topics/topic';
-
