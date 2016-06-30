@@ -79,6 +79,17 @@
   color: lighten(#000, 60%);
 }
 
+.resource-panel {
+  .resource-action-box {
+    display: none;
+  }
+  &:hover {
+    .resource-action-box {
+      display: inline;
+    }
+  }
+}
+
 .plan-panel {
   .glyphicon-copy {
     display: none;
