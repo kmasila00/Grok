@@ -7,6 +7,9 @@
             <li ng-repeat="item in items" ng-if="!item.auth || isLoggedIn()">
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
+            <li ng-if='isLoggedIn()'>
+                <a  ui-sref-active='active' ui-sref="plan" >My Plans</a>
+            </li>
             <li ng-if='user.isAdmin'>
                 <a  ui-sref-active='active' ui-sref="admin" >Admin</a>
             </li>
