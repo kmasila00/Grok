@@ -72,8 +72,7 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
 
 //****************ADD FLAG MODAL******************//
 
-app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, resourceId, $uibModalInstance, FlagFactory){
-
+app.controller('AddFlagModalInstanceCtrl', function($scope, $rootScope, $window, resourceId, $uibModalInstance, FlagFactory){
   $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
 
   if(resourceId){
@@ -91,7 +90,8 @@ app.controller('AddFlagModalInstanceCtrl', function($scope,$rootScope, resourceI
   $scope.flagIt= function(flag){
 
     FlagFactory[$scope.addFlag]($scope.id, flag)
-    .then(function(){
+    .then(function(res){
+      if(res[0]=== "Y") $window.alert(res);
       $uibModalInstance.close();
     })
   }

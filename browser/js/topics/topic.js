@@ -23,7 +23,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   //need it for adding plan
   $rootScope.topicId = topic.id;
-  
+
   // get current user ID - used to determine whether a user has voted
   var userId;
   AuthService.getLoggedInUser()
@@ -39,7 +39,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
 
   if(AuthService.isAuthenticated()){
-      
+
       //fetch all plans for the USER for a TOPIC
       PlanFactory.fetchPlansByUser(userId)
       .then(function(plansForUser){
@@ -59,7 +59,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         var rArr = plan.resources;
 
         for(var i = 1; i < rArr.length; i++){
-            
+
               if(rArr[i].id === resourceId){
                 var temp = rArr[i];
                 rArr[i] = rArr[i-1];
@@ -74,7 +74,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         var rArr = plan.resources;
 
         for(var i = 0; i < rArr.length-1; i++){
-            
+
               if(rArr[i].id === resourceId){
                 var temp = rArr[i];
                 rArr[i] = rArr[i+1];
@@ -273,9 +273,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   $scope.addFlag= function(resource_Id){
-
-    // if(resourceId) $scope.resourceId= resourceId;
-
     $uibModal.open({
       animation: true,
       templateUrl: './js/modalWindows/addFlagModal.html',
