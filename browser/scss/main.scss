@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
 
 @mixin clearfix {
@@ -48,9 +50,13 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
 @import 'admin/main';
 @import 'topics/topic';
-

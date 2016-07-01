@@ -73,7 +73,6 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
 //****************ADD FLAG MODAL******************//
 
 app.controller('AddFlagModalInstanceCtrl', function($scope, $rootScope, $window, resourceId, $uibModalInstance, FlagFactory){
- console.log("reached modal controller");
   $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
 
   if(resourceId){

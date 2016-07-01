@@ -2,19 +2,19 @@
 <div class="jumbotron">
   <div class="container" style='position: relative'>
 
-    <div class="col-md-3 topic-jumbotron links-cell text-left">
+    <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics">
           <!-- prerequisite topic title -->
           <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
           <!-- prerequisite voting -->
-          <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('prereq', prereq.prerequisiteId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+          <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('prereq', prereq.prerequisiteId)">
+            <span class="fa fa-thumbs-o-up"></span>
             {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
-          <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+          <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
+            <span class="fa fa-thumbs-up"></span>
             {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
           </button>
         </li>
@@ -22,22 +22,29 @@
       </ul>
     </div>
 
-    <div class="col-md-6 topic-jumbotron topic-title-cell text-center">
-      <h1>{{ topic.title }}</h1>
+    <div class="col-md-6 col-sm-6 topic-jumbotron topic-title-cell text-center">
+      <div>
+        <h1>{{ topic.title }}</h1>
+        <!-- Flag This Topic -->
+        <button type="button" class="btn btn-xs btn-default" ng-click="addFlag()">
+          <span class='glyphicon glyphicon-flag'></span>
+          flag this topic
+        </button>
+      </div>
       <h3>{{ topic.description }}</h3>
     </div>
 
-    <div class="col-md-3 topic-jumbotron links-cell text-right">
+    <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
         <li ng-repeat="subseq in topic.subseqTopics">
           <!-- subsequent voting -->
-          <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('subseq', subseq.topicId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+          <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('subseq', subseq.topicId)">
+            <span class="fa fa-thumbs-o-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
           </button>
-          <button id="btn-subseq-voted-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('subseq', subseq.topicId)">
-            <span class="glyphicon glyphicon-chevron-up"></span>
+          <button id="btn-subseq-voted-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('subseq', subseq.topicId)">
+            <span class="fa fa-thumbs-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
           </button>
           <!-- subsequent topic title -->
@@ -46,83 +53,80 @@
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
       </ul>
     </div>
-        <!-- Flag This Topic -->
-         <a style='position: absolute; bottom: -10px;' ng-click="addFlag()" ng-if="isLoggedIn"><span class='glyphicon glyphicon-flag'></span></a>
   </div>
 </div>
 
 
 <div class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12" id="topic-details">
       <uib-tabset type="pills">
 
         <!-- RESOURCES -->
         <uib-tab index="0" heading="Resources">
-          <hr>
-
-          <!-- filters -->
-          <div class="btn-group">
-            <label class="btn btn-sm" ng-click="showAllTags()"><span class="glyphicon glyphicon-filter"></span></label>
-            <span ng-repeat="(tagName, display) in tagDisplay">
-              <label class="btn btn-sm btn-default active btn-tag-filter" ng-click="toggleTagFilter(tagName, $event)">{{ tagName }}</label>
-            </span>
-          </div>
 
           <hr>
 
           <div class="row">
-            <div class="col-md-4" ng-repeat="resource in resources" ng-if="resource.display">
-              <div class="panel panel-default resource-panel">
-                <div class="panel-heading">
-                  <div class="resource-title">
-                    <h3 class="panel-title"><a href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>&nbsp;</h3>
-                    <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
-                    <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
-                    <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
-                    <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
-                    <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
-                    <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
+            <div ng-repeat="resource in resources | filter:searchText">
+              <div class="clearfix" ng-if="$index % 3 == 0"></div> <!-- fixes column<->overflow -->
+              <div class="col-md-4 col-sm-6">
+                <div class="panel panel-default resource-panel">
+                  <div class="panel-heading">
+                    <div class="resource-title">
+                      <h3 class="panel-title"><a href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>&nbsp;</h3>
 
-                  </div>
-                  <!-- Tags -->
-                  <div>
-                    <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
-                  </div>
-                  <div class="resource-action-box">
-                    <!-- Voting -->
-                    <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
-                      <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes.resource[resource.id] || 0 }}
-                    </button>
-                    <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
-                      <span class="glyphicon glyphicon-thumbs-up"></span>
-                      {{ numVotes.resource[resource.id] || 0 }}
-                    </button>
-                    <!-- Add a tag -->
-                    <button id="btn-add-tag-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="addTag(resource.id)" ng-if="isLoggedIn">
-                      <span class="glyphicon glyphicon-tags"></span>
-                      &nbsp;add tag
-                    </button>
-                    <!-- Add to plan -->
-                    <button ng-click="addToPlan(resource.id)" type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn">
-                      <span class="glyphicon glyphicon-plus"></span>
-                      {{selectedPlan.name}}
-                    </button>
-                    <!-- Flag this resource -->
-                    <button type="button" class="btn btn-xs btn-default" ng-if="isLoggedIn" ng-click="addFlag(resource.id)">
-                      <span class="glyphicon glyphicon-flag"></span>
-                    </button>
+                      <!-- Glyphicon represents resource type -->
+
+                    </div>
+                    <div class="resource-action-box">
+                      <!-- Resource type -->
+                      <span class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
+                        <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
+                        <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
+                        <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
+                        <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
+                        {{ resource.type }}
+                      </span>
+                      <!-- Voting -->
+                      <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
+                        <span class="fa fa-thumbs-o-up"></span>
+                        {{ numVotes.resource[resource.id] || 0 }}
+                      </button>
+                      <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
+                        <span class="fa fa-thumbs-up"></span>
+                        {{ numVotes.resource[resource.id] || 0 }}
+                      </button>
+                      <!-- Add to plan -->
+                      <button type="button" class="btn btn-xs btn-default btn-add-to-plan" ng-if="isLoggedIn" ng-click="addToPlan(resource.id)">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        {{ selectedPlan.name || 'my plan' }}
+                      </button>
+                      <!-- Flag this resource -->
+                      <button type="button" class="btn btn-xs btn-default btn-flag-resource" ng-if="isLoggedIn" ng-click="addFlag(resource.id)">
+                        <span class="glyphicon glyphicon-flag"></span>
+                        flag
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <hr>
+
+          <div class="row col-md-12 center">
+            <button type="button" class="btn btn-lg btn-default" ng-click="open('Resource')">Add Resource</button>
+          </div>
         </uib-tab>
+
+
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
           <hr>
-          <div class="col-md-4" ng-repeat="plan in topicPlans">
+          <div class="col-md-4" ng-repeat="plan in topicPlans| filter:searchText">
             <div class="panel panel-default plan-panel">
               <div class="panel-heading">
                 <h3 class="panel-title">Plan:{{ plan.name }}</h3>
@@ -133,21 +137,21 @@
               </ul>
             </div>
           </div>
+
+          <hr>
+
+          <div class="row col-md-12 center">
+            <button type="button" class="btn btn-lg btn-default" ng-click="open('Plan')">Add Plan</button>
+          </div>
         </uib-tab>
 
-        <!-- ADD A RESOURCE AND PLAN FORM -->
-        <div ng-controller="ModalFormCtrl">
-
-          <button type="button" class="btn btn-default" ng-click="open('Resource')">Add Resource</button>
-          <button type="button" class="btn btn-default" ng-click="open('Plan')">Add Plan</button>
-      </div>
-      <!-- END OF ADDING RESOURCE AND PLAN FORM -->
+        <input class="form-control" id="filter-bar" placeholder="Filter..." ng-model="searchText"/>
 
       </uib-tabset>
     </div>
 
     <!-- MY PLAN -->
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
       <div class="panel panel-primary">
 
         <div class="panel-heading">
@@ -169,7 +173,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </div>

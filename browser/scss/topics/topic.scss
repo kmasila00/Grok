@@ -1,6 +1,8 @@
 
 .jumbotron {
-  background-color: rgba(230,230,230,1.0);
+  background-color: rgba(0,0,0,0.10);
+  background-image: url(images/low-contrast-linen.png);
+  border-bottom: 2px solid rgba(0,0,0,0.25);
 }
 
 .topic-jumbotron {
@@ -11,14 +13,28 @@
   h1 {
     font-size: 80px;
     margin-top: 0;
+    display: inline;
   }
   h3 {
     font-size: 18px;
-    font-weight: normal;
+    font-weight: 300;
+    margin-top: 40px;
+  }
+  button {
+    display: none;
+  }
+  &:hover {
+    button {
+      position: absolute;
+      float: right;
+      display: inline;
+    }
   }
 }
 
 .links-cell {
+  max-height: 200px;
+  overflow: scroll;
   .glyphicon-menu-left {
     font-size: 60px;
     margin-bottom: 10px;
@@ -33,11 +49,15 @@
   }
   li {
     font-size: 24px;
-    button {
+    .btn {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    .btn-upvote {
       display: none;
     }
     &:hover {
-      button {
+       .btn-upvote {
         display: inline;
       }
     }
@@ -45,7 +65,28 @@
 }
 
 .panel-title {
+  font-size: 18px;
   display: inline;
+}
+
+#topic-details .nav-pills {
+  display: flex;
+  justify-content: center;
+  li {
+    font-size: 24px;
+    margin: 0 20px 0 20px;
+  }
+}
+
+#filter-bar {
+  width: 30%;
+  height: 54px;
+  font-size: 24px;
+  padding: 10px;
+}
+
+.btn-lg {
+  font-weight: 300;
 }
 
 .resource-list-item {
@@ -77,6 +118,26 @@
 
 .resource-title .glyphicon {
   color: lighten(#000, 60%);
+  position: absolute;
+  float: right;
+  display: inline!important;
+}
+
+.resource-panel {
+  .btn-add-to-plan {
+    display: none;
+  }
+  .btn-flag-resource {
+    display: none;
+  }
+  &:hover {
+    .btn-add-to-plan {
+      display: inline;
+    }
+    .btn-flag-resource {
+      display: inline;
+    }
+  }
 }
 
 .plan-panel {
