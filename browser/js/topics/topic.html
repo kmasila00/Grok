@@ -30,21 +30,8 @@
         <li ng-repeat="subseq in topic.subseqTopics">
           <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="votes.subseq[subseq.topicId]"></related-topic>
         </li>
-      </ul>
-      <!-- <ul>
-        <li ng-repeat="subseq in topic.subseqTopics">
-          <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('subseq', subseq.topicId)">
-            <span class="fa fa-thumbs-o-up"></span>
-            {{ numVotes.subseq[subseq.topicId] || 0 }}
-          </button>
-          <button id="btn-subseq-voted-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('subseq', subseq.topicId)">
-            <span class="fa fa-thumbs-up"></span>
-            {{ numVotes.subseq[subseq.topicId] || 0 }}
-          </button>
-          <a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a>
-        </li>
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
-      </ul> -->
+      </ul>
     </div>
   </div>
 </div>

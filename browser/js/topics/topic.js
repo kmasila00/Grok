@@ -102,8 +102,8 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       options.formTitle = "Suggest a next topic for " + $scope.topic.title;
     }
     var suggestTopicModal = $uibModal.open({
-      animation: true, // ??
-      templateUrl: 'js/topics/suggestTopic.html',
+      animation: true,
+      templateUrl: 'js/common/modals/suggestTopic.html',
       controller: 'SuggestTopicModalCtrl',
       size: 'sm',
       resolve: {
@@ -158,8 +158,8 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
     $scope.votes = {
       resources: processVotes(dbVotes[0], 'resourceId'),
-      prereq = processVotes(dbVotes[1], 'prerequisiteId'),
-      subseq = processVotes(dbVotes[2], 'topicId')
+      prereq: processVotes(dbVotes[1], 'prerequisiteId'),
+      subseq: processVotes(dbVotes[2], 'topicId')
     };
 
   });
@@ -168,56 +168,55 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
 
   // DATA SORTING
   // Sort master routing function
-  function sort(type) {
-    switch(type) {
-      case 'resources':
-        $scope.topic.resources = sortData($scope.topic.resources, $scope.numVotes.resource, 'id');
-        break;
-      case 'prereq':
-        $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
-        break;
-      case 'subseq':
-        $scope.topic.subseqTopics = sortData($scope.topic.subseqTopics, $scope.numVotes.subseq, 'topicId');
-        break;
-    }
-  }
+  // function sort(type) {
+  //   switch(type) {
+  //     case 'resources':
+  //       $scope.topic.resources = sortData($scope.topic.resources, $scope.numVotes.resource, 'id');
+  //       break;
+  //     case 'prereq':
+  //       $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
+  //       break;
+  //     case 'subseq':
+  //       $scope.topic.subseqTopics = sortData($scope.topic.subseqTopics, $scope.numVotes.subseq, 'topicId');
+  //       break;
+  //   }
+  // }
 
   // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and reosurces
   // -- dataArr = $scope data array to be sorted
   // -- votes = $scope.numVotes object value to sort by
   // -- idKey = idKey on dataArr corresponding to the key in votes
-  function sortData (dataArr, votes, idKey) {
-
-    if(!votes) return dataArr; // if no votes found, do not sort
-
-    function inOrder (index) {
-      if (index === dataArr.length - 1) return true;
-      var baseId = dataArr[index][idKey],
-          nextId = dataArr[index + 1][idKey],
-          numVotesBase = votes[baseId] || 0,
-          numVotesNext = votes[nextId] || 0;
-      return numVotesBase < numVotesNext;
-    }
-
-    function swap (index) {
-      // console.log('swapping',index,' & ', index+1);
-      var oldLeftValue = dataArr[index];
-      dataArr[index] = dataArr[index + 1];
-      dataArr[index + 1] = oldLeftValue;
-    }
-
-    var sorted = false;
-    for (var end = dataArr.length; end > 0 && !sorted; end--) {
-      sorted = true;
-      for (var j = 0; j < end; j++) {
-        if (!inOrder(j)) {
-          swap(j);
-          sorted = false;
-        }
-      }
-    }
-    return dataArr.reverse();
-  }
+  // function sortData (dataArr, votes, idKey) {
+  //
+  //   if(!votes) return dataArr; // if no votes found, do not sort
+  //
+  //   function inOrder (index) {
+  //     if (index === dataArr.length - 1) return true;
+  //     var baseId = dataArr[index][idKey],
+  //         nextId = dataArr[index + 1][idKey],
+  //         numVotesBase = votes[baseId] || 0,
+  //         numVotesNext = votes[nextId] || 0;
+  //     return numVotesBase < numVotesNext;
+  //   }
+  //
+  //   function swap (index) {
+  //     var oldLeftValue = dataArr[index];
+  //     dataArr[index] = dataArr[index + 1];
+  //     dataArr[index + 1] = oldLeftValue;
+  //   }
+  //
+  //   var sorted = false;
+  //   for (var end = dataArr.length; end > 0 && !sorted; end--) {
+  //     sorted = true;
+  //     for (var j = 0; j < end; j++) {
+  //       if (!inOrder(j)) {
+  //         swap(j);
+  //         sorted = false;
+  //       }
+  //     }
+  //   }
+  //   return dataArr.reverse();
+  // }
 
 
 });
