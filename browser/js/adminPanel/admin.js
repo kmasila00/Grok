@@ -31,7 +31,7 @@ app.config(function ($stateProvider) {
                var modalInstance = $uibModal.open({
                  animation: $scope.animationsEnabled,
                  scope: $scope,
-                 templateUrl: './js/modalWindows/topicFlagModal.html',
+                 templateUrl: './js/common/modals/views/topicFlagModal.html',
                  controller: 'ModalInstanceCtrl'
                });
              };
@@ -70,7 +70,7 @@ app.config(function ($stateProvider) {
              var modalInstance = $uibModal.open({
                animation: $scope.animationsEnabled,
                scope: $scope,
-               templateUrl: './js/modalWindows/topicFlagModal.html',
+               templateUrl: './js/common/modals/views/topicFlagModal.html',
                controller: 'ModalInstanceCtrl'
              });
 
@@ -91,4 +91,3 @@ app.config(function ($stateProvider) {
 app.controller('AdminCtrl', function ($scope) {
 
 });
-

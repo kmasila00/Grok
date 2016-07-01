@@ -50,15 +50,13 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
       }
 
       // FLAGGING
-      scope.flagResource = function() {
+      scope.flagResource = function(id) {
         $uibModal.open({
           animation: true,
-          templateUrl: './js/modalWindows/addFlagModal.html',
+          templateUrl: './js/common/modals/views/addFlagModal.html',
           controller: 'AddFlagModalInstanceCtrl',
-          resolve:{
-            resourceId: function(){
-              return scope.resource.id;
-            }
+          resolve: {
+            options: { type: 'resource', id: id }
           }
         });
       }

@@ -126,6 +126,18 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
+  // FLAGGING
+  $scope.flagTopic = function(id) {
+    $uibModal.open({
+      animation: true,
+      templateUrl: './js/common/modals/views/addFlagModal.html',
+      controller: 'AddFlagModalInstanceCtrl',
+      resolve: {
+        options: { type: 'topic', id: id }
+      }
+    });
+  }
+
 
   // VOTES
   //

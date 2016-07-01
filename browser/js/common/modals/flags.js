@@ -1,3 +1,35 @@
+// for users to flag a modal
+app.controller('AddFlagModalInstanceCtrl', function($scope, $window, options, $uibModalInstance, FlagFactory){
+  $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
+
+  if(options.type === 'resource'){
+    $scope.reasons.push('Off-Topic');
+    $scope.addFlag = "addResourceFlag";
+    $scope.heading = 'Resource';
+  }
+  else {
+    $scope.addFlag = "addTopicFlag";
+    $scope.heading = 'Topic';
+  }
+  $scope.id = options.id;
+
+  $scope.flagIt= function(flag){
+
+    FlagFactory[$scope.addFlag]($scope.id, flag)
+    .then(function(res){
+      if(res[0]=== "Y") $window.alert(res);
+      $uibModalInstance.close();
+    })
+  }
+
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
+
+
+// for admins to view submitted flags for an associated resource/topic
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFactory) {
 
   $scope.heading= $scope.flagType ? 'Resource Flags' : 'Topic Flags';
@@ -19,38 +51,4 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, FlagFac
     });
   };
 
-});
-
-
-
-app.controller('AddFlagModalInstanceCtrl', function($scope, $rootScope, $window, resourceId, $uibModalInstance, FlagFactory){
-  $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
-
-  console.log(resourceId);
-
-  if(resourceId){
-    $scope.reasons.push('Off-Topic');
-    $scope.addFlag= "addResourceFlag";
-    $scope.id= resourceId;
-    $scope.heading= 'Resource';
-  }
-  else{
-    $scope.addFlag= "addTopicFlag";
-    $scope.id= $rootScope.topicId;
-    $scope.heading= 'Topic';
-  }
-
-  $scope.flagIt= function(flag){
-
-    FlagFactory[$scope.addFlag]($scope.id, flag)
-    .then(function(res){
-      if(res[0]=== "Y") $window.alert(res);
-      $uibModalInstance.close();
-    })
-  }
-
-
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
 });
