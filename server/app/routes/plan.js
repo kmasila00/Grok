@@ -87,6 +87,9 @@ router.delete('/:planId/resource/:resourceId', function(req, res, next){
 		}
 	})
 	.then(function(plan){
-		plan.removeResource(req.params.resourceId);
+		return plan.removeResource(req.params.resourceId);
+	})
+	.then(function(){
+		res.send();
 	})
 });

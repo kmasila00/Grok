@@ -1,0 +1,31 @@
+<div class="container myplans">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 class="section-heading">My Plans</h2>
+            <h4 class="section-subheading text-muted">Grok all the things . . . using plans!</h4>
+            <div ng-controller="ModalFormCtrl">
+                <button type="button" class="btn btn-success" ng-click="open('Plan')">Add Plan</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-md-3" ng-repeat="plan in userPlans">
+      <div class="panel panel-primary">
+        <div class="panel panel-default plan-panel">
+          <div class="panel-heading">
+            <h3 class="panel-title">Plan: {{ plan.name }}</h3>
+            <button ng-click="removePlan(plan.id)" class="btn btn-danger btn-xs">Delete</button>
+            <!-- <span ng-click="copyPlan(plan)" class="glyphicon glyphicon-copy"></span> -->
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item my-plan-list-item" ng-repeat="resource in plan.resources">
+              Resource: {{ resource.name }}
+              <span ng-click="removeFromPlan(plan.id, resource.id)" class="glyphicon glyphicon-remove-circle"></span>
+              <span ng-click="moveDown(plan, resource.id)" class="glyphicon glyphicon-arrow-down"></span>
+              <span ng-click="moveUp(plan, resource.id)" class="glyphicon glyphicon-arrow-up"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
