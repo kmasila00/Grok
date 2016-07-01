@@ -2,8 +2,6 @@ app.controller('AddResourceToPlanModalCtrl', function ($scope, $uibModalInstance
   $scope.formTitle = 'Add \'' + resource.name + '\' to my learning plan';
   $scope.plans = plans;
   $scope.resource = resource;
-  var topicId = options.topicId;
-
 
   $scope.addResourceToPlan = function(plan) {
     return PlanFactory.addResourceToPlan(plan.id, $scope.resource.id)

@@ -1,100 +1,12 @@
-// State & Controller for specific topics
-
-app.config(function ($stateProvider) {
-
-    $stateProvider.state('topic', {
-        url: '/topic/:topicId',
-        templateUrl: 'js/topics/topic.html',
-        controller: 'TopicCtrl',
-        resolve: {
-          topic: function(TopicFactory, $stateParams) {
-            return TopicFactory.fetchById($stateParams.topicId);
-          }
-        }
-    });
-
-});
-
-
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory) {
-
+app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, TopicFactory, topic, plans, votes) {
   $scope.topic = topic;
-
-  //need it for adding plan
-  $rootScope.topicId = topic.id;
+  $scope.topic.plans = plans;
+  $scope.topic.votes = votes;
 
   // get current user ID - used to determine whether a user has voted
   var userId = $rootScope.user.id;
-
-  //fetch all plans for the Topic
-  PlanFactory.fetchPlansByTopic(topic.id)
-  .then(function(plansForTopic){
-    $scope.topicPlans = plansForTopic;
-    $scope.topic.plans = plansForTopic;
-  });
-
-
-  if(AuthService.isAuthenticated()){
-
-      //fetch all plans for the USER for a TOPIC
-      PlanFactory.fetchPlansByUser(userId)
-      .then(function(plansForUser){
-        $scope.userPlans = [];
-        plansForUser.forEach(function(elem){
-          if(elem.topicId === topic.id)
-            $scope.userPlans.push(elem);
-        })
-      });
-
-      $scope.copyPlan = function(plan){
-        $scope.selectedPlan.resources = plan.resources;
-      }
-
-      $scope.moveUp = function(resourceId){
-        var plan = $scope.selectedPlan;
-        var rArr = plan.resources;
-
-        for(var i = 1; i < rArr.length; i++){
-
-              if(rArr[i].id === resourceId){
-                var temp = rArr[i];
-                rArr[i] = rArr[i-1];
-                rArr[i-1] = temp;
-              }
-
-        }
-      }
-
-      $scope.moveDown = function(resourceId){
-        var plan = $scope.selectedPlan;
-        var rArr = plan.resources;
-
-        for(var i = 0; i < rArr.length-1; i++){
-
-              if(rArr[i].id === resourceId){
-                var temp = rArr[i];
-                rArr[i] = rArr[i+1];
-                rArr[i+1] = temp;
-                break;
-              }
-
-        }
-      }
-  }
-
-
-  //adds resource to a specific plan
-  $scope.addToPlan = function(resourceId){
-    PlanFactory.addResourceToPlan($scope.selectedPlan.id, resourceId)
-    .then();
-  }
-
-  $scope.removeFromPlan = function(planId, resourceId){
-    PlanFactory.removeResourceFromPlan(planId, resourceId)
-    .then();
-  }
-
-  $scope.isLoggedIn = AuthService.isAuthenticated();
+  // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
+  $scope.isLoggedIn = userId >= 0;
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
@@ -105,7 +17,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     }
     var suggestTopicModal = $uibModal.open({
       animation: true,
-      templateUrl: 'js/common/modals/suggestTopic.html',
+      templateUrl: 'js/common/modals/views/suggestTopic.html',
       controller: 'SuggestTopicModalCtrl',
       size: 'sm',
       resolve: {
@@ -139,8 +51,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
-  // ADD RESOURCE
-  // new resource
+  // ADD NEW RESOURCE
   $scope.addNewResource = function() {
     var addResourceModal = $uibModal.open({
       animation: true,
@@ -156,9 +67,8 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
-
-  // ADD PLAN
-  $scope.addPlan = function() {
+  // ADD NEW PLAN
+  $scope.addNewPlan = function() {
     var addPlanModal = $uibModal.open({
       animation: true,
       templateUrl: './js/common/modals/views/addPlan.html',
@@ -172,21 +82,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       $scope.topic.plans.push(newPlan);
     });
   }
-
-
-  // VOTES
-  //
-  // log of votes by userId, through nested object
-  // key = type of vote (resource, prereq, subseq)
-  // value = ...
-  //      key = type (resource, etc)) / value = ...
-  //             key = type Id / value = array of userIds that have voted
-  $scope.votes = {};
-  VoteFactory.getProcessedVotes($scope.topic)
-  .then( function(processedVotes) {
-    $scope.votes = processedVotes;
-  });
-
 
   // DATA SORTING
   // Sort master routing function
@@ -239,6 +134,4 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //   }
   //   return dataArr.reverse();
   // }
-
-
 });

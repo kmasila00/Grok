@@ -6,7 +6,7 @@
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics">
-          <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="votes.prereq[prereq.prerequisiteId]"></related-topic>
+          <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
         </li>
       </ul>
       <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
@@ -28,7 +28,7 @@
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
         <li ng-repeat="subseq in topic.subseqTopics">
-          <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="votes.subseq[subseq.topicId]"></related-topic>
+          <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="topic.votes.subseq[subseq.topicId]"></related-topic>
         </li>
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
       </ul>
@@ -51,7 +51,7 @@
             <div ng-repeat="resource in topic.resources | filter:searchText">
               <div class="clearfix" ng-if="$index % 3 == 0"></div> <!-- fixes column<->overflow -->
               <div class="col-md-4 col-sm-6">
-                <topic-resource resource="resource" topic-id="topic.id" votes="votes.resources[resource.id]"></topic-resource>
+                <topic-resource resource="resource" topic-id="topic.id" votes="topic.votes.resources[resource.id]"></topic-resource>
               </div>
             </div>
           </div>
@@ -66,22 +66,20 @@
 
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
+
           <hr>
-          <div class="col-md-4" ng-repeat="plan in topicPlans| filter:searchText">
-            <div class="panel panel-default plan-panel">
-              <div class="panel-heading">
-                <h3 class="panel-title">Plan:{{ plan.name }}</h3>
-                <span ng-click="copyPlan(plan)" class="glyphicon glyphicon-copy"></span>
-              </div>
-              <ul class="list-group">
-                <li class="list-group-item" ng-repeat="resource in plan.resources">Resource: {{ resource.name }}</li>
-              </ul>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12" ng-repeat="plan in topic.plans | filter:searchText">
+              <div class="clearfix" ng-if="$index % 2 == 0"></div> <!-- fixes column<->overflow -->
+              <topic-plan plan="plan" topic-id="topic.id"></topic-plan>
             </div>
           </div>
+
           <hr>
 
           <div class="row col-md-12 center">
-            <button type="button" class="btn btn-lg btn-default" ng-click="addPlan()">Add Learning Plan</button>
+            <button type="button" class="btn btn-lg btn-default" ng-click="addNewPlan()">Add Learning Plan</button>
           </div>
         </uib-tab>
 
