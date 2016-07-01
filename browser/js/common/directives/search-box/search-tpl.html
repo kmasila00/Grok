@@ -1,6 +1,10 @@
 <a>
     <div>
-        <span style="display:block;" class="topic-description" bind-html-unsafe="match.model.title | typeaheadHighlight:query"></span>
-        <span bind-html-unsafe="match.model.description | typeaheadHighlight:query"></span>
+        <span 
+            style="display:block;" 
+            class="topic-description" 
+            ng-bind-html="match.model.title | uibTypeaheadHighlight:query">
+        </span>
+        <span ng-bind-html="match.model.description | uibTypeaheadHighlight:query"></span>
     </div>
 </a>
