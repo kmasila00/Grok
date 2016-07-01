@@ -9,9 +9,6 @@ app.config(function ($stateProvider) {
         resolve: {
           topic: function(TopicFactory, $stateParams) {
             return TopicFactory.fetchById($stateParams.topicId);
-          },
-          currentUser: function(AuthService) {
-            return AuthService.getLoggedInUser();
           }
         }
     });
@@ -19,17 +16,13 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q, currentUser) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
 
   //need it for adding plan
   $rootScope.topicId = topic.id;
 
   // get current user ID - used to determine whether a user has voted
-  var userId;
-  AuthService.getLoggedInUser()
-  .then( function(user) {
-    if(user) userId = user.id;
-  });
+  var userId = $rootScope.user.id;
 
   //fetch all plans for the Topic
   PlanFactory.fetchPlansByTopic(topic.id)
@@ -87,7 +80,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   $scope.topic = topic;
-  $scope.resources = $scope.topic.resources;
 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
@@ -101,27 +93,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   $scope.isLoggedIn = AuthService.isAuthenticated();
-  $scope.showPlans = false;
-  $scope.showResources = true;
-
-  $scope.toggleShowPlans = function() {
-    $scope.showPlans = !$scope.showPlans;
-  }
-
-  $scope.toggleShowResources = function() {
-    $scope.showResources = !$scope.showResources;
-  }
-
-  // Tags
-  $scope.tagDisplay = {};
-
-  // -- get all unique tags, display all by default
-  $scope.topic.resources.forEach( function(resource) {
-    resource.display = true; // initially show all tags on the DOM
-    resource.tags.forEach( function(tag) {
-      if(!$scope.tagDisplay[tag.name]) $scope.tagDisplay[tag.name] = true;
-    });
-  });
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
@@ -155,28 +126,16 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
 
-  // Voting
-  // # votes in nested object
-  // key = type of vote (resource, prereq, subseq)
-  // value = ...
-  //      key = type id / value = # total votes
-  $scope.numVotes = {};
-
+  // VOTES
+  //
   // log of votes by userId, through nested object
   // key = type of vote (resource, prereq, subseq)
   // value = ...
   //      key = type (resource, etc)) / value = ...
   //             key = type Id / value = array of userIds that have voted
-  $scope.votes = {
-    resources: {},
-    prereq: {},
-    subseq: {}
-  };
+  $scope.votes = {};
 
-
-
-  // Voting
-  // Get existing votes
+  // Get & process existing votes
   $q.all([
     VoteFactory.fetchResourceVotes(
       topic.resources.map( function(resource) {
@@ -186,71 +145,26 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     VoteFactory.fetchSubseqVotes(topic.id)
   ])
   .then( function(dbVotes) {
-    var resourceVotes = dbVotes[0],
-        prereqVotes = dbVotes[1],
-        subseqVotes = dbVotes[2];
 
-    resourceVotes.forEach( function(vote) {
-      if(!$scope.votes.resources[vote.resourceId]) $scope.votes.resources[vote.resourceId] = [];
-      $scope.votes.resources[vote.resourceId].push(vote.userId);
-    });
+    function processVotes(votes, idKey) {
+      var processedVotes = {}, key;
+      votes.forEach( function(vote) {
+        key = vote[idKey];
+        if(!processedVotes[ key ]) processedVotes[ key ] = [];
+        processedVotes[ key ].push(vote.userId);
+      });
+      return processedVotes;
+    }
 
-    prereqVotes.forEach( function(vote) {
-      if(!$scope.votes.prereq[vote.prerequisiteId]) $scope.votes.prereq[vote.prerequisiteId] = [];
-      $scope.votes.prereq[vote.prerequisiteId].push(vote.userId);
-    });
-
-    subseqVotes.forEach( function(vote) {
-      if(!$scope.votes.subseq[vote.topicId]) $scope.votes.subseq[vote.topicId] = [];
-      $scope.votes.subseq[vote.topicId].push(vote.userId);
-    });
+    $scope.votes = {
+      resources: processVotes(dbVotes[0], 'resourceId'),
+      prereq = processVotes(dbVotes[1], 'prerequisiteId'),
+      subseq = processVotes(dbVotes[2], 'topicId')
+    };
 
   });
 
 
-  $scope.upvote = function(type, id) {
-    if(AuthService.isAuthenticated()) {
-      VoteFactory.addVote(type, id, topic.id)
-      .then( function(success) {
-        if(success) {
-          toggleVoteButton(type, id);
-          incrementVoteCount(type, id, 1);
-          sort(type);
-        }
-      })
-    }
-  }
-
-  $scope.devote = function(type, id) {
-    if(AuthService.isAuthenticated()) {
-      VoteFactory.removeVote(type, id, topic.id)
-      .then( function(success) {
-        if(success) {
-          toggleVoteButton(type, id);
-          incrementVoteCount(type, id, -1);
-          sort(type);
-        }
-      })
-    }
-  }
-
-
-  // show or hide vote/voted button
-  // -- type = string denoting type of vote (i.e., 'resource', 'relationship')
-  function toggleVoteButton(type, id) {
-    $('#btn-' + type + '-upvote-' + id).toggleClass('hidden');
-    $('#btn-' + type + '-voted-' + id).toggleClass('hidden');
-  }
-
-  // add vote to the DOM
-  // -- type = string denoting type of vote (i.e., 'resource', 'relationship')
-  function incrementVoteCount(type, id, amount) {
-    amount = amount || 1; // add by default
-    if(!$scope.numVotes[type]) $scope.numVotes[type] = {};
-    var voteCounter = $scope.numVotes[type];
-    if(!voteCounter[id]) voteCounter[id] = amount;
-    else voteCounter[id] += amount;
-  }
 
   // DATA SORTING
   // Sort master routing function

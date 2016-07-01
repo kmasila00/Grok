@@ -61,7 +61,7 @@
           <hr>
 
           <div class="row">
-            <div ng-repeat="resource in resources | filter:searchText">
+            <div ng-repeat="resource in topic.resources | filter:searchText">
               <div class="clearfix" ng-if="$index % 3 == 0"></div> <!-- fixes column<->overflow -->
               <div class="col-md-4 col-sm-6">
                 <topic-resource resource="resource" topic-id="topic.id" votes="votes.resources[resource.id]"></topic-resource>
