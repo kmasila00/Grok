@@ -34,7 +34,7 @@ router.post('/', function(req,res,next){
     req.body.userId= req.user.dataValues.id;
     //create resource
     Resource.create(req.body)
-    .then(function(newResource){
+    .tap(function(newResource){
         return newResource.addTopic(topicId);
     })
     .then(resource => res.status(201).send(resource))

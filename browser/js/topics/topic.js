@@ -138,6 +138,21 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   }
 
+  // ADD RESOURCE
+  $scope.addResource = function() {
+    var addResourceModal = $uibModal.open({
+      animation: true,
+      templateUrl: './js/common/modals/views/addResource.html',
+      controller: 'AddResourceModalCtrl',
+      resolve: {
+        options: { topicId: $scope.topic.id, topicName: $scope.topic.title }
+      }
+    });
+    addResourceModal.result
+    .then(function (newResource) {
+      $scope.topic.resources.push(newResource);
+    });
+  }
 
   // VOTES
   //
