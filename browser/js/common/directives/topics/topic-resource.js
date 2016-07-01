@@ -1,4 +1,4 @@
-app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory, $rootScope, $uibModal) {
+app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory, $rootScope, $uibModal, PlanFactory) {
   return {
     restrict: 'E',
     scope: {
@@ -45,8 +45,18 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
       }
 
       // PLANS
-      scope.addToPlan = function() {
-        // TO IMPLEMENT
+      // add existing resource to plan
+      scope.addResourceToPlan = function() {
+        $uibModal.open({
+          animation: true,
+          templateUrl: './js/common/modals/views/addResourceToPlan.html',
+          controller: 'AddResourceToPlanModalCtrl',
+          resolve: {
+            plans: PlanFactory.fetchPlansByUser(userId),
+            resource: scope.resource,
+            options: { topicId: scope.topicId }
+          }
+        });
       }
 
       // FLAGGING

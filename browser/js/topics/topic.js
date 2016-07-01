@@ -140,7 +140,8 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   }
 
   // ADD RESOURCE
-  $scope.addResource = function() {
+  // new resource
+  $scope.addNewResource = function() {
     var addResourceModal = $uibModal.open({
       animation: true,
       templateUrl: './js/common/modals/views/addResource.html',
