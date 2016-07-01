@@ -2,7 +2,7 @@
 <div class="jumbotron">
   <div class="container" style='position: relative'>
 
-    <div class="col-md-3 topic-jumbotron links-cell text-left">
+    <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics">
@@ -22,7 +22,7 @@
       </ul>
     </div>
 
-    <div class="col-md-6 topic-jumbotron topic-title-cell text-center">
+    <div class="col-md-6 col-sm-6 topic-jumbotron topic-title-cell text-center">
       <div>
         <h1>{{ topic.title }}</h1>
         <!-- Flag This Topic -->
@@ -34,7 +34,7 @@
       <h3>{{ topic.description }}</h3>
     </div>
 
-    <div class="col-md-3 topic-jumbotron links-cell text-right">
+    <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
         <li ng-repeat="subseq in topic.subseqTopics">
@@ -70,7 +70,7 @@
           <div class="row">
             <div ng-repeat="resource in resources | filter:searchText">
               <div class="clearfix" ng-if="$index % 3 == 0"></div> <!-- fixes column<->overflow -->
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-6">
                 <div class="panel panel-default resource-panel">
                   <div class="panel-heading">
                     <div class="resource-title">
