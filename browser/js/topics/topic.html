@@ -71,46 +71,7 @@
             <div ng-repeat="resource in resources | filter:searchText">
               <div class="clearfix" ng-if="$index % 3 == 0"></div> <!-- fixes column<->overflow -->
               <div class="col-md-4 col-sm-6">
-                <div class="panel panel-default resource-panel">
-                  <div class="panel-heading">
-                    <div class="resource-title">
-                      <h3 class="panel-title"><a href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>&nbsp;</h3>
-
-                      <!-- Glyphicon represents resource type -->
-
-                    </div>
-                    <div class="resource-action-box">
-                      <!-- Resource type -->
-                      <span class="btn btn-xs btn-default">
-                        <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
-                        <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
-                        <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
-                        <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
-                        <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
-                        {{ resource.type }}
-                      </span>
-                      <!-- Voting -->
-                      <button id="btn-resource-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvote('resource', resource.id)">
-                        <span class="fa fa-thumbs-o-up"></span>
-                        {{ numVotes.resource[resource.id] || 0 }}
-                      </button>
-                      <button id="btn-resource-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-primary hidden" ng-click="devote('resource', resource.id)">
-                        <span class="fa fa-thumbs-up"></span>
-                        {{ numVotes.resource[resource.id] || 0 }}
-                      </button>
-                      <!-- Add to plan -->
-                      <button type="button" class="btn btn-xs btn-default btn-add-to-plan" ng-if="isLoggedIn" ng-click="addToPlan(resource.id)">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        {{ selectedPlan.name || 'my plan' }}
-                      </button>
-                      <!-- Flag this resource -->
-                      <button type="button" class="btn btn-xs btn-default btn-flag-resource" ng-if="isLoggedIn" ng-click="addFlag(resource.id)">
-                        <span class="glyphicon glyphicon-flag"></span>
-                        flag
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <topic-resource resource="resource" topic-id="topic.id" votes="votes.resources[resource.id]"></topic-resource>
               </div>
             </div>
           </div>

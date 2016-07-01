@@ -1,47 +1,57 @@
-app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory) {
+app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory, $rootScope) {
   return {
     restrict: 'E',
     scope: {
-      resource: '='
+      resource: '=',
+      topicId: '=',
+      votes: '=',
     },
     templateUrl: 'js/common/directives/topics/topic-resource.html',
-    link: function (scope, element, attrs, TopicCtrl) {
+    link: function (scope, element, attrs) {
 
-      scope.numVotes = {};
+      var userId = $rootScope.user.id;
 
-      scope.upvoteResource = function(resourceId) {
-        if(AuthService.isAuthenticated()) {
-          VoteFactory.addResourceVote(resourceId)
+      // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
+      scope.isLoggedIn = userId >= 0;
+
+      // voted = true if user has voted on this resource
+      if(scope.votes && scope.votes.indexOf(userId) >= 0) scope.voted = true;
+      else scope.voted = false;
+
+      // VOTING
+      scope.upvote = function() {
+        if(userId) { // user may upvote only if he/she is logged in
+          VoteFactory.addVote('resource', scope.resource.id, scope.topicId)
           .then( function(success) {
             if(success) {
-              toggleVoteButton(resourceId);
-              incrementVoteCount(resourceId, 1);
+              if(!scope.votes) scope.votes = []; // if there are no existing votes
+              scope.votes.push(userId);
+              scope.voted = true;
             }
           })
         }
       }
 
-      scope.devoteResource = function(resourceId) {
-        if(AuthService.isAuthenticated()) {
-          VoteFactory.rmResourceVote(resourceId)
+      scope.devote = function() {
+        if(userId) { // user may upvote only if he/she is logged in
+          VoteFactory.removeVote('resource', scope.resource.id, scope.topicId)
           .then( function(success) {
             if(success) {
-              toggleVoteButton(resourceId);
-              incrementVoteCount(resourceId, -1);
+              scope.votes.splice(scope.votes.indexOf(userId));
+              scope.voted = false;
             }
           })
         }
       }
 
-      function toggleVoteButton(resourceId) {
-        $('#btn-upvote-' + resourceId).toggleClass('hidden');
-        $('#btn-voted-' + resourceId).toggleClass('hidden');
+      // PLANS
+      scope.addToPlan = function() {
+
       }
 
-      function incrementVoteCount(resourceId, amount) {
-        amount = amount || 1; // add by default
-        if(!scope.numVotes[resourceId]) scope.numVotes[resourceId] = amount;
-        else scope.numVotes[resourceId] += amount;
+      // FLAGGING
+      scope.flagResource = function() {
+        
       }
 
     }

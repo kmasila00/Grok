@@ -123,51 +123,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     });
   });
 
-  $scope.showAllTags = function() {
-    for(var tagName in $scope.tagDisplay) $scope.tagDisplay[tagName] = true;
-    $('.btn-tag-filter').addClass('active');
-    refilterTags();
-  }
-
-  $scope.toggleTagFilter = function(tagName, $event) {
-    $($event.currentTarget).toggleClass('active');
-    $scope.tagDisplay[tagName] = !$scope.tagDisplay[tagName];
-    refilterTags();
-  }
-
-  function refilterTags() {
-    $scope.topic.resources.forEach( function(resource) {
-      resource.display = true;
-      resource.tags.forEach( function(tag) {
-        if(!$scope.tagDisplay[tag.name]) resource.display = false;
-      });
-    });
-  }
-
-  // -- add a tag to a resource
-  $scope.addTag = function(resourceId) {
-    var addTagModal = $uibModal.open({
-      animation: true, // ??
-      templateUrl: 'js/topics/addTag.html',
-      controller: 'TagModalCtrl',
-      size: 'sm',
-      resolve: {
-        resourceId: resourceId
-      }
-    });
-
-    addTagModal.result
-    .then(function (newTag) {
-      // update DOM
-      $scope.topic.resources.forEach( function(resource) {
-        if(resource.id === resourceId) {
-          resource.tags.push({name: newTag});
-        }
-      });
-      if(!$scope.tagDisplay[newTag]) $scope.tagDisplay[newTag] = true;
-    });
-  }
-
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
     if(options.suggestionType === 'prereq') {
@@ -207,6 +162,17 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //      key = type id / value = # total votes
   $scope.numVotes = {};
 
+  // log of votes by userId, through nested object
+  // key = type of vote (resource, prereq, subseq)
+  // value = ...
+  //      key = type (resource, etc)) / value = ...
+  //             key = type Id / value = array of userIds that have voted
+  $scope.votes = {
+    resources: {},
+    prereq: {},
+    subseq: {}
+  };
+
 
 
   // Voting
@@ -219,16 +185,18 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     VoteFactory.fetchPrereqVotes(topic.id),
     VoteFactory.fetchSubseqVotes(topic.id)
   ])
-  .then( function(votes) {
-    var resourceVotes = votes[0],
-        prereqVotes = votes[1],
-        subseqVotes = votes[2];
+  .then( function(dbVotes) {
+    var resourceVotes = dbVotes[0],
+        prereqVotes = dbVotes[1],
+        subseqVotes = dbVotes[2];
 
     resourceVotes.forEach( function(vote) {
-      if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
-      incrementVoteCount('resource', vote.resourceId, 1);
+      if(!$scope.votes.resources[vote.resourceId]) $scope.votes.resources[vote.resourceId] = [];
+      $scope.votes.resources[vote.resourceId].push(vote.userId);
+      // if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
+      // incrementVoteCount('resource', vote.resourceId, 1);
     });
-    sort('resources');
+    // sort('resources');
 
     prereqVotes.forEach( function(vote) {
       if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
@@ -242,7 +210,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       incrementVoteCount('subseq', vote.topicId, 1);
     });
     sort('subseq');
-
   });
 
 
