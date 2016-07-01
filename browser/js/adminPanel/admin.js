@@ -3,7 +3,9 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin', {
         url: '/admin',
         templateUrl: 'js/adminPanel/templates/admin.html',
-        controller: 'AdminCtrl'
+        controller: function() {
+          
+        }
     });
 
     $stateProvider.state('admin.topics', {
