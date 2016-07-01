@@ -18,6 +18,8 @@ app.config(function ($stateProvider) {
 
 app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
 
+  $scope.topic = topic;
+
   //need it for adding plan
   $rootScope.topicId = topic.id;
 
@@ -79,7 +81,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       }
   }
 
-  $scope.topic = topic;
 
   //adds resource to a specific plan
   $scope.addToPlan = function(resourceId){
@@ -137,8 +138,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   VoteFactory.getProcessedVotes($scope.topic)
   .then( function(processedVotes) {
     $scope.votes = processedVotes;
-  })
-
+  });
 
 
   // DATA SORTING
