@@ -4,7 +4,6 @@ var router = require('express').Router();
 var db = require('../../db');
 var Topic = db.model('topic');
 var Resource = db.model('resource');
-var Tag = db.model('tag');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
 var Auth = require('../configure/auth-middleware');
@@ -39,10 +38,8 @@ router.post('/', function(req, res, next) {
 router.get('/:topicId', function(req, res, next) {
 
   var baseQuery = Topic.findById(req.params.topicId, {
-                  include: [{
-                    model: Resource,
-                      include: [Tag]
-                  }]}),
+                  include: [ Resource ]
+                }),
       prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId" WHERE p."topicId" = ' + req.params.topicId,
       subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId" WHERE p."prerequisiteId" = ' + req.params.topicId;
 
