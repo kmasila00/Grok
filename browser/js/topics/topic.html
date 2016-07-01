@@ -6,20 +6,10 @@
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
         <li ng-repeat="prereq in topic.prereqTopics">
-          <!-- prerequisite topic title -->
-          <a ui-sref="topic({ topicId: prereq.prerequisiteId })">{{ prereq.title }}</a>
-          <!-- prerequisite voting -->
-          <button id="btn-prereq-upvote-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('prereq', prereq.prerequisiteId)">
-            <span class="fa fa-thumbs-o-up"></span>
-            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
-          </button>
-          <button id="btn-prereq-voted-{{ prereq.prerequisiteId }}" type="button" class="btn btn-xs btn-primary btn-voted hidden" ng-click="devote('prereq', prereq.prerequisiteId)">
-            <span class="fa fa-thumbs-up"></span>
-            {{ numVotes.prereq[prereq.prerequisiteId] || 0 }}
-          </button>
+          <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="votes.prereq[prereq.prerequisiteId]"></related-topic>
         </li>
-        <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
       </ul>
+      <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
     </div>
 
     <div class="col-md-6 col-sm-6 topic-jumbotron topic-title-cell text-center">
@@ -38,7 +28,11 @@
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
         <li ng-repeat="subseq in topic.subseqTopics">
-          <!-- subsequent voting -->
+          <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="votes.subseq[subseq.topicId]"></related-topic>
+        </li>
+      </ul>
+      <!-- <ul>
+        <li ng-repeat="subseq in topic.subseqTopics">
           <button id="btn-subseq-upvote-{{ subseq.topicId }}" type="button" class="btn btn-xs btn-default btn-upvote" ng-click="upvote('subseq', subseq.topicId)">
             <span class="fa fa-thumbs-o-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
@@ -47,11 +41,10 @@
             <span class="fa fa-thumbs-up"></span>
             {{ numVotes.subseq[subseq.topicId] || 0 }}
           </button>
-          <!-- subsequent topic title -->
           <a ui-sref="topic({ topicId: subseq.topicId })">{{ subseq.title }}</a>
         </li>
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </div>

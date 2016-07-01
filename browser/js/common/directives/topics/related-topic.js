@@ -1,15 +1,26 @@
-app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory, $rootScope, $uibModal) {
+app.directive('relatedTopic', function (VoteFactory, $rootScope) {
   return {
     restrict: 'E',
     scope: {
-      resource: '=',
-      topicId: '=',
+      type: '=',
+      topic: '=',
+      baseTopicId: '=',
       votes: '=',
     },
-    templateUrl: 'js/common/directives/topics/topic-resource.html',
+    templateUrl: 'js/common/directives/topics/related-topic.html',
     link: function (scope, element, attrs) {
 
       var userId = $rootScope.user.id;
+
+      // this topic's ID is actually the 'prerequisite' ID on the topic passed to the directive
+      // vote button should be on the left for subsequent; right for prerequisite voting
+      if(scope.type === 'prereq') {
+        scope.topicId = scope.topic.prerequisiteId;
+        scope.buttonOnLeft = false;
+      } else {
+        scope.topicId = scope.topic.topicId;
+        scope.buttonOnLeft = true;
+      }
 
       // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
       scope.isLoggedIn = userId >= 0;
@@ -21,7 +32,7 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
       // VOTING
       scope.upvote = function() {
         if(userId) { // user may upvote only if he/she is logged in
-          VoteFactory.addVote('resource', scope.resource.id, scope.topicId)
+          VoteFactory.addVote(scope.type, scope.topicId, scope.baseTopicId)
           .then( function(success) {
             if(success) {
               if(!scope.votes) scope.votes = []; // if there are no existing votes
@@ -34,7 +45,7 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
 
       scope.devote = function() {
         if(userId) { // user may upvote only if he/she is logged in
-          VoteFactory.removeVote('resource', scope.resource.id, scope.topicId)
+          VoteFactory.removeVote(scope.type, scope.topicId, scope.baseTopicId)
           .then( function(success) {
             if(success) {
               scope.votes.splice(scope.votes.indexOf(userId));
@@ -42,25 +53,6 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
             }
           })
         }
-      }
-
-      // PLANS
-      scope.addToPlan = function() {
-        // TO IMPLEMENT
-      }
-
-      // FLAGGING
-      scope.flagResource = function() {
-        $uibModal.open({
-          animation: true,
-          templateUrl: './js/modalWindows/addFlagModal.html',
-          controller: 'AddFlagModalInstanceCtrl',
-          resolve:{
-            resourceId: function(){
-              return scope.resource.id;
-            }
-          }
-        });
       }
 
     }

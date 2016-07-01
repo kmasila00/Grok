@@ -75,6 +75,8 @@ app.controller('ModalInstanceFormCtrl', function ($scope, $rootScope, $uibModalI
 app.controller('AddFlagModalInstanceCtrl', function($scope, $rootScope, $window, resourceId, $uibModalInstance, FlagFactory){
   $scope.reasons= ['Rude or Abusive', 'Spam', 'Duplicate'];
 
+  console.log(resourceId);
+
   if(resourceId){
     $scope.reasons.push('Off-Topic');
     $scope.addFlag= "addResourceFlag";

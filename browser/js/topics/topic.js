@@ -193,23 +193,18 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
     resourceVotes.forEach( function(vote) {
       if(!$scope.votes.resources[vote.resourceId]) $scope.votes.resources[vote.resourceId] = [];
       $scope.votes.resources[vote.resourceId].push(vote.userId);
-      // if(vote.userId === userId) toggleVoteButton('resource', vote.resourceId);
-      // incrementVoteCount('resource', vote.resourceId, 1);
     });
-    // sort('resources');
 
     prereqVotes.forEach( function(vote) {
-      if(vote.userId === userId) toggleVoteButton('prereq', vote.prerequisiteId);
-      incrementVoteCount('prereq', vote.prerequisiteId, 1);
+      if(!$scope.votes.prereq[vote.prerequisiteId]) $scope.votes.prereq[vote.prerequisiteId] = [];
+      $scope.votes.prereq[vote.prerequisiteId].push(vote.userId);
     });
-    sort('prereq');
 
     subseqVotes.forEach( function(vote) {
-      // console.log(vote)
-      if(vote.userId === userId) toggleVoteButton('subseq', vote.topicId);
-      incrementVoteCount('subseq', vote.topicId, 1);
+      if(!$scope.votes.subseq[vote.topicId]) $scope.votes.subseq[vote.topicId] = [];
+      $scope.votes.subseq[vote.topicId].push(vote.userId);
     });
-    sort('subseq');
+
   });
 
 
@@ -237,19 +232,6 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
         }
       })
     }
-  }
-
-  $scope.addFlag= function(resource_Id){
-    $uibModal.open({
-      animation: true,
-      templateUrl: './js/modalWindows/addFlagModal.html',
-      controller: 'AddFlagModalInstanceCtrl',
-      resolve:{
-        resourceId: function(){
-          return resource_Id
-        }
-      }
-    });
   }
 
 

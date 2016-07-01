@@ -19,10 +19,12 @@
     </span>
 
     <!-- Voting -->
+    <!-- user has not voted, or user is not logged in -->
     <button type="button" class="btn btn-xs btn-default" ng-click="upvote()" ng-if="!voted">
       <span class="fa fa-thumbs-o-up"></span>
       {{ votes.length || 0 }}
     </button>
+    <!-- user has voted -->
     <button type="button" class="btn btn-xs btn-primary" ng-click="devote()" ng-if="voted">
       <span class="fa fa-thumbs-up"></span>
       {{ votes.length || 0 }}
