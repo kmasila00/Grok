@@ -2,6 +2,7 @@
 <div class="jumbotron">
   <div class="container" style='position: relative'>
 
+    <!-- prerequisite topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
       <ul>
@@ -12,6 +13,7 @@
       <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
     </div>
 
+    <!-- topic header -->
     <div class="col-md-6 col-sm-6 topic-jumbotron topic-title-cell text-center">
       <div>
         <h1>{{ topic.title }}</h1>
@@ -24,6 +26,7 @@
       <h3>{{ topic.description }}</h3>
     </div>
 
+    <!-- subsequent topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron links-cell text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
       <ul>
@@ -33,10 +36,11 @@
         <br><button type="button" class="btn btn-default btn-sm" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
       </ul>
     </div>
+    
   </div>
 </div>
 
-
+<!-- MAIN BODY -->
 <div class="container">
   <div class="row">
     <div class="col-md-12" id="topic-details">
@@ -62,7 +66,6 @@
             <button type="button" class="btn btn-lg btn-default" ng-click="addResource()">Add Resource</button>
           </div>
         </uib-tab>
-
 
         <!-- PLANS -->
         <uib-tab index="1" heading="Learning Plans">
