@@ -15,14 +15,21 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicsCtrl', function ($scope, TopicFactory, topics) {
+app.controller('TopicsCtrl', function ($scope, TopicFactory, topics, $uibModal) {
 
   $scope.topics = topics;
 
+  // ADD TOPIC
+  $scope.addTopic = function() {
+    var addTopicModal = $uibModal.open({
+      animation: true,
+      templateUrl: './js/common/modals/views/addTopic.html',
+      controller: 'AddTopicModalCtrl'
+    });
+    addTopicModal.result
+    .then(function (newTopic) {
+      $scope.topics.push(newTopic);
+    });
+  }
+
 });
-
-
-
-
-
-

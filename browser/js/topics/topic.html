@@ -80,8 +80,8 @@
           </div>
           <hr>
 
-          <div ng-controller="ModalFormCtrl" class="row col-md-12 center">
-            <button type="button" class="btn btn-lg btn-default" ng-click="open('Plan')">Add Plan</button>
+          <div class="row col-md-12 center">
+            <button type="button" class="btn btn-lg btn-default" ng-click="addPlan()">Add Learning Plan</button>
           </div>
         </uib-tab>
 
@@ -89,31 +89,6 @@
 
       </uib-tabset>
     </div>
-
-    <!-- MY PLAN -->
-    <!-- <div class="col-md-3">
-      <div class="panel panel-primary">
-
-        <div class="panel-heading">
-          <h3 class="panel-title">My Plan</h3>
-        </div>
-
-        <select ng-options="plan as plan.name for plan in userPlans" ng-model="selectedPlan" class="form-control"></select>
-
-        <div class="panel-body">
-          {{selectedPlan.description}}
-        </div>
-
-        <ul class="list-group">
-          <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resources">
-            Resource: {{ resource.name }}
-            <span ng-click="removeFromPlan(selectedPlan.id, resource.id)"class="glyphicon glyphicon-remove-circle"></span>
-            <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>
-            <span ng-click="moveUp(resource.id)" class="glyphicon glyphicon-arrow-up"></span>
-          </li>
-        </ul>
-      </div>
-    </div> -->
 
   </div>
 </div>

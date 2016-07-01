@@ -30,6 +30,7 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   PlanFactory.fetchPlansByTopic(topic.id)
   .then(function(plansForTopic){
     $scope.topicPlans = plansForTopic;
+    $scope.topic.plans = plansForTopic;
   });
 
 
@@ -153,6 +154,24 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
       $scope.topic.resources.push(newResource);
     });
   }
+
+
+  // ADD PLAN
+  $scope.addPlan = function() {
+    var addPlanModal = $uibModal.open({
+      animation: true,
+      templateUrl: './js/common/modals/views/addPlan.html',
+      controller: 'AddPlanModalCtrl',
+      resolve: {
+        options: { topicId: $scope.topic.id, topicName: $scope.topic.title }
+      }
+    });
+    addPlanModal.result
+    .then(function (newPlan) {
+      $scope.topic.plans.push(newPlan);
+    });
+  }
+
 
   // VOTES
   //
