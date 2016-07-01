@@ -1,5 +1,11 @@
 <section id="search-box">
     <div class="container">
-        <input type="text" class="grok-bar" placeholder="Grok all the things..." ng-model="selectedTopic" uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5" uib-typeahead-template-url="search-tpl.html">
+        <input 
+        type="text" 
+        class="grok-bar" 
+        placeholder="Grok all the things..." 
+        ng-model="selectedTopic" 
+        uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5" 
+        typeahead-template-url="/js/common/directives/search-box/search-tpl.html">
     </div>
 </section>
