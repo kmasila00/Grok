@@ -32,11 +32,11 @@ navbar {
     cursor: pointer;
     transition: color 0.2s;
     &.active {
-      color: darken(#99ff99, 10%);
+      color: darken(#00c0f0, 10%);
     }
     &:hover {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
     &:focus {
       background: none;
@@ -52,15 +52,15 @@ navbar {
     outline: none !important;
     transition: color 0.2s;
     &.active {
-      color: darken(#99ff99, 10%);
+      color: darken(#00c0f0, 10%);
     }
     &:hover {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
     &:focus {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
 
   }
@@ -74,7 +74,7 @@ navbar {
       margin-right: 5px;
     }
     a {
-      color: #99ff99;
+      color: #00c0f0;
       cursor: pointer;
     }
   }
