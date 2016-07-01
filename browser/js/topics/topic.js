@@ -134,35 +134,10 @@ app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, 
   //      key = type (resource, etc)) / value = ...
   //             key = type Id / value = array of userIds that have voted
   $scope.votes = {};
-
-  // Get & process existing votes
-  $q.all([
-    VoteFactory.fetchResourceVotes(
-      topic.resources.map( function(resource) {
-        return resource.id;
-    })),
-    VoteFactory.fetchPrereqVotes(topic.id),
-    VoteFactory.fetchSubseqVotes(topic.id)
-  ])
-  .then( function(dbVotes) {
-
-    function processVotes(votes, idKey) {
-      var processedVotes = {}, key;
-      votes.forEach( function(vote) {
-        key = vote[idKey];
-        if(!processedVotes[ key ]) processedVotes[ key ] = [];
-        processedVotes[ key ].push(vote.userId);
-      });
-      return processedVotes;
-    }
-
-    $scope.votes = {
-      resources: processVotes(dbVotes[0], 'resourceId'),
-      prereq: processVotes(dbVotes[1], 'prerequisiteId'),
-      subseq: processVotes(dbVotes[2], 'topicId')
-    };
-
-  });
+  VoteFactory.getProcessedVotes($scope.topic)
+  .then( function(processedVotes) {
+    $scope.votes = processedVotes;
+  })
 
 
 
