@@ -16,7 +16,7 @@ app.config(function ($stateProvider) {
 });
 
 
-app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory, $q) {
+app.controller('TopicCtrl', function ($scope, TopicFactory, topic, VoteFactory, AuthService, $uibModal, $log, $rootScope, PlanFactory) {
 
   $scope.topic = topic;
 

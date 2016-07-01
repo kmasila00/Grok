@@ -8,7 +8,7 @@ app.directive('relatedTopic', function (VoteFactory, $rootScope) {
       votes: '=',
     },
     templateUrl: 'js/common/directives/topics/related-topic.html',
-    link: function (scope, element, attrs) {
+    link: function (scope) {
 
       var userId = $rootScope.user.id;
 

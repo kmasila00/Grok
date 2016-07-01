@@ -7,7 +7,6 @@ var Topic = require('./models/topic');
 var Resource = require('./models/resource');
 var Plan = require('./models/plan');
 var Tag = require('./models/tag');
-var Vote = require('./models/vote');
 var Prerequisite = require('./models/prereq');
 var Flag= require('./models/flag');
 

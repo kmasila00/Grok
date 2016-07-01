@@ -9,8 +9,8 @@ app.config(function ($stateProvider) {
 
       $scope.deleteUser= function(user){
         UsersFactory.deleteUser(user)
-        .then(function(users){
-          $scope.users=users;
+        .then(function(updatedUsers){
+          $scope.users=updatedUsers;
         });
       }
 

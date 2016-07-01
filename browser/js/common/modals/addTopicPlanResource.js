@@ -1,5 +1,5 @@
 // Build, display modal form; handle output
-app.controller('ModalFormCtrl', function ($scope, $uibModal, $log, $rootScope) {
+app.controller('ModalFormCtrl', function ($scope, $uibModal, $log) {
 
   $scope.animationsEnabled = true;
 

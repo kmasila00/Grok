@@ -5,9 +5,6 @@ var db = require('../../db');
 var Topic = db.model('topic');
 var Resource = db.model('resource');
 var Tag = db.model('tag');
-var Vote = require('../../db/models/vote');
-var Prerequisite = db.model('prerequisites');
-var FlaggedTopic= db.model('flaggedTopic');
 var Sequelize = require('sequelize');
 var Promise = require('bluebird');
 var Auth = require('../configure/auth-middleware');
@@ -25,15 +22,8 @@ router.param('topicId', function(req, res, next, id) {
 })
 
 // Fetches all topics
-// -- ordinary users: only approved topics
-// -- admins: all topics
 router.get('/', function(req, res, next) {
-  var user = req.user;
-      // whereCondition = { status: 'approved' };
-  // if(req.user && req.user.isAdmin) whereCondition = {}; // show all
-  Topic.findAll({
-    include:[Resource]
-  })
+  Topic.findAll({ include: [Resource] })
   .then(topics => res.status(200).send(topics))
   .catch(next);
 });

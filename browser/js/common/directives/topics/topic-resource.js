@@ -7,7 +7,7 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
       votes: '=',
     },
     templateUrl: 'js/common/directives/topics/topic-resource.html',
-    link: function (scope, element, attrs) {
+    link: function (scope) {
 
       var userId = $rootScope.user.id;
 

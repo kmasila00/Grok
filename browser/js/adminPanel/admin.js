@@ -18,8 +18,8 @@ app.config(function ($stateProvider) {
 
            $scope.delete= function(id){
             TopicFactory.deleteTopic(id)
-            .then( (topics) => {
-                $scope.topics= topics;
+            .then( (updatedTopics) => {
+                $scope.topics = updatedTopics;
             })
            }
 
@@ -28,7 +28,7 @@ app.config(function ($stateProvider) {
               FlagFactory.fetchTopicFlags(topicId)
               .then(topicFlags => $scope.flags= topicFlags);
 
-               var modalInstance = $uibModal.open({
+               $uibModal.open({
                  animation: $scope.animationsEnabled,
                  scope: $scope,
                  templateUrl: './js/common/modals/views/topicFlagModal.html',
@@ -59,15 +59,15 @@ app.config(function ($stateProvider) {
 
           $scope.delete= function(id){
             ResourceFactory.deleteResource(id)
-            .then(resources => $scope.resources= resources)
+            .then(updatedResources => $scope.resources= updatedResources)
           }
 
           $scope.openFlags = function (resourceId) {
 
             FlagFactory.fetchResourceFlags(resourceId)
-            .then(resourceFlags => $scope.flags= resourceFlags);
+            .then(updatedResourceFlags => $scope.flags= updatedResourceFlags);
 
-             var modalInstance = $uibModal.open({
+             $uibModal.open({
                animation: $scope.animationsEnabled,
                scope: $scope,
                templateUrl: './js/common/modals/views/topicFlagModal.html',
@@ -84,10 +84,5 @@ app.config(function ($stateProvider) {
         }
 
     });
-
-});
-
-
-app.controller('AdminCtrl', function ($scope) {
 
 });

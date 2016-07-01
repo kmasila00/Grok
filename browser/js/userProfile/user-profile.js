@@ -13,10 +13,12 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactory, PlanFactory, currentUser) {
+    function cloneObj(obj) { return Object.assign({}, obj) };
+
     $scope.error = null;
     $scope.userUpdate = cloneObj(currentUser);
     $scope.updateUser = UsersFactory.updateUser;
-    $scope.reset =  function() { $scope.userUpdate =  cloneObj(currentUser) };
+    $scope.reset = function() { $scope.userUpdate = cloneObj(currentUser) };
 
     $scope.tabs = [
         { title:'Resources', content:[] },
@@ -24,7 +26,7 @@ app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactor
     ];
 
     $scope.removePlan = function(id) {
-        PlanFactory.removePlan(id).then(function(data) {
+        PlanFactory.removePlan(id).then(function() {
             PlanFactory.fetchPlansByUser(currentUser.id)
                        .then(function(Plans) { $scope.tabs[1].content = Plans; });
         });
@@ -36,5 +38,3 @@ app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactor
     PlanFactory.fetchPlansByUser(currentUser.id)
                    .then(function(Plans) { $scope.tabs[1].content = Plans; });
 });
-
-function cloneObj(obj) { return Object.assign({}, obj) };
