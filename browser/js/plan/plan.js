@@ -20,21 +20,18 @@ app.controller('PlanCtrl', function($scope, PlanFactory, currentUser){
 
     $scope.removePlan = function(id) {
         PlanFactory.removePlan(id).then(function(data) {
-            PlanFactory.fetchPlansByUser(currentUser.id)
-            .then(function(Plans) { $scope.userPlans = Plans; });
-        });
+            return PlanFactory.fetchPlansByUser(currentUser.id)
+        })
+        .then(function(Plans) { $scope.userPlans = Plans; });
     };
       
     $scope.removeFromPlan = function(planId, resourceId){
-        console.log('hi');
         PlanFactory.removeResourceFromPlan(planId, resourceId)
         .then(function(data){
-            console.log('here');
-            PlanFactory.fetchPlansByUser(currentUser.id)
-            .then(function(Plans){ 
-                console.log("kjdfhsdkjfhsdjfhsd");
-                $scope.userPlans = Plans
-            });
+            return PlanFactory.fetchPlansByUser(currentUser.id)
+        })
+        .then(function(Plans){ 
+            $scope.userPlans = Plans
         });
     }
 
