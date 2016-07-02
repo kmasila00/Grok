@@ -7,9 +7,9 @@ app.directive('landing', function(){
 			topics: "=",
 			prereqs: "="
 		},
-		controller: function($scope, TopicFactory){
+		controller: function($scope, $state, TopicFactory){
 
-			var width = 1400,
+			var width = 1435,
 			    height = 800;
 
 			var color = d3.scale.category20();
@@ -27,9 +27,23 @@ app.directive('landing', function(){
 			    .linkDistance(300) //distance between nodes
 			    .size([width, height])//size of frame(need to make responsive);
 
-			var svg = d3.select("#home").append("svg")
+			var svg = d3.select("#home")
+			    .append("svg")
 			    .attr("width", width)
-			    .attr("height", height);
+			    .attr("height", height)
+    		    .call(d3.behavior.zoom()
+    		    .on("zoom", redraw))
+    		    .append('g');
+
+
+
+                function redraw() {
+                  svg.attr("transform",
+                      "translate(" + d3.event.translate + ")"
+                      + " scale(" + d3.event.scale + ")");
+                }
+
+
 
 
 			  var data = {}; //used to reference the topics
@@ -54,7 +68,7 @@ app.directive('landing', function(){
 			      .data(dataLinks)
 			    .enter().append("line") // creates lines
 			      .attr("class", "link") //gives links class so it can be selected
-			      .style("stroke", "#000000") //stroke color
+			      .style("stroke", "black") //stroke color
 			      //thickness of links                        //scales line-widths
 			      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
@@ -72,7 +86,8 @@ app.directive('landing', function(){
 			        .enter().append("g") //svg group element that will contain circle and text elements
 			          .attr("class", "node")// give it a class of node
 			          .call(force.drag) //lets you drag nodes around screen
-			          .on('dblclick', connectedNodes); //event handler added for highlighting connected nodes
+			          .on('dblclick', function(d){ $state.go('topic', {topicId: d.id})}) //event handler for going to that topic node's state
+			          .on('click', connectedNodes); //event handler added for highlighting connected nodes
 
 			     node.append("circle") //appending a circle to each group element
 			     .attr("r", function(d){ return nodeSize(d.resources.length)})

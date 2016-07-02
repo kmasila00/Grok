@@ -1,10 +1,9 @@
 .node{
 
-	font-weight: bold;
 
 	circle{
-		stroke: #fff;
-		stroke-width: 2px;
+		stroke: #E5E5E5;
+		stroke-width: 3px;
 	}
 
 	.link {
@@ -12,4 +11,9 @@
 	    stroke-opacity: .6;
 	}
 
+	text{
+		font-weight: bold;
+	}
+
 }
+
