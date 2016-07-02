@@ -9,14 +9,14 @@ app.directive('landing', function(){
 		},
 		controller: function($scope, TopicFactory){
 
-			var width = 960,
-			    height = 500;
+			var width = 1400,
+			    height = 800;
 
 			var color = d3.scale.category20();
 
 			var force = d3.layout.force()
 			    .charge(-120) //how far the nodes bounce around
-			    .linkDistance(100) //distance between nodes
+			    .linkDistance(300) //distance between nodes
 			    .size([width, height])//size of frame(need to make responsive);
 
 			var svg = d3.select("body").append("svg")
@@ -48,7 +48,7 @@ app.directive('landing', function(){
 			      .attr("class", "link") //gives links class so it can be selected
 			      .style("stroke", "#000000") //stroke color
 			      //thickness of links                        //scales line-widths
-			      .style("stroke-width", function(d) { return Math.sqrt(d.value)/2; });
+			      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
 			  // var node = svg.selectAll(".node")
 			  //     .data($scope.topics)
