@@ -27,7 +27,7 @@ app.directive('landing', function(){
 			    .linkDistance(300) //distance between nodes
 			    .size([width, height])//size of frame(need to make responsive);
 
-			var svg = d3.select("body").append("svg")
+			var svg = d3.select("#home").append("svg")
 			    .attr("width", width)
 			    .attr("height", height);
 
@@ -98,9 +98,10 @@ app.directive('landing', function(){
 			    .attr("y2", function(d) { return d.target.y; });
 
 
-			    d3.selectAll("circle")
+			    var circle= d3.selectAll("circle")
 			    .attr("cx", function(d) { return d.x; })
 			    .attr("cy", function(d) {return d.y; });
+
 
 		        d3.selectAll("text")
 		        .attr("x", function(d) { return d.x; })
@@ -120,9 +121,11 @@ app.directive('landing', function(){
 			      linkedByIndex[i + "," + i] = 1;
 			  };
 			  dataLinks.forEach(function (d) {
+			  	console.log("In data link for each: ", d);
 			      linkedByIndex[d.source.index + "," + d.target.index] = 1;
 			  });
 
+			  console.log(linkedByIndex);
 			  //This function looks up whether a pair are neighbours
 			  function neighboring(a, b) {
 			      return linkedByIndex[a.index + "," + b.index];
@@ -152,6 +155,8 @@ app.directive('landing', function(){
 			      }
 
 			  }
+
+
 
 
 
