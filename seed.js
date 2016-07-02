@@ -39,7 +39,8 @@ var seedUsers = function () {
         {
             username: 'John',
             email: 'j.szymanowski@gmail.com',
-            password: '1234'
+            password: '1234',
+            isAdmin: true
         }
     ];
 
