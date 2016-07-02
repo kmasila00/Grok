@@ -50,17 +50,34 @@ app.directive('landing', function(){
 			      //thickness of links                        //scales line-widths
 			      .style("stroke-width", function(d) { return Math.sqrt(d.value)/2; });
 
-			  var node = svg.selectAll(".node")
-			      .data($scope.topics)
-			    .enter().append("circle") //shape of nodes
-			      .attr("class", "node")
-			      .attr("r", 10) //radius of nodes (modified depending on #of resources on topic)
-			      .attr("id", function(d){ return d.title })
-			      .style("fill", function(d) { return color(d.title); }) //color of nodes
-			      .call(force.drag); //lets you drag nodes around screen
+			  // var node = svg.selectAll(".node")
+			  //     .data($scope.topics)
+			  //   .enter().append("circle") //shape of nodes
+			  //     .attr("class", "node")
+			  //     .attr("r", 10) //radius of nodes (modified depending on #of resources on topic)
+			  //     .attr("id", function(d){ return d.title })
+			  //     .style("fill", function(d) { return color(d.title); }) //color of nodes
+			  //     .call(force.drag); //lets you drag nodes around screen
 
-			  node.append("title")
-			      .text(function(d) { return d.name; });
+			  var node = svg.selectAll("g.node")
+			          .data($scope.topics)
+			        .enter().append("g") //svg group element that will contain circle and text elements
+			          .attr("class", "node")// give it a class of node
+			          .call(force.drag); //lets you drag nodes around screen
+
+			     node.append("circle") //appending a circle to each group element
+			     .attr("r", 15)
+			     .attr("id", function(d){ return d.title; })
+			     .style("fill", function(d){ return color(d.title); })
+
+			     node.append("text")//appending text to each group element
+			     .attr("text-anchor", "middle")
+			     .attr("x", function(d){ return d.x})
+			     .attr("y", function(d){ return d.y})
+			     .text(function(d) { return d.title; });
+
+
+
 
 			  //what makes the nodes move on the page
 			  force.on("tick", function() {
@@ -69,8 +86,21 @@ app.directive('landing', function(){
 			        .attr("x2", function(d) { return d.target.x; })
 			        .attr("y2", function(d) { return d.target.y; });
 
-			    node.attr("cx", function(d) { return d.x; })
-			        .attr("cy", function(d) { return d.y; });
+			    // node.attr("x", function(d) { return d.x; })
+			    //     .attr("y", function(d) { return d.y; });
+			    d3.selectAll("circle").attr("cx", function(d) {
+			          return d.x;
+			        })
+			        .attr("cy", function(d) {
+			          return d.y;
+			        });
+
+			      d3.selectAll("text").attr("x", function(d) {
+			          return d.x;
+			        })
+			        .attr("y", function(d) {
+			          return d.y;
+			        });
 			  });
 
 
