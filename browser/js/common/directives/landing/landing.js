@@ -54,7 +54,7 @@ app.directive('landing', function(){
 			      .data($scope.topics)
 			    .enter().append("circle") //shape of nodes
 			      .attr("class", "node")
-			      .attr("r", 5) //radius of nodes (modified depending on #of resources on topic)
+			      .attr("r", 10) //radius of nodes (modified depending on #of resources on topic)
 			      .attr("id", function(d){ return d.title })
 			      .style("fill", function(d) { return color(d.title); }) //color of nodes
 			      .call(force.drag); //lets you drag nodes around screen
