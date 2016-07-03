@@ -9,11 +9,15 @@ app.directive('landing', function(){
 		},
 		controller: function($scope, $state, TopicFactory){
 
-			var width = 1435,
+			var width = 1635,
 			    height = 800;
+
+			//Initialize the color scale
 
 			var color = d3.scale.category20();
 
+
+			//Initialize the node size scale
 			//Here we are mapping all resource lengths to node sizes:
 
 			var nodeSize= d3.scale.linear();
@@ -22,83 +26,108 @@ app.directive('landing', function(){
 			nodeSize.range([15,50]);
 
 
-			var force = d3.layout.force()
-			    .charge(-120) //how far the nodes bounce around
-			    .linkDistance(300) //distance between nodes
-			    .size([width, height])//size of frame(need to make responsive);
+			//Initialize the svg element, which will act as a container for our data visualization
+			//.call(d3.behavior.zoom())- calling d3's zooming functionality
+			//.on('zoom')- redrawing our graph when the zoom events happen
+			//.append()- appending a (group) element, not sure why this is needed?
 
 			var svg = d3.select("#home")
-			    .append("svg")
-			    .attr("width", width)
-			    .attr("height", height)
-    		    .call(d3.behavior.zoom()
-    		    .on("zoom", redraw))
-    		    .append('g');
+					    .append("svg")
+					    .attr("width", width)
+					    .attr("height", height)
+		    		    .call(d3.behavior.zoom()
+		    		    .on("zoom", redraw))
+		    		    .append('g');
 
 
 
-                function redraw() {
-                  svg.attr("transform",
-                      "translate(" + d3.event.translate + ")"
-                      + " scale(" + d3.event.scale + ")");
-                }
+            function redraw() {
+              svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+            }
 
 
 
 
-			  var data = {}; //used to reference the topics
-			  var dataLinks = []; //to store links("relationships")
 
-			  //creating key value pairs where the key is topic id, value is the whole topic object
-			  $scope.topics.forEach(function(elem){
-			  	data[elem.id] = elem;
-			  })
+            //----------------Force Layout Configuration-----------------//
 
-			  //creating the array of links by pushing objects with a source, target and value(weight of lines)
-			  $scope.prereqs.forEach(function(elem){
-			  	dataLinks.push({source: data[elem.topicId], target: data[elem.prerequisiteId], value:1});
-			  })
+			//Initialize d3's force layout
+			//.charge()- negative values indicate repulsion, + values indicate attraction
+			//.linkDistance()- the distance we desire between connected nodes.
+			//.size()- size of the graph, need to make it responsive
 
-			  force
-			      .nodes($scope.topics) //setting nodes as topics
-			      .links(dataLinks) //setting relationh
-			      .start();
+			var force = d3.layout
+						  .force()
+						  .charge(-600)
+						  .linkDistance(200)
+						  .size([width, height]);
+
+
+            // Prevent pan functionality from overriding node drag functionality
+
+            var drag = force.stop()
+				            .drag()
+				            .on("dragstart", function(d) { d3.event.sourceEvent.stopPropagation();
+            });
+
+
+
+            //Data set up for force graph links/nodes
+			var data = {}; //used to reference the topics
+			var dataLinks = []; //to store links("relationships")
+
+		    //creating key value pairs where the key is topic id, value is the whole topic object
+		    $scope.topics.forEach(function(elem){
+		  		data[elem.id] = elem;
+		    })
+
+		    //creating the array of links by pushing objects with a source, target and value(weight of lines)
+		    $scope.prereqs.forEach(function(elem){
+		  		dataLinks.push({source: data[elem.topicId], target: data[elem.prerequisiteId], value:1});
+		    })
+
+
+		    //Setting up topics as the force graph nodes, and dataLinks as the links
+			 force
+			 .nodes($scope.topics)
+			 .links(dataLinks)
+			 .start();
+
+
+
+			 //------------Setting up the actual visual node and link elements------//
 
 			  var link = svg.selectAll(".link")
-			      .data(dataLinks)
-			    .enter().append("line") // creates lines
-			      .attr("class", "link") //gives links class so it can be selected
-			      .style("stroke", "black") //stroke color
-			      //thickness of links                        //scales line-widths
-			      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+						    .data(dataLinks)
+						    .enter().append("line") // creates lines
+						    .attr("class", "link") //gives links class so it can be selected
+						    .style("stroke", "black") //stroke color
+						      //thickness of links                        //scales line-widths
+						    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-			  // var node = svg.selectAll(".node")
-			  //     .data($scope.topics)
-			  //   .enter().append("circle") //shape of nodes
-			  //     .attr("class", "node")
-			  //     .attr("r", 10) //radius of nodes (modified depending on #of resources on topic)
-			  //     .attr("id", function(d){ return d.title })
-			  //     .style("fill", function(d) { return color(d.title); }) //color of nodes
-			  //     .call(force.drag); //lets you drag nodes around screen
+
 
 			  var node = svg.selectAll("g.node")
-			          .data($scope.topics)
-			        .enter().append("g") //svg group element that will contain circle and text elements
-			          .attr("class", "node")// give it a class of node
-			          .call(force.drag) //lets you drag nodes around screen
-			          .on('dblclick', function(d){ $state.go('topic', {topicId: d.id})}) //event handler for going to that topic node's state
-			          .on('click', connectedNodes); //event handler added for highlighting connected nodes
+					        .data($scope.topics)
+					        .enter()
+					        .append("g") //svg group element that will contain circle and text elements
+					        .attr("class", "node")// give it a class of node
+					        .call(force.drag) //lets you drag nodes around screen
+					        .on('dblclick', function(d){ $state.go('topic', {topicId: d.id})}) //event handler for going to that topic node's state
+					        .on('click', connectedNodes); //event handler added for highlighting connected nodes
 
-			     node.append("circle") //appending a circle to each group element
-			     .attr("r", function(d){ return nodeSize(d.resources.length)})
-			     .attr("id", function(d){ return d.title; })
-			     .style("fill", function(d){ return color(d.title); })
 
-			     node.append("text")//appending text to each group element
-			     .attr("text-anchor", "middle")
-			     .attr("x", function(d){ return d.x})
-			     .attr("y", function(d){ return d.y})
-			     .text(function(d) { return d.title; });
+			  node.append("circle") //appending a circle to each group element
+				  .attr("r", function(d){ return nodeSize(d.resources.length)})
+				  .attr("id", function(d){ return d.title; })
+				  .style("fill", function(d){ return color(d.title); })
+
+
+			   node.append("text")//appending text to each group element
+				   .attr("text-anchor", "middle")
+				   .attr("x", function(d){ return d.x})
+				   .attr("y", function(d){ return d.y})
+				   .text(function(d) { return d.title; });
 
 
 
@@ -114,13 +143,13 @@ app.directive('landing', function(){
 
 
 			    var circle= d3.selectAll("circle")
-			    .attr("cx", function(d) { return d.x; })
-			    .attr("cy", function(d) {return d.y; });
+						      .attr("cx", function(d) { return d.x; })
+						      .attr("cy", function(d) {return d.y; });
 
 
 		        d3.selectAll("text")
-		        .attr("x", function(d) { return d.x; })
-		        .attr("y", function(d) { return d.y; });
+		          .attr("x", function(d) { return d.x; })
+		          .attr("y", function(d) { return d.y; });
 
 			  });
 
