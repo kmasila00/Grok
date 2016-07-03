@@ -9,14 +9,14 @@ module.exports = db.define('plan', {
 		type: Sequelize.STRING,
 		allowNull: false,
 		validate: {
-		        notEmpty: true
+			notEmpty: true
 		}
 	},
 	description:{
 		type: Sequelize.TEXT,
 		allowNull:false,
 		validate: {
-		        notEmpty: true
+			notEmpty: true
 		}
 	}
 

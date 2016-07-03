@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ formTitle }}
+  </h4>
+</div>
+
+<div class="modal-body">
+  <form name="addResourceToPlanForm" class="form-horizontal">
+
+  <div class="form-group">
+    <label for="resourceType" class="col-sm-3 control-label">Learning plan</label>
+    <div class="col-sm-9">
+      <select name="planName" class="form-control" ng-model="selectedPlan" ng-options="plan.name for plan in plans" required>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body">
+  <hr>
+  <ul class="list-group">
+    <li class="list-group-item my-plan-list-item" ng-repeat="resource in selectedPlan.resources">
+      {{ resource.name }}
+    </li>
+  </ul>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="addResourceToPlan(selectedPlan)" ng-disabled='addResourceToPlanForm.$invalid'>
+    <span class="glyphicon glyphicon-ok-circle"></span>
+    submit
+  </button>
+  <button class="btn btn-danger" type="button" ng-click="close()">
+    <span class="glyphicon glyphicon-remove-circle"></span>
+    cancel
+  </button>
+  </form>
+</div>

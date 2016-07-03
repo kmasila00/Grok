@@ -12,7 +12,7 @@ app.controller('SignupCtrl', function ($scope, SignupFactory, $state) {
   $scope.error = null;
   $scope.signup = function() {
     SignupFactory.createUser($scope.newUser)
-    .then(function(data) {
+    .then(function() {
         $state.go('home');
     })
     .catch(function(err) {

@@ -19,7 +19,7 @@ var flaggedResource = db.define('flaggedResource', {
 
 var flaggedTopic = db.define('flaggedTopic', {
 	id: {
-	  type: Sequelize.INTEGER,
+			type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
 	},

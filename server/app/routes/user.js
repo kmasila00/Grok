@@ -20,7 +20,7 @@ router.param('userId', function(req, res, next, id) {
         .catch(next);
 });
 
-router.get('/:userId', function(req, res, next) {
+router.get('/:userId', function(req, res) {
     res.json(req.targetUser);
 });
 
