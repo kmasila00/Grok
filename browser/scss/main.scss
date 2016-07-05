@@ -55,6 +55,11 @@
   justify-content: center;
 }
 
+.jumbotron-condensed {
+  padding-top: 0px;
+  padding-bottom: 15px;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
