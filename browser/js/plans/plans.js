@@ -44,48 +44,48 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope){
 
 
 
-  $scope.removePlan = function(id) {
-      PlanFactory.removePlan(id).then(function() {
-          return PlanFactory.fetchPlansByUser(userId)
-      })
-      .then(function(Plans) { $scope.userPlans = Plans; });
-  };
-
-  $scope.removeFromPlan = function(planId, resourceId){
-      PlanFactory.removeResourceFromPlan(planId, resourceId)
-      .then(function(){
-          return PlanFactory.fetchPlansByUser(userId)
-      })
-      .then(function(Plans){
-          $scope.userPlans = Plans
-      });
-  }
-
-  $scope.moveUp = function(plan, resourceId){
-      var rArr = plan.resources;
-
-      for(var i = 1; i < rArr.length; i++){
-
-            if(rArr[i].id === resourceId){
-              var temp = rArr[i];
-              rArr[i] = rArr[i-1];
-              rArr[i-1] = temp;
-            }
-
-      }
-  }
-
-  $scope.moveDown = function(plan, resourceId){
-      var rArr = plan.resources;
-
-      for(var i = 0; i < rArr.length-1; i++){
-            if(rArr[i].id === resourceId){
-              var temp = rArr[i];
-              rArr[i] = rArr[i+1];
-              rArr[i+1] = temp;
-              break;
-            }
-      }
-  }
+  // $scope.removePlan = function(id) {
+  //     PlanFactory.removePlan(id).then(function() {
+  //         return PlanFactory.fetchPlansByUser(userId)
+  //     })
+  //     .then(function(Plans) { $scope.userPlans = Plans; });
+  // };
+  //
+  // $scope.removeFromPlan = function(planId, resourceId){
+  //     PlanFactory.removeResourceFromPlan(planId, resourceId)
+  //     .then(function(){
+  //         return PlanFactory.fetchPlansByUser(userId)
+  //     })
+  //     .then(function(Plans){
+  //         $scope.userPlans = Plans
+  //     });
+  // }
+  //
+  // $scope.moveUp = function(plan, resourceId){
+  //     var rArr = plan.resources;
+  //
+  //     for(var i = 1; i < rArr.length; i++){
+  //
+  //           if(rArr[i].id === resourceId){
+  //             var temp = rArr[i];
+  //             rArr[i] = rArr[i-1];
+  //             rArr[i-1] = temp;
+  //           }
+  //
+  //     }
+  // }
+  //
+  // $scope.moveDown = function(plan, resourceId){
+  //     var rArr = plan.resources;
+  //
+  //     for(var i = 0; i < rArr.length-1; i++){
+  //           if(rArr[i].id === resourceId){
+  //             var temp = rArr[i];
+  //             rArr[i] = rArr[i+1];
+  //             rArr[i+1] = temp;
+  //             break;
+  //           }
+  //     }
+  // }
 
 })

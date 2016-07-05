@@ -12,6 +12,9 @@
       <a href="{{ resource.url }}">
         {{ resource.name }}
       </a>
+      <span ng-click="moveUp(resource.id)" class="glyphicon glyphicon-arrow-up"></span>
+      <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>
+      <span ng-click="removeFromPlan(resource.id)" class="glyphicon glyphicon-remove-circle"></span>
     </li>
   </ul>
 </div>
