@@ -1,4 +1,4 @@
-app.controller('ResourceCtrl', function($scope, topics, MainFactory) {
+app.controller('ResourceCtrl', function($scope, topics, MainFactory, $state, flash) {
 
   $scope.topics = topics;
 
@@ -10,7 +10,11 @@ app.controller('ResourceCtrl', function($scope, topics, MainFactory) {
         name: siteDetails.title,
         topicName: topicName
       }
-      return MainFactory.submitResource(resourceDetails);
+      return MainFactory.submitResource(resourceDetails)
+      .then( function() {
+        flash.setMessage('Resource submitted!  Grok thanks you.')
+        $state.go('home');
+      })
     });
   }
 

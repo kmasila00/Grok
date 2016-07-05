@@ -13,7 +13,8 @@
 <!-- If logged in -->
 <div ng-if="isLoggedIn()">
   <div class="bubble">
-    Hi, {{ user.username }}!  What would you like to learn about today?
+    <span ng-if="flashMsg" style="font-weight:bold">{{ flashMsg }}</span>
+    <span ng-if="!flashMsg">Hi, {{ user.username }}!  What would you like to learn about today?</span>
   </div>
 
   <div id="topicCloud">
