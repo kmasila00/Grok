@@ -19,7 +19,6 @@
       <select name="planTopic" class="form-control" ng-model="plan.topicId" required>
         <option ng-repeat="topic in topics" value="{{ topic.id }}">{{ topic.title }}</option>
       </select>
-      <pre>{{ plan }}</pre>
     </div>
   </div>
 
@@ -33,7 +32,6 @@
 </div>
 
 <div class="modal-footer">
-  <pre>{{ plan }}</pre>
   <button class="btn btn-primary" type="button" ng-click="addPlan(plan)" ng-disabled='addPlanForm.$invalid'>
     <span class="glyphicon glyphicon-ok-circle"></span>
     submit
