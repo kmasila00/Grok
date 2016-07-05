@@ -5,6 +5,6 @@
       class="topic-description"
       ng-bind-html="match.model.title | uibTypeaheadHighlight:query">
     </span>
-    <span ng-bind-html="match.model.description | uibTypeaheadHighlight:query"></span>
+    <span ng-if="match.model.description" ng-bind-html="match.model.description | uibTypeaheadHighlight:query"></span>
   </div>
 </a>
