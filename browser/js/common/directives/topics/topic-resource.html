@@ -1,32 +1,46 @@
-<div class="col-md-4">
-  <div class="panel panel-default resource-panel">
-    <div class="panel-heading">
-      <div class="resource-title">
-        <h3 class="panel-title"><a href="{{ resource.url }}">{{ resource.name }}</a> ({{ resource.id }})&nbsp;</h3>
-        <!-- Glyphicon represents resource type; ng-if is temporary / for dev purposes -->
-        <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
-        <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
-        <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
-        <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
-        <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
-        <span class="glyphicon glyphicon-plus-sign"></span>
-      </div>
-      <!-- Voting -->
-      <div class="upvote-resource-box">
-        <button id="btn-upvote-{{ resource.id }}" type="button" class="btn btn-xs btn-default" ng-click="upvoteResource(resource.id)">
-          <span class="glyphicon glyphicon-thumbs-up"></span>
-          {{ numVotes[resource.id] || 0 }}
-        </button>
-        <button id="btn-voted-{{ resource.id }}" type="button" class="btn btn-xs btn-success hidden" ng-click="devoteResource(resource.id)">
-          <span class="glyphicon glyphicon-thumbs-up"></span>
-          {{ numVotes[resource.id] || 0 }}
-        </button>
-      </div>
-      <!-- Tags -->
-      <div>
-        <span class="tag" ng-repeat="tag in resource.tags">{{ tag.name }}</span>
-        <span class="tag glyphicon glyphicon-plus-sign"></span>
-      </div>
-    </div>
+<div class="panel panel-default panel-heading resource-panel">
+
+  <div class="resource-title">
+    <h3 class="panel-title">
+      <a href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
+    </h3>
+  </div>
+
+  <div class="resource-action-box">
+
+    <!-- Resource type -->
+    <span class="btn btn-xs btn-default">
+      <span class="glyphicon glyphicon-pencil" ng-if="resource.type === 'tutorial'"></span>
+      <span class="glyphicon glyphicon-film" ng-if="resource.type === 'video'"></span>
+      <span class="glyphicon glyphicon-text-height" ng-if="resource.type === 'article'"></span>
+      <span class="glyphicon glyphicon-book" ng-if="resource.type === 'book'"></span>
+      <span class="glyphicon glyphicon-th-list" ng-if="resource.type === 'documentation'"></span>
+      {{ resource.type }}
+    </span>
+
+    <!-- Voting -->
+    <!-- user has not voted, or user is not logged in -->
+    <button type="button" class="btn btn-xs btn-default" ng-click="upvote()" ng-if="!voted">
+      <span class="fa fa-thumbs-o-up"></span>
+      {{ votes.length || 0 }}
+    </button>
+    <!-- user has voted -->
+    <button type="button" class="btn btn-xs btn-primary" ng-click="devote()" ng-if="voted">
+      <span class="fa fa-thumbs-up"></span>
+      {{ votes.length || 0 }}
+    </button>
+
+    <!-- Add to plan -->
+    <button type="button" class="btn btn-xs btn-default btn-add-to-plan" ng-if="isLoggedIn" ng-click="addResourceToPlan()">
+      <span class="glyphicon glyphicon-plus"></span>
+      {{ selectedPlan.name || 'my plan' }}
+    </button>
+
+    <!-- Flag this resource -->
+    <button type="button" class="btn btn-xs btn-default btn-flag-resource" ng-if="isLoggedIn" ng-click="flagResource(resource.id)">
+      <span class="glyphicon glyphicon-flag"></span>
+      flag
+    </button>
+
   </div>
 </div>

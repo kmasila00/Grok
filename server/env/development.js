@@ -2,8 +2,8 @@ module.exports = {
   "DATABASE_URI": "postgres://localhost:5432/learnGraph",
   "SESSION_SECRET": "Optimus Prime is my real dad",
   "FACEBOOK": {
-    "clientID": "156816898064972",
-    "clientSecret": "223fb072c20057a8ec2b9ca705842877",
+    "clientID": "1126186280772613",
+    "clientSecret": "79cd21ce3777007850c17e3a4f31f954",
     "callbackURL": "http://localhost:1337/auth/facebook/callback"
   },
   "GOOGLE": {

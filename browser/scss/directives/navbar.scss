@@ -1,10 +1,15 @@
 navbar {
 
   display: block;
-  background: #333;
+  background: #222;
   border-bottom: 1px solid black;
   box-shadow: 1px 1px 14px -3px black;
   margin-bottom: 0px;
+  
+  .navbar {
+      margin-bottom: 0px;
+      padding-bottom: 20px;
+  }
 
   .container {
     width: 91%;
@@ -32,11 +37,11 @@ navbar {
     cursor: pointer;
     transition: color 0.2s;
     &.active {
-      color: darken(#99ff99, 10%);
+      color: darken(#00c0f0, 10%);
     }
     &:hover {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
     &:focus {
       background: none;
@@ -52,29 +57,27 @@ navbar {
     outline: none !important;
     transition: color 0.2s;
     &.active {
-      color: darken(#99ff99, 10%);
+      color: darken(#00c0f0, 10%);
     }
     &:hover {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
     &:focus {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
     }
 
   }
 
   .welcome {
-    float: right;
-    margin-top: 12px;
+    margin-top: 15px;
+    padding-left: 10px;
     span {
       color: white;
-      font-size: 16px;
-      margin-right: 5px;
     }
     a {
-      color: #99ff99;
+      color: #00c0f0;
       cursor: pointer;
     }
   }

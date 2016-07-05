@@ -39,25 +39,27 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
             $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
 
-            $(function() {
-            $('.toggle-sidebar').click(function() {
-                toggleSideBar();
-            });
-        });
+
 
         function toggleSideBar() {
-            
-            if ($('#page-wrapper').hasClass('show-sidebar')) {
+            var pageWrapper = $('#page-wrapper');
+
+            if (pageWrapper.hasClass('show-sidebar')) {
                 // Do things on Nav Close
-                $('#page-wrapper').removeClass('show-sidebar');
+                pageWrapper.removeClass('show-sidebar');
             } else {
                 // Do things on Nav Open
-                $('#page-wrapper').addClass('show-sidebar');
+                pageWrapper.addClass('show-sidebar');
             }
-            //$('#site-wrapper').toggleClass('show-nav');
         }
 
-        }
+        $(function() {
+          $('.toggle-sidebar').click(function() {
+              toggleSideBar();
+          });
+        });
+
+      }
 
     };
 

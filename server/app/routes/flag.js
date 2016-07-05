@@ -47,7 +47,7 @@ router.post('/topic/:topicId', function(req, res, next){
         reason: req.body.reason,
         description: req.body.description
       })
-      .then(flaggedTopic => res.send(flaggedTopic))
+      .then(updatedFlaggedTopic => res.send(updatedFlaggedTopic))
     }
 
   })
@@ -101,7 +101,7 @@ router.post('/resource/:resourceId', function(req, res, next){
         reason: req.body.reason,
         description: req.body.description
       })
-      .then(flaggedResource => res.send(flaggedResource))
+      .then(updatedFlaggedResource => res.send(updatedFlaggedResource))
     }
 
   })

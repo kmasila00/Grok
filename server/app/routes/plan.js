@@ -2,7 +2,6 @@
 var express = require('express');
 var router = express.Router();
 var Resource = require('../../db/').model('resource');
-var Tag = require('../../db/').model('tag');
 var Plan = require('../../db/').model('plan');
 
 module.exports = router;
@@ -15,9 +14,7 @@ router.post('/', function(req, res, next){
 		userId: req.user.dataValues.id,
 		topicId: req.body.topicId
 	})
-	.then(function(newPlan){
-		return res.send(newPlan);
-	})
+	.then(newPlan => res.status(201).send(newPlan))
 	.catch(next);
 });
 
@@ -29,9 +26,7 @@ router.get('/topic/:topicId', function(req, res, next){
 		},
 		include: [Resource]
 	})
-	.then(function(topics){
-		res.send(topics);
-	})
+	.then(topics =>res.send(topics))
 	.catch(next);
 });
 
@@ -43,28 +38,20 @@ router.get('/user/:userId', function(req, res, next){
 		},
 		include:[Resource]
 	})
-	.then(function(plans){
-		res.send(plans);
-	})
+	.then(plans => res.send(plans))
+	.catch(next);
 });
 
 
 //adds resource to a specific plan
 router.post('/:planId/resource/:resourceId', function(req, res, next){
-	Plan.findOne({
-		where:{
-			id: req.params.planId
-		}
-	})
+	Plan.findById(req.params.planId)
 	.then(function(foundPlan){
 		var plan = foundPlan;
 		return plan.addResource(req.params.resourceId)
 	})
-	.then(function(){
-		res.send();
-	})
+	.then(() => res.status(201).send())
 	.catch(next);
-		
 });
 
 //delete a whole plan
@@ -74,22 +61,16 @@ router.delete('/:planId', function(req, res, next){
 			id: req.params.planId
 		}
 	})
-	.then(function(){
-		res.send();
-	})
+	.then(() => res.status(200).send())
+	.catch(next);
 });
 
-//delete a resource??
+//remove a resource from a plan
 router.delete('/:planId/resource/:resourceId', function(req, res, next){
-	Plan.findOne({
-		where:{
-			id: req.params.planId
-		}
-	})
+	Plan.findById(req.params.planId)
 	.then(function(plan){
 		return plan.removeResource(req.params.resourceId);
 	})
-	.then(function(){
-		res.send();
-	})
+	.then(() => res.status(200).send())
+	.catch(next);
 });

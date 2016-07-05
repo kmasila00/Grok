@@ -6,8 +6,6 @@ var User = require('./models/user');
 var Topic = require('./models/topic');
 var Resource = require('./models/resource');
 var Plan = require('./models/plan');
-var Tag = require('./models/tag');
-var Vote = require('./models/vote');
 var Prerequisite = require('./models/prereq');
 var Flag= require('./models/flag');
 
@@ -18,6 +16,5 @@ User.hasMany(Resource);
 User.hasMany(Plan);
 Topic.hasMany(Plan);
 Plan.belongsToMany(Resource, {through: 'PlanResource'});
-Resource.belongsToMany(Tag, {through: 'ResourceTag'});
 Topic.belongsToMany(User, {as: 'topicFlaggers', through: Flag.flaggedTopic});
 Resource.belongsToMany(User, {as: 'ResourceFlaggers', through: Flag.flaggedResource});

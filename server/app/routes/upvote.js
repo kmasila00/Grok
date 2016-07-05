@@ -13,7 +13,7 @@ module.exports = router;
 // Vote Resource
 // -- Get all votes for a list of Resources, or all votes for all Resources by default
 router.get('/resource', function(req, res, next) {
-	var whereCondition = {}, ids;
+	var whereCondition = {};
 	if(req.query && req.query.resourceIds) {
 		if(!Array.isArray(req.query.resourceIds)) {
 			req.query.resourceIds = [ req.query.resourceIds ];
@@ -30,7 +30,7 @@ router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
 		userId: req.user.id,
 		resourceId: req.body.resourceId
 	}})
-	.then(voteResource => res.sendStatus(201))
+	.then(() => res.sendStatus(201))
   .catch(next);
 });
 
@@ -59,7 +59,7 @@ router.post('/plan', function(req, res, next){
 		userId: req.user.id,
 		planId: req.body.planId
 	}})
-	.then(votePlan => res.sendStatus(201))
+	.then(() => res.sendStatus(201))
   .catch(next);
 });
 
@@ -94,7 +94,7 @@ router.post('/relationship', Auth.assertAuthenticated, function(req, res, next){
 		topicId: req.body.topicId,
 		prerequisiteId: req.body.prerequisiteId
 	}})
-	.then(voteRelationship => res.sendStatus(201))
+	.then(() => res.sendStatus(201))
   .catch(next);
 })
 

@@ -1,6 +1,6 @@
 'use strict'
 
-app.factory('UsersFactory', function ($http, $q) {
+app.factory('UsersFactory', function ($http) {
 
 	var obj = {};
 

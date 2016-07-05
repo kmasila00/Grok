@@ -25,7 +25,8 @@ router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
   .spread(function(newResource, topic){
     return newResource.addTopic(topic[0].id);
   })
-  .then(() => res.status(201).end());
+  .then(() => res.status(201).end())
+  .catch(next);
 });
 
 router.get('/plans/user/:userId', function(req, res, next){
@@ -33,5 +34,6 @@ router.get('/plans/user/:userId', function(req, res, next){
 			userId: req.params.userId
 		}, include: [ Resource ]
 	})
-	.then(plans => res.send(plans));
+	.then(plans => res.send(plans))
+  .catch(next);
 });
