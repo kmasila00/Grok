@@ -9,8 +9,10 @@ app.directive('landing', function(){
 		},
 		controller: function($scope, $state, TopicFactory){
 
-			var width = 1635,
-			    height = 800;
+			console.log(window);
+
+			var width = window.innerWidth,
+			    height = window.innerHeight;
 
 			//Initialize the color scale
 
@@ -32,21 +34,25 @@ app.directive('landing', function(){
 			//.append()- appending a (group) element, not sure why this is needed?
 
 			var svg = d3.select("#home")
+						.append("div")
+						// .classed("svg-container", true)
 					    .append("svg")
-					    .attr("width", width)
-					    .attr("height", height)
-		    		    .call(d3.behavior.zoom()
-		    		    .on("zoom", redraw))
+					    //responsive SVG needs these 2 attributes and no width and height attr
+					    .attr("preserveAspectRatio", "xMinYMin meet")
+					    .attr("viewBox", "0 0 2000 1700")
+					    //class to make it responsive
+					    .classed("svg-content-responsive", true)
+					    // .attr("width", width)
+					    // .attr("height", height)
+					    //ZOOM DISABLED
+		    		    // .call(d3.behavior.zoom()
+		    		    // .on("zoom", redraw))
 		    		    .append('g');
-
 
 
             function redraw() {
               svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
             }
-
-
-
 
 
             //----------------Force Layout Configuration-----------------//
@@ -128,8 +134,6 @@ app.directive('landing', function(){
 				   .attr("x", function(d){ return d.x})
 				   .attr("y", function(d){ return d.y})
 				   .text(function(d) { return d.title; });
-
-
 
 
 			  //------------Handle the tick/force-simulation event and update each nodes location---------//
