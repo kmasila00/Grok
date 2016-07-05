@@ -6,9 +6,17 @@
 
 <form class="form-inline">
 
-  <select class="form-control" ng-model="topicName">
+  <!-- <select class="form-control" ng-model="topicName">
     <option ng-repeat="topic in topics">{{ topic.title }}</option>
-  </select>
+  </select> -->
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Topic"
+    ng-model="topicName"
+    uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5"
+    typeahead-template-url="/views/topicTypeahead.html">
+
   <button type="submit" class="btn btn-primary" ng-click="submitResource(topicName)">Add resource</button>
 
 </form>

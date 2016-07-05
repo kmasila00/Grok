@@ -1,9 +1,9 @@
-app.factory("flash", function($rootScope) {
+app.factory('flash', function($rootScope) {
   var queue = [];
-  var currentMessage = "";
+  var currentMessage = '';
 
-  $rootScope.$on("$stateChangeStart", function() {
-    currentMessage = queue.shift() || "";
+  $rootScope.$on('$stateChangeStart', function() {
+    currentMessage = queue.shift() || '';
 
   });
 
