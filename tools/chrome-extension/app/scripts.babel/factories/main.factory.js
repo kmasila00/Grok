@@ -1,6 +1,6 @@
-app.factory('MainFactory', function($http) {
+app.factory('MainFactory', function($http, SERVER) {
 
-  const baseUrl = 'http://localhost:1337/api/chrome/';
+  const baseUrl = SERVER.baseUrl + '/api/chrome/';
 
   return {
 
