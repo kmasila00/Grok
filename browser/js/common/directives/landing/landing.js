@@ -107,7 +107,6 @@ app.directive('landing', function(){
 						    .data(dataLinks)
 						    .enter().append("line") // creates lines
 						    .attr("class", "link") //gives links class so it can be selected
-						    .style("marker-end",  "url(#suit)") // Modified line
 						    .style("stroke", "black") //stroke color
 						      //thickness of links                        //scales line-widths
 						    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
@@ -135,23 +134,6 @@ app.directive('landing', function(){
 				   .attr("x", function(d){ return d.x})
 				   .attr("y", function(d){ return d.y})
 				   .text(function(d) { return d.title; });
-
-			    svg.append("defs").selectAll("marker")
-				   .data(["suit", "licensing", "resolved"])
-				 .enter().append("marker")
-				   .attr("id", function(d) { return d; })
-				   .attr("viewBox", "0 -5 10 10")
-				   .attr("refX", 25)
-				   .attr("refY", 0)
-				   .attr("markerWidth", 6)
-				   .attr("markerHeight", 6)
-				   .attr("orient", "auto")
-				 .append("path")
-				   .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
-				   .style("stroke", "#4679BD")
-				   .style("opacity", "0.6");
-
-
 
 
 			  //------------Handle the tick/force-simulation event and update each nodes location---------//
