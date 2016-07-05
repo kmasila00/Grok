@@ -4,7 +4,10 @@
 
 <hr>
 
-<form>
+<form autocomplete="off">
+  <!-- disable autocomplete in Chrome, which minimizes the extension -->
+  <input style="display:none;" type="text" name="somefakename" />
+  <input style="display:none;" type="password" name="anotherfakename" />
 
   <div class="form-group">
     <label for="topic">Topic</label>
@@ -31,7 +34,7 @@
       <input type="radio" ng-model="resource.type" value="tutorial"> tutorial
     </label>
     <label class="radio-inline">
-      <input type="radio" ng-model="resource.type" value="other"> other
+      <input type="radio" ng-model="resource.type" value="documentation"> documentation
     </label>
   </div>
 
