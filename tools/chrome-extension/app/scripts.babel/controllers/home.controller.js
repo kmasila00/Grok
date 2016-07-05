@@ -1,4 +1,4 @@
-app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $sce, SERVER) {
+app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $sce, SERVER, flash) {
 
   $scope.user = null;
   $scope.topics = topics;
@@ -6,6 +6,9 @@ app.controller('HomeCtrl', function($scope, topics, MainFactory, AuthService, $s
   $scope.isLoggedIn = function () {
     return AuthService.isAuthenticated();
   };
+
+  $scope.flashMsg = flash.getMessage();
+  console.log($scope.flashMsg);
 
   var welcomeMessages = [
     'DO NOT AROUSE THE WRATH OF THE GREAT AND POWERFUL OZ!<br><br>Err, sorry, wrong gig.  I am the knowledgable and helpful Grok!',

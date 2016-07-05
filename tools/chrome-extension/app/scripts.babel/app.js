@@ -1,1 +1,1 @@
-window.app = angular.module('GrokChrome', ['ui.router', 'angular-jqcloud']);
+window.app = angular.module('GrokChrome', ['ui.router', 'angular-jqcloud', 'ui.bootstrap']);
