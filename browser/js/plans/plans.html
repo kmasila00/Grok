@@ -12,7 +12,7 @@
     <!-- list of plans -->
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="plan in plans" role="presentation">
+        <li ng-repeat="plan in plans" id="plan-nav-{{plan.id}}" role="presentation">
           <a ng-click="showPlan(plan.id)" style="cursor: pointer">
             {{ plan.name }}
           </a>

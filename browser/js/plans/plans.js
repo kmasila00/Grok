@@ -25,24 +25,19 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope){
   var userId;
   if($rootScope.user) userId = $rootScope.user.id;
 
-  $scope.currentPlan = $scope.plans[0];
   $scope.showPlan = function(planId) {
-    console.log('switching to plan', planId)
+    $('#plan-nav-' + planId).siblings().removeClass('active');
+    $('#plan-nav-' + planId).addClass('active');
     $scope.currentPlan = $scope.plans[getPlanById(planId)];
-    console.log($scope.currentPlan);
   }
+  // show first plan by default
+  if($scope.plans.length > 0) $scope.showPlan($scope.plans[0].id);
 
   function getPlanById(id) {
     for(var i=0; i<$scope.plans.length; i++) {
       if($scope.plans[i].id === id) return i;
     }
   }
-
-  // default view = first plan
-
-
-
-
 
   // $scope.removePlan = function(id) {
   //     PlanFactory.removePlan(id).then(function() {

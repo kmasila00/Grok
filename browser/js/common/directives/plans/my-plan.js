@@ -40,15 +40,6 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
         scope.plan.resources[idx2] = temp;
       }
 
-      // scope.removePlan = function(id) {
-      //     PlanFactory.removePlan(id).then(function() {
-      //         return PlanFactory.fetchPlansByUser(userId)
-      //     })
-      //     .then(function(Plans) { scope.userPlans = Plans; });
-      // };
-
-
-
     }
   }
 });
