@@ -18,7 +18,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope){
+app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $uibModal, TopicFactory){
 
   $scope.plans = plans;
 
@@ -32,6 +32,24 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope){
   }
   // show first plan by default
   if($scope.plans.length > 0) $scope.showPlan($scope.plans[0].id);
+
+  $scope.addNewPlan = function() {
+    var addPlanModal = $uibModal.open({
+      animation: true,
+      templateUrl: './js/common/modals/views/addPlan.html',
+      controller: 'AddPlanModalCtrl',
+      resolve: {
+        topics: function() {
+          return TopicFactory.fetchAll();
+        },
+        options: {}
+      }
+    });
+    addPlanModal.result
+    .then(function (newPlan) {
+      $scope.plans.push(newPlan);
+    });
+  }
 
   function getPlanById(id) {
     for(var i=0; i<$scope.plans.length; i++) {
