@@ -9,8 +9,8 @@ app.directive('relatedTopic', function (VoteFactory, $rootScope) {
     },
     templateUrl: 'js/common/directives/topics/related-topic.html',
     link: function (scope) {
-
-      var userId = $rootScope.user.id;
+      var userId;
+      if($rootScope.user) userId = $rootScope.user.id;
 
       // this topic's ID is actually the 'prerequisite' ID on the topic passed to the directive
       // vote button should be on the left for subsequent; right for prerequisite voting

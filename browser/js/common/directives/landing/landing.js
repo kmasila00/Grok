@@ -3,66 +3,205 @@ app.directive('landing', function(){
 	return{
 		restrict: 'E',
 		templateUrl: 'js/common/directives/landing/landing.html',
-		link: function(scope, TopicFactory){
+		scope:{
+			topics: "=",
+			prereqs: "="
+		},
+		controller: function($scope, $state, TopicFactory){
 
-			var sample_data = [
-		    {"name": "alpha", "Resources": 10},
-		    {"name": "beta", "Resources": 12},
-		    {"name": "gamma", "Resources": 30},
-		    {"name": "delta", "Resources": 26},
-		    {"name": "epsilon", "Resources": 12},
-		    {"name": "zeta", "Resources": 26},
-		    {"name": "theta", "Resources": 11},
-		    {"name": "eta", "Resources": 24}
-		  ];
+			var width = 1635,
+			    height = 800;
 
-		  var positions = [
-		    {"name": "alpha", "x": 10, "y": 15},
-		    {"name": "beta", "x": 12, "y": 24},
-		    {"name": "gamma", "x": 30, "y": 18},
-		    {"name": "delta", "x": 26, "y": 21},
-		    {"name": "epsilon", "x": 13, "y": 4},
-		    {"name": "zeta", "x": 31, "y": 13},
-		    {"name": "theta", "x": 19, "y": 8},
-		    {"name": "eta", "x": 24, "y": 11},
-		    {"name": "eta", "x": 21, "y": 3},
-		    {"name": "eta", "x": 22, "y": 6},
-		    {"name": "eta", "x": 23, "y": 7}
-		  ];
+			//Initialize the color scale
 
-		  var connections = [
-		    {"source": "alpha", "target": "beta", "strength":5},
-		    {"source": "alpha", "target": "gamma", "strength":10},
-		    {"source": "beta", "target": "delta", "strength":7},
-		    {"source": "beta", "target": "epsilon", "strength":12},
-		    {"source": "zeta", "target": "gamma", "strength":3},
-		    {"source": "theta", "target": "gamma", "strength":1},
-		    {"source": "eta", "target": "gamma", "strength":20}
-		  ];
+			var color = d3.scale.category20();
 
-		  var visualization = d3plus.viz()
-		    .container("#viz")
-		    .type("network")
-		    .background('#000000')
-		    .height({
-		    	value: window.height
+
+			//Initialize the node size scale
+			//Here we are mapping all resource lengths to node sizes:
+
+			var nodeSize= d3.scale.linear();
+
+			nodeSize.domain(d3.extent($scope.topics, function(d){ return d.resources.length}));
+			nodeSize.range([15,50]);
+
+
+			//Initialize the svg element, which will act as a container for our data visualization
+			//.call(d3.behavior.zoom())- calling d3's zooming functionality
+			//.on('zoom')- redrawing our graph when the zoom events happen
+			//.append()- appending a (group) element, not sure why this is needed?
+
+			var svg = d3.select("#home")
+					    .append("svg")
+					    .attr("width", width)
+					    .attr("height", height)
+		    		    .call(d3.behavior.zoom()
+		    		    .on("zoom", redraw))
+		    		    .append('g');
+
+
+
+            function redraw() {
+              svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+            }
+
+
+
+
+
+            //----------------Force Layout Configuration-----------------//
+
+			//Initialize d3's force layout
+			//.charge()- negative values indicate repulsion, + values indicate attraction
+			//.linkDistance()- the distance we desire between connected nodes.
+			//.size()- size of the graph, need to make it responsive
+
+			var force = d3.layout
+						  .force()
+						  .charge(-600)
+						  .linkDistance(200)
+						  .size([width, height]);
+
+
+            // Prevent pan functionality from overriding node drag functionality
+
+            var drag = force.stop()
+				            .drag()
+				            .on("dragstart", function(d) { d3.event.sourceEvent.stopPropagation();
+            });
+
+
+
+            //Data set up for force graph links/nodes
+			var data = {}; //used to reference the topics
+			var dataLinks = []; //to store links("relationships")
+
+		    //creating key value pairs where the key is topic id, value is the whole topic object
+		    $scope.topics.forEach(function(elem){
+		  		data[elem.id] = elem;
 		    })
-		    .width({
-		    	value: window.width
+
+		    //creating the array of links by pushing objects with a source, target and value(weight of lines)
+		    $scope.prereqs.forEach(function(elem){
+		  		dataLinks.push({source: data[elem.topicId], target: data[elem.prerequisiteId], value:1});
 		    })
-		    .data(sample_data)
-		    .nodes({
-		        value: positions,
-		        overlap: 0.5
-		    })
-		    .edges({
-		        size: "strength",
-		        value: connections
-		    })
-		    .edges({"arrows": false})
-		    .size("Resources")
-		    .id("name")
-		    .draw()
+
+
+		    //Setting up topics as the force graph nodes, and dataLinks as the links
+			 force
+			 .nodes($scope.topics)
+			 .links(dataLinks)
+			 .start();
+
+
+
+			 //------------Setting up the actual visual node and link elements------//
+
+			  var link = svg.selectAll(".link")
+						    .data(dataLinks)
+						    .enter().append("line") // creates lines
+						    .attr("class", "link") //gives links class so it can be selected
+						    .style("stroke", "black") //stroke color
+						      //thickness of links                        //scales line-widths
+						    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+
+
+			  var node = svg.selectAll("g.node")
+					        .data($scope.topics)
+					        .enter()
+					        .append("g") //svg group element that will contain circle and text elements
+					        .attr("class", "node")// give it a class of node
+					        .call(force.drag) //lets you drag nodes around screen
+					        .on('dblclick', function(d){ $state.go('topic', {topicId: d.id})}) //event handler for going to that topic node's state
+					        .on('click', connectedNodes); //event handler added for highlighting connected nodes
+
+
+			  node.append("circle") //appending a circle to each group element
+				  .attr("r", function(d){ return nodeSize(d.resources.length)})
+				  .attr("id", function(d){ return d.title; })
+				  .style("fill", function(d){ return color(d.title); })
+
+
+			   node.append("text")//appending text to each group element
+				   .attr("text-anchor", "middle")
+				   .attr("x", function(d){ return d.x})
+				   .attr("y", function(d){ return d.y})
+				   .text(function(d) { return d.title; });
+
+
+
+
+			  //------------Handle the tick/force-simulation event and update each nodes location---------//
+			  force.on("tick", function() {
+
+			    link
+			    .attr("x1", function(d) { return d.source.x; })
+			    .attr("y1", function(d) { return d.source.y; })
+			    .attr("x2", function(d) { return d.target.x; })
+			    .attr("y2", function(d) { return d.target.y; });
+
+
+			    var circle= d3.selectAll("circle")
+						      .attr("cx", function(d) { return d.x; })
+						      .attr("cy", function(d) {return d.y; });
+
+
+		        d3.selectAll("text")
+		          .attr("x", function(d) { return d.x; })
+		          .attr("y", function(d) { return d.y; });
+
+			  });
+
+
+			  //-----------------Highlighting connected nodes------------//
+
+			  //Toggle stores whether the highlighting is on
+			  var toggle = 0;
+
+			  //Create an array logging what is connected to what
+			  var linkedByIndex = {};
+			  for ( var i = 0; i < $scope.topics.length; i++) {
+			      linkedByIndex[i + "," + i] = 1;
+			  };
+			  dataLinks.forEach(function (d) {
+			  	console.log("In data link for each: ", d);
+			      linkedByIndex[d.source.index + "," + d.target.index] = 1;
+			  });
+
+			  console.log(linkedByIndex);
+			  //This function looks up whether a pair are neighbours
+			  function neighboring(a, b) {
+			      return linkedByIndex[a.index + "," + b.index];
+			  }
+
+			  function connectedNodes() {
+
+			      if (toggle == 0) {
+			          //Reduce the opacity of all but the neighbouring nodes
+			           var d = d3.select(this).node().__data__;
+			          node.style("opacity", function (o) {
+			              return neighboring(d, o) | neighboring(o, d) ? 1 : 0.1;
+			          });
+
+			          link.style("opacity", function (o) {
+			              return d.index==o.source.index | d.index==o.target.index ? 1 : 0.1;
+			          });
+
+			          //Reduce the op
+
+			          toggle = 1;
+			      } else {
+			          //Put them back to opacity=1
+			          node.style("opacity", 1);
+			          link.style("opacity", 1);
+			          toggle = 0;
+			      }
+
+			  }
+
+
+
 
 
 		}
