@@ -116,15 +116,15 @@ navbar {
   top:5px;
   left:5px;
   &.active {
-      color: darken(#99ff99, 10%);
+      color: darken(#00c0f0, 10%);
   }
   &:hover {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
   }
   &:focus {
       background: none;
-      color: #99ff99;
+      color: #00c0f0;
   }
 
 }
