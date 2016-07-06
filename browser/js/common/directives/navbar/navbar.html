@@ -15,7 +15,7 @@
                     <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
                 </li>
                 <li ng-if='isLoggedIn()'>
-                    <a  ui-sref-active='active' ui-sref="plan" >My Plans</a>
+                    <a  ui-sref-active='active' ui-sref="plans" >My Learning Plans</a>
                 </li>
                 <li ng-if='user.isAdmin'>
                     <a  ui-sref-active='active' ui-sref="admin" >Admin</a>
@@ -47,7 +47,7 @@
           <a href="" class="toggle-sidebar btn btn-default">
             <i class="fa fa-bars"></i>
           </a>
-        </span> 
+        </span>
       </div>
       <ul class="nav nav-pills nav-stacked">
         <li><a ui-sref="topics">Topics<span class="pull-right"><i class="fa fa-globe"></i></span></a></li>
