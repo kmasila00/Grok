@@ -18,12 +18,35 @@ router.get('/topics', function(req, res, next){
 
 router.post('/resource', Auth.assertAuthenticated, function(req, res, next){
   req.body.userId = req.user.dataValues.id;
+  var createdResource, topicId;
   Promise.all([
     Resource.create(req.body),
     Topic.findOrCreate({ where: { title: req.body.topicName }})
   ])
   .spread(function(newResource, topic){
-    return newResource.addTopic(topic[0].id);
+    createdResource = newResource;
+    topicId = topic[0].id;
+    return newResource.addTopic(topicId);
+  })
+  .then(function() {
+    // add the resource to a plan if the user elected to do so
+    // plan for a given topic is created if it does not already exist
+    if(req.body.addToPlan) {
+      return Plan.findOrCreate({
+        where: {
+          userId: req.body.userId,
+          topicId: topicId
+        },
+        defaults: {
+          name: 'My ' + req.body.topicName + ' learning plan',
+          description: 'I am learning ' + req.body.topicName + '.'
+        }
+      })
+      .then(function(plan) {
+        // add a resource to the first plan returned
+        return plan[0].addResource(createdResource.id);
+      })
+    } else return;
   })
   .then(() => res.status(201).end())
   .catch(next);
