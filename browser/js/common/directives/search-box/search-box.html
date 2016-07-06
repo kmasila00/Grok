@@ -6,4 +6,5 @@
      ng-model="selectedTopic"
      uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5"
      typeahead-template-url="/js/common/directives/search-box/search-tpl.html">
+     <button type="submit">Search</button>
 </div>
