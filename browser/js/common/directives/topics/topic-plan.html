@@ -1,5 +1,4 @@
-<div ng-if="userId === plan.userId" class="panel panel-primary plan-panel">
-<div ng-if="userId !== plan.userId" class="panel panel-default plan-panel">
+<div class="panel panel-default plan-panel" ng-class="userId === plan.userId ? 'panel-primary' : 'panel-default'">
 
   <div class="panel-heading">
     <h3 class="panel-title">{{ plan.name }}</h3>
