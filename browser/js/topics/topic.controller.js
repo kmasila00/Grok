@@ -2,9 +2,6 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic = topic;
   $scope.topic.plans = plans;
   $scope.topic.votes = votes;
-
-  console.log($scope.topic)
-
   sortAll();
 
   // get current user ID - used to determine whether a user has voted
@@ -97,7 +94,6 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   // DATA SORTING
   // Sort master routing function
   function sort(type) {
-    console.log('sort triggered for ' + type)
     switch(type) {
       case 'resources':
         $scope.topic.resources = TopicFactory.sortData($scope.topic.resources, $scope.topic.votes.resources, 'id');
