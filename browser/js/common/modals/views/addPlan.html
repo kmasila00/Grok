@@ -9,7 +9,7 @@
   <div class="form-group">
     <label for="planName" class="col-sm-2 control-label">Name</label>
     <div class="col-sm-10">
-      <input ng-model="plan.name" name="planName" type="text" class="form-control" placeholder="Plan name" required active>
+      <input ng-model="plan.name" name="planName" type="text" class="form-control" ng-init="plan.name = defaultName" required active>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
   <div class="form-group">
     <label for="planDescription" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-10">
-      <input ng-model="plan.description" name="planDescription" type="text" class="form-control" placeholder="Description" required>
+      <input ng-model="plan.description" name="planDescription" type="text" class="form-control" ng-init="plan.description = defaultDescription" required>
     </div>
   </div>
 

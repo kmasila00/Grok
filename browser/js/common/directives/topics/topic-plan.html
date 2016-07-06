@@ -1,7 +1,8 @@
-<div class="panel panel-default plan-panel">
+<div ng-if="userId === plan.userId" class="panel panel-primary plan-panel">
+<div ng-if="userId !== plan.userId" class="panel panel-default plan-panel">
 
   <div class="panel-heading">
-    <h3 class="panel-title">Plan:{{ plan.name }}</h3>
+    <h3 class="panel-title">{{ plan.name }}</h3>
     <span ng-click="copyPlan()" class="glyphicon glyphicon-copy"></span>
   </div>
 

@@ -10,6 +10,9 @@ app.directive('topicPlan', function ($rootScope) {
 
       var userId;
       if($rootScope.user) userId = $rootScope.user.id;
+
+      //available on html
+      scope.userId = userId;
       
       // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
       scope.isLoggedIn = userId >= 0;
