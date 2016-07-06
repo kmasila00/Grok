@@ -8,6 +8,7 @@ var Resource = require('./models/resource');
 var Plan = require('./models/plan');
 var Prerequisite = require('./models/prereq');
 var Flag= require('./models/flag');
+var Vote = require('./models/vote');
 
 Topic.belongsToMany(Topic, {as:'prerequisite', through: Prerequisite});
 Resource.belongsToMany(Topic, {through: 'ResourceTopic'});
