@@ -8,7 +8,8 @@ app.controller('AddPlanModalCtrl', function ($scope, $uibModalInstance, options,
     $scope.formTitle = 'Add new plan';
   }
 
-  $scope.defaultName = 'My ' + options.topicName + ' Plan';
+  $scope.defaultName = 'My ' + options.topicName + ' learning plan';
+  $scope.defaultDescription = 'I am learning ' + options.topicName + '.';
 
   $scope.addPlan = function(plan) {
     if(!plan.topicId) 
