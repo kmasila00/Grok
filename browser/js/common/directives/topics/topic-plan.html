@@ -1,4 +1,21 @@
-<div class="panel panel-default plan-panel">
+<div ng-if="userId === plan.userId" class="panel panel-primary plan-panel">
+
+  <div class="panel-heading">
+    <h3 class="panel-title">Plan:{{ plan.name }}</h3>
+    <span ng-click="copyPlan()" class="glyphicon glyphicon-copy"></span>
+  </div>
+
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="resource in plan.resources">
+      <a href="{{ resource.url }}" target="_blank">
+        {{ resource.name }}
+      </a>
+    </li>
+  </ul>
+
+</div>
+
+<div ng-if="userId !== plan.userId" class="panel panel-default plan-panel">
 
   <div class="panel-heading">
     <h3 class="panel-title">Plan:{{ plan.name }}</h3>
