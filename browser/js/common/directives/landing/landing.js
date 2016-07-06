@@ -9,7 +9,6 @@ app.directive('landing', function(){
 		},
 		controller: function($scope, $state, TopicFactory){
 
-			console.log(window);
 
 			var width = window.innerWidth,
 			    height = window.innerHeight;
@@ -35,7 +34,7 @@ app.directive('landing', function(){
 
 			var svg = d3.select("#home")
 						.append("div")
-						// .classed("svg-container", true)
+						.classed("svg-container", true)
 					    .append("svg")
 					    //responsive SVG needs these 2 attributes and no width and height attr
 					    .attr("preserveAspectRatio", "xMinYMin meet")
@@ -66,7 +65,8 @@ app.directive('landing', function(){
 						  .force()
 						  .charge(-600)
 						  .linkDistance(200)
-						  .size([width, height]);
+						  .size([width, height])
+						  // .gravity(0);
 
 
             // Prevent pan functionality from overriding node drag functionality
@@ -101,15 +101,35 @@ app.directive('landing', function(){
 
 
 
+
+
 			 //------------Setting up the actual visual node and link elements------//
 
 			  var link = svg.selectAll(".link")
 						    .data(dataLinks)
 						    .enter().append("line") // creates lines
 						    .attr("class", "link") //gives links class so it can be selected
-						    .style("stroke", "black") //stroke color
+						    .attr("stroke", "black") //stroke color
 						      //thickness of links                        //scales line-widths
-						    .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+						    .attr("stroke-width", function(d) { return Math.sqrt(d.value); })
+						    // .attr("marker-end",  "url(/home/home.html/#arrowhead)");
+
+
+						    // svg.append('defs').append('marker')
+						    //         .attr({'id':'arrowhead',
+						    //                'viewBox':'-0 -5 10 10',
+						    //                'refX':25,
+						    //                'refY':0,
+						    //                'orient':'auto',
+						    //                'markerWidth':10,
+						    //                'markerHeight':10,
+						    //                'xoverflow':'visible'})
+						    //         .append('svg:path') //draws the actual arrow head 
+						    //             .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+						    //             .attr('fill', '#ccc')
+						    //             .attr('stroke','#ccc');
+
+
 
 
 
@@ -169,11 +189,9 @@ app.directive('landing', function(){
 			      linkedByIndex[i + "," + i] = 1;
 			  };
 			  dataLinks.forEach(function (d) {
-			  	console.log("In data link for each: ", d);
 			      linkedByIndex[d.source.index + "," + d.target.index] = 1;
 			  });
 
-			  console.log(linkedByIndex);
 			  //This function looks up whether a pair are neighbours
 			  function neighboring(a, b) {
 			      return linkedByIndex[a.index + "," + b.index];
