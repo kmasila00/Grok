@@ -46,7 +46,7 @@ app.directive('landing', function(){
 					    //ZOOM DISABLED
 		    		    // .call(d3.behavior.zoom()
 		    		    // .on("zoom", redraw))
-		    		    // .append('g');
+		    		    .append('g');
 
 
             function redraw() {
