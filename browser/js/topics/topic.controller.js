@@ -3,6 +3,8 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic.plans = plans;
   $scope.topic.votes = votes;
 
+  sortAll();
+
   // get current user ID - used to determine whether a user has voted
   var userId;
   if($rootScope.user) userId = $rootScope.user.id;
@@ -87,53 +89,24 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
 
   // DATA SORTING
   // Sort master routing function
-  // function sort(type) {
-  //   switch(type) {
-  //     case 'resources':
-  //       $scope.topic.resources = sortData($scope.topic.resources, $scope.numVotes.resource, 'id');
-  //       break;
-  //     case 'prereq':
-  //       $scope.topic.prereqTopics = sortData($scope.topic.prereqTopics, $scope.numVotes.prereq, 'prerequisiteId');
-  //       break;
-  //     case 'subseq':
-  //       $scope.topic.subseqTopics = sortData($scope.topic.subseqTopics, $scope.numVotes.subseq, 'topicId');
-  //       break;
-  //   }
-  // }
+  function sort(type) {
+    switch(type) {
+      case 'resources':
+        $scope.topic.resources = TopicFactory.sortData($scope.topic.resources, $scope.topic.votes.resources, 'id');
+        break;
+      case 'prereq':
+        $scope.topic.prereqTopics = TopicFactory.sortData($scope.topic.prereqTopics, $scope.topic.votes.prereq, 'prerequisiteId');
+        break;
+      case 'subseq':
+        $scope.topic.subseqTopics = TopicFactory.sortData($scope.topic.subseqTopics, $scope.topic.votes.subseq, 'topicId');
+        break;
+    }
+  }
 
-  // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and reosurces
-  // -- dataArr = $scope data array to be sorted
-  // -- votes = $scope.numVotes object value to sort by
-  // -- idKey = idKey on dataArr corresponding to the key in votes
-  // function sortData (dataArr, votes, idKey) {
-  //
-  //   if(!votes) return dataArr; // if no votes found, do not sort
-  //
-  //   function inOrder (index) {
-  //     if (index === dataArr.length - 1) return true;
-  //     var baseId = dataArr[index][idKey],
-  //         nextId = dataArr[index + 1][idKey],
-  //         numVotesBase = votes[baseId] || 0,
-  //         numVotesNext = votes[nextId] || 0;
-  //     return numVotesBase < numVotesNext;
-  //   }
-  //
-  //   function swap (index) {
-  //     var oldLeftValue = dataArr[index];
-  //     dataArr[index] = dataArr[index + 1];
-  //     dataArr[index + 1] = oldLeftValue;
-  //   }
-  //
-  //   var sorted = false;
-  //   for (var end = dataArr.length; end > 0 && !sorted; end--) {
-  //     sorted = true;
-  //     for (var j = 0; j < end; j++) {
-  //       if (!inOrder(j)) {
-  //         swap(j);
-  //         sorted = false;
-  //       }
-  //     }
-  //   }
-  //   return dataArr.reverse();
-  // }
+  function sortAll() {
+    sort('resources');
+    sort('prereq');
+    sort('subseq');
+  }
+
 });

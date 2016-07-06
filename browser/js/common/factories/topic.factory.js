@@ -36,6 +36,43 @@ app.factory('TopicFactory', function($http) {
       else if(type === 'subseq') type = 'subsequent';
 
       return $http.post(baseUrl + topicId + '/' + type, { title: newTopicName });
+    },
+
+    // Sorts voted data arrays - i.e., prerequisites, subsequent topics, and resources
+    // -- dataArr = data array to be sorted
+    // -- votes = $scope.numVotes object value to sort by
+    // -- idKey = idKey on dataArr corresponding to the key in votes
+    sortData: function(dataArr, votes, idKey) {
+      if(!votes) return dataArr; // if no votes found, do not sort
+
+      function inOrder (index) {
+        if (index === dataArr.length - 1) return true;
+        var baseId = dataArr[index][idKey],
+            nextId = dataArr[index + 1][idKey],
+            numVotesBase = 0,
+            numVotesNext = 0;
+        if(votes[baseId]) numVotesBase = votes[baseId].length;
+        if(votes[nextId]) numVotesNext = votes[nextId].length;
+        return numVotesBase >= numVotesNext;
+      }
+
+      function swap (index) {
+        var oldLeftValue = dataArr[index];
+        dataArr[index] = dataArr[index + 1];
+        dataArr[index + 1] = oldLeftValue;
+      }
+
+      var sorted = false;
+      for (var end = dataArr.length; end > 0 && !sorted; end--) {
+        sorted = true;
+        for (var j = 0; j < end; j++) {
+          if (!inOrder(j)) {
+            swap(j);
+            sorted = false;
+          }
+        }
+      }
+      return dataArr;
     }
 
   }
