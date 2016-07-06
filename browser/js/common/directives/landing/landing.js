@@ -112,22 +112,22 @@ app.directive('landing', function(){
 						    .attr("stroke", "black") //stroke color
 						      //thickness of links                        //scales line-widths
 						    .attr("stroke-width", function(d) { return Math.sqrt(d.value); })
-						    .attr("marker-end",  "url(/home/home.html/#arrowhead)");
+						    // .attr("marker-end",  "url(/home/home.html/#arrowhead)");
 
 
-						    svg.append('defs').append('marker')
-						            .attr({'id':'arrowhead',
-						                   'viewBox':'-0 -5 10 10',
-						                   'refX':25,
-						                   'refY':0,
-						                   'orient':'auto',
-						                   'markerWidth':10,
-						                   'markerHeight':10,
-						                   'xoverflow':'visible'})
-						            .append('svg:path') //draws the actual arrow head 
-						                .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-						                .attr('fill', '#ccc')
-						                .attr('stroke','#ccc');
+						    // svg.append('defs').append('marker')
+						    //         .attr({'id':'arrowhead',
+						    //                'viewBox':'-0 -5 10 10',
+						    //                'refX':25,
+						    //                'refY':0,
+						    //                'orient':'auto',
+						    //                'markerWidth':10,
+						    //                'markerHeight':10,
+						    //                'xoverflow':'visible'})
+						    //         .append('svg:path') //draws the actual arrow head 
+						    //             .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+						    //             .attr('fill', '#ccc')
+						    //             .attr('stroke','#ccc');
 
 
 
