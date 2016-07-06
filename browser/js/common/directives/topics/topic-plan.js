@@ -8,12 +8,14 @@ app.directive('topicPlan', function ($rootScope) {
     templateUrl: 'js/common/directives/topics/topic-plan.html',
     link: function (scope) {
 
+      console.log(scope.plan)
+
       var userId;
       if($rootScope.user) userId = $rootScope.user.id;
 
       //available on html
       scope.userId = userId;
-      
+
       // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
       scope.isLoggedIn = userId >= 0;
 
