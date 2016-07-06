@@ -7,6 +7,14 @@
 
 .topic-jumbotron {
   height: 100%;
+  .glyphicon-menu-left {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+  .glyphicon-menu-right {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
 }
 
 .topic-title-cell {
@@ -33,23 +41,17 @@
 }
 
 .links-cell {
-  max-height: 200px;
-  overflow: scroll;
-  .glyphicon-menu-left {
-    font-size: 60px;
-    margin-bottom: 10px;
-  }
-  .glyphicon-menu-right {
-    font-size: 60px;
-    margin-bottom: 10px;
-  }
+  max-height: 125px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
   ul {
     list-style: none;
     padding-left: 0;
   }
   li {
-    font-size: 24px;
+    font-size: 20px;
     .btn {
+      font-size: 12px;
       margin-left: 5px;
       margin-right: 5px;
     }
