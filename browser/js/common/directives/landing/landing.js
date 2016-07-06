@@ -177,21 +177,6 @@ app.directive('landing', function(){
 
 			  });
 
-			  svg.append("defs").selectAll("marker")
-			      .data(['end'])
-			    .enter().append("marker")
-			      .attr("id", function(d) { return d; })
-			      .attr("viewBox", "0 -5 10 10")
-			      .attr("refX", 25)
-			      .attr("refY", 0)
-			      .attr("markerWidth", 6)
-			      .attr("markerHeight", 6)
-			      .attr("orient", "auto")
-			    .append("path")
-			      .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
-			      .style("stroke", "#4679BD")
-			      .style("opacity", "0.6");
-
 
 			  //-----------------Highlighting connected nodes------------//
 
