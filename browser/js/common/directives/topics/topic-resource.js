@@ -28,6 +28,7 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
               if(!scope.votes) scope.votes = []; // if there are no existing votes
               scope.votes.push(userId);
               scope.voted = true;
+              callForSort();
             }
           })
         }
@@ -40,9 +41,11 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
             if(success) {
               scope.votes.splice(scope.votes.indexOf(userId));
               scope.voted = false;
+              callForSort();
             }
           })
         }
+
       }
 
       // PLANS
@@ -69,6 +72,14 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
           resolve: {
             options: { type: 'resource', id: id }
           }
+        });
+      }
+
+      function callForSort() {
+        $rootScope.$broadcast('voted-need-resort', {
+          type: 'resources',
+          id: scope.resource.id,
+          votes: scope.votes
         });
       }
 

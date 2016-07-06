@@ -38,6 +38,7 @@ app.directive('relatedTopic', function (VoteFactory, $rootScope) {
               if(!scope.votes) scope.votes = []; // if there are no existing votes
               scope.votes.push(userId);
               scope.voted = true;
+              callForSort();
             }
           })
         }
@@ -50,9 +51,18 @@ app.directive('relatedTopic', function (VoteFactory, $rootScope) {
             if(success) {
               scope.votes.splice(scope.votes.indexOf(userId));
               scope.voted = false;
+              callForSort();
             }
           })
         }
+      }
+
+      function callForSort() {
+        $rootScope.$broadcast('voted-need-resort', {
+          type: scope.type,
+          id: scope.topicId,
+          votes: scope.votes
+        });
       }
 
     }
