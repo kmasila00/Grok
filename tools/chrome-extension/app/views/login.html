@@ -8,7 +8,10 @@
 
 <hr>
 
-<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)" autocomplete="off">
+  <!-- disable autocomplete in Chrome, which minimizes the extension -->
+  <input style="display:none;" type="text" name="somefakename" />
+  <input style="display:none;" type="password" name="anotherfakename" />
   <div class="form-group">
     <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="e-mail address" style="width: 350px;">
   </div>
