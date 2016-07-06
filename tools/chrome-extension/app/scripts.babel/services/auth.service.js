@@ -16,7 +16,7 @@ app.constant('AUTH_EVENTS', {
 });
 
 app.constant('SERVER', {
-  baseUrl: 'http://45.55.144.44:1337'
+  baseUrl: 'http://45.55.144.44'
 })
 
 app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
