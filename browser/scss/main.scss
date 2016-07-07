@@ -80,6 +80,11 @@ margin-top: 0;
 
 }
 
+.modal-title {
+  font-size: 24px;
+  font-weight: 300;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';

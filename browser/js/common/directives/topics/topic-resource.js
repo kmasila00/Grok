@@ -56,6 +56,7 @@ app.directive('topicResource', function (AuthService, TopicFactory, VoteFactory,
           templateUrl: './js/common/modals/views/addResourceToPlan.html',
           controller: 'AddResourceToPlanModalCtrl',
           resolve: {
+            topicId: scope.topicId,
             plans: PlanFactory.fetchPlansByUser(userId),
             resource: scope.resource,
             options: { topicId: scope.topicId }
