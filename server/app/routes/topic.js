@@ -11,6 +11,12 @@ var Auth = require('../configure/auth-middleware');
 
 module.exports = router;
 
+function sendError(message, status) {
+	var err = new Error(message);
+	err.status = status;
+	throw err;
+}
+
 router.param('topicId', function(req, res, next, id) {
   Topic.findById(id)
   .then( function(topic) {
@@ -86,29 +92,23 @@ router.post('/:topicId/subsequent', Auth.assertAuthenticated, function(req, res,
 // ============================== ADMIN ROUTES ==============================
 
 router.put('/:topicId', function(req, res, next) {
-  if(req.user && req.user.isAdmin){
+  if(req.user && req.user.isAdmin === true){
     req.topic.update(req.body)
     .then(topic => res.status(200).json(topic))
     .catch(next);
   } else {
-    var err = new Error('You must be an admin to update a topic');
-    err.status = 401;
-    throw err;
+	  sendError('You must be an admin to update a topic', 401);
   }
 });
 
 router.delete('/:topicId', function(req, res, next) {
-  if(req.user && req.user.isAdmin){
+  if(req.user && req.user.isAdmin === true){
     req.topic.destroy()
     .then(function(){
-      // we should replace these with model hooks to delete associations when a given topic is deleted
-      return Promise.all([Resource.destroy({where:{ topicId: req.topic.id}})]);
+		res.sendStatus(204);
     })
-    .then(() => res.status(200).end())
     .catch(next);
   } else {
-    var err = new Error('You must be an admin to delete a topic');
-    err.status = 401;
-    throw err;
+	  sendError('You must be an admin to delete a topic', 401);
   }
 });
