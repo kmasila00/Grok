@@ -82,6 +82,16 @@ navbar {
     }
   }
 
+  // search bar
+  .navbar-form input, .form-inline input {
+  	// width:auto;
+  }
+
+  .dropdown-menu {
+  	min-width: 400px;
+  }
+
+
 }
 
 // sidebar

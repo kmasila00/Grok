@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, TopicFactory) {
 
     return {
         restrict: 'E',
@@ -9,6 +9,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             scope.items = [
                 { label: 'Topics', state: 'topics'},
             ];
+
+            TopicFactory.fetchAll().then(topics => scope.topics = topics);
 
             scope.user = null;
 
