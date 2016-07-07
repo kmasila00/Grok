@@ -47,23 +47,23 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
 
 
-        function toggleSideBar() {
-            var pageWrapper = $('#page-wrapper');
+        // function toggleSideBar() {
+        //     var pageWrapper = $('#page-wrapper');
+        //
+        //     if (pageWrapper.hasClass('show-sidebar')) {
+        //         // Do things on Nav Close
+        //         pageWrapper.removeClass('show-sidebar');
+        //     } else {
+        //         // Do things on Nav Open
+        //         pageWrapper.addClass('show-sidebar');
+        //     }
+        // }
 
-            if (pageWrapper.hasClass('show-sidebar')) {
-                // Do things on Nav Close
-                pageWrapper.removeClass('show-sidebar');
-            } else {
-                // Do things on Nav Open
-                pageWrapper.addClass('show-sidebar');
-            }
-        }
-
-        $(function() {
-          $('.toggle-sidebar').click(function() {
-              toggleSideBar();
-          });
-        });
+        // $(function() {
+        //   $('.toggle-sidebar').click(function() {
+        //       toggleSideBar();
+        //   });
+        // });
 
       }
 

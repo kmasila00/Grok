@@ -11,8 +11,32 @@
 
     <div id="navie" class="navbar-collapse collapse">
 
-      <!-- nav links -->
       <ul class="nav navbar-nav navbar-left">
+        <!-- search bar -->
+        <li class="dropdown" id="search-dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+          <ul class="dropdown-menu">
+            <form class="form-inline form-group-lg">
+              <div class="input-group" style="width:100%">
+                 <input
+               	    type="text"
+                    class="form-control"
+                    placeholder="Search for a topic"
+                    ng-model="searchTopicName"
+                    uib-typeahead="topic.title for topic in topics | filter:$viewValue | limitTo:5"
+                    typeahead-template-url="/js/common/directives/navbar/search-typeahead.html"
+                    typeahead-focus-first="false"
+                    autofocus>
+                 <span class="input-group-btn">
+                   <button type="submit" class="btn btn-lg btn-danger" ng-click="searchForTopic(searchTopicName)">
+                     <i class="glyphicon glyphicon-search"></i>
+                   </button>
+                 </span>
+               </div>
+            </form>
+          </ul>
+        </li>
+        <!-- nav links -->
         <li ng-repeat="item in items" ng-if="!item.auth || isLoggedIn()">
           <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
         </li>
@@ -26,24 +50,7 @@
 
 
       <ul class="nav navbar-nav navbar-right">
-        <!-- search bar -->
-        <li class="dropdown" id="search-dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-          <ul class="dropdown-menu">
-            <form class="form-inline form-group-lg">
-               <input
-             	    type="text"
-                  class="form-control"
-                  placeholder="Search for a topic"
-                  ng-model="searchTopicName"
-                  uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5"
-                  typeahead-template-url="/js/common/directives/navbar/search-typeahead.html">
-               <button type="submit" class="btn btn-lg btn-danger" ng-click="searchForTopic(searchTopicName)">
-                 <i class="glyphicon glyphicon-search"></i>
-               </button>
-            </form>
-          </ul>
-        </li>
+
         <!-- user controls -->
         <!-- logged in -->
         <li ng-if="user" class="dropdown">
