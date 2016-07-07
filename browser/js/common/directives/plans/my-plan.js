@@ -10,7 +10,6 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
       var userId;
       if($rootScope.user) userId = $rootScope.user.id;
 
-
       scope.moveUp = function(resourceId) {
         var idx = getResourceIdx(resourceId);
         swapResources(idx, idx-1);

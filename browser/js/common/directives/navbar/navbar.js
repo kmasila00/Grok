@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, TopicFactory) {
 
     return {
         restrict: 'E',
@@ -9,6 +9,13 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             scope.items = [
                 { label: 'Topics', state: 'topics'},
             ];
+
+            TopicFactory.fetchAll().then(topics => scope.topics = topics);
+
+            scope.searchForTopic = function(searchTopicName) {
+              $state.go('topics', { 'defaultSearch': searchTopicName });
+              $('#search-dropdown').removeClass('open'); // close search bar
+            }
 
             scope.user = null;
 
@@ -40,23 +47,23 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
 
 
 
-        function toggleSideBar() {
-            var pageWrapper = $('#page-wrapper');
+        // function toggleSideBar() {
+        //     var pageWrapper = $('#page-wrapper');
+        //
+        //     if (pageWrapper.hasClass('show-sidebar')) {
+        //         // Do things on Nav Close
+        //         pageWrapper.removeClass('show-sidebar');
+        //     } else {
+        //         // Do things on Nav Open
+        //         pageWrapper.addClass('show-sidebar');
+        //     }
+        // }
 
-            if (pageWrapper.hasClass('show-sidebar')) {
-                // Do things on Nav Close
-                pageWrapper.removeClass('show-sidebar');
-            } else {
-                // Do things on Nav Open
-                pageWrapper.addClass('show-sidebar');
-            }
-        }
-
-        $(function() {
-          $('.toggle-sidebar').click(function() {
-              toggleSideBar();
-          });
-        });
+        // $(function() {
+        //   $('.toggle-sidebar').click(function() {
+        //       toggleSideBar();
+        //   });
+        // });
 
       }
 

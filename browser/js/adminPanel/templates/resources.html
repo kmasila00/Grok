@@ -1,14 +1,15 @@
 <div  class='container'>
   <h2>Resources</h2>
   <div class='row'>
-    <table class='table table-hover'>
-      <th>Resource#</th>
+    <table class='table table-hover table-striped table-bordered table-responsive'>
+      <th>ResourceId</th>
       <th>Name</th>
       <th>Url</th>
       <th>Type</th>
       <th >Flags</th>
-      <th>Topic#</th>
-      <th>User#</th>
+      <th>TopicId</th>
+      <th>UserId</th>
+	  <th>Delete</th>
       <tr ng-repeat='resource in resources | orderBy: "id"' >
         <td>{{ resource.id }}</td>
         <td> <input type='text' ng-model='resource.name' ng-change='update(resource)'></td>

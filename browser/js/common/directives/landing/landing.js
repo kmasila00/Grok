@@ -9,8 +9,6 @@ app.directive('landing', function(){
 		},
 		controller: function($scope, $state, TopicFactory){
 
-			console.log(window);
-
 			var width = window.innerWidth,
 			    height = window.innerHeight;
 
@@ -169,11 +167,9 @@ app.directive('landing', function(){
 			      linkedByIndex[i + "," + i] = 1;
 			  };
 			  dataLinks.forEach(function (d) {
-			  	console.log("In data link for each: ", d);
 			      linkedByIndex[d.source.index + "," + d.target.index] = 1;
 			  });
 
-			  console.log(linkedByIndex);
 			  //This function looks up whether a pair are neighbours
 			  function neighboring(a, b) {
 			      return linkedByIndex[a.index + "," + b.index];

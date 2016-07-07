@@ -1,12 +1,13 @@
 <div  class='container'>
   <h2>Topics</h2>
   <div class='row'>
-    <table class='table table-hover'>
-      <th>Topic#</th>
+    <table class='table table-hover table-striped table-bordered table-responsive'>
+      <th>TopicId</th>
       <th>Title</th>
       <th>Description</th>
       <th>Flags</th>
-      <th >Delete Topic</th>
+      <th>Delete</th>
+
       <tr ng-repeat='topic in topics | orderBy: "id"' >
         <td>{{ topic.id }}</td>
         <td> <input type='text' ng-model='topic.title' ng-change='update(topic)'></td>
