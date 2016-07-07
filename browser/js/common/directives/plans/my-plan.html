@@ -3,6 +3,7 @@
     <h3 class="panel-title">
       {{ plan.name }}
     </h3>
+    <span ng-click="deletePlan(plan.id)" ui-sref="plans" style="cursor: pointer" class="label label-danger">DELETE</span>
   </div>
   <div class="panel-body">
     {{ plan.description }}
