@@ -20,9 +20,7 @@ app.config(function ($stateProvider) {
 
            $scope.delete= function(id){
             TopicFactory.deleteTopic(id)
-            .then( (updatedTopics) => {
-                $scope.topics = updatedTopics;
-            })
+            .then(updatedTopics => $scope.topics = updatedTopics)
            }
 
             $scope.openFlags = function (topicId) {
