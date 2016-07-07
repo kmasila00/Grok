@@ -19,6 +19,13 @@ router.post('/', function(req, res, next){
 	.catch(next);
 });
 
+//Get a specific plan by Id
+router.get('/:planId', function(req, res, next) {
+	Plan.findById(req.params.planId, { include: [Resource] })
+	.then(plan => res.send(plan))
+	.catch(next);
+})
+
 //Gets all plans for a specific topic
 router.get('/topic/:topicId', function(req, res, next){
 	Plan.findAll({

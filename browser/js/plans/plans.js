@@ -34,7 +34,6 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $ui
   if($scope.plans.length > 0) $scope.showPlan($scope.plans[0].id);
 
   $scope.addNewPlan = function() {
-    console.log('in add plan')
     var addPlanModal = $uibModal.open({
       animation: true,
       templateUrl: './js/common/modals/views/addPlan.html',
@@ -43,7 +42,8 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $ui
         topics: function() {
           return TopicFactory.fetchAll();
         },
-        options: {}
+        options: {},
+        resources: null
       }
     });
     addPlanModal.result
