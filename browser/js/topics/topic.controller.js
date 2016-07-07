@@ -21,7 +21,6 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       animation: true,
       templateUrl: 'js/common/modals/views/suggestTopic.html',
       controller: 'SuggestTopicModalCtrl',
-      size: 'sm',
       resolve: {
         options: options,
         topics: TopicFactory.fetchAll()
