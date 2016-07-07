@@ -70,28 +70,18 @@ navbar {
 
   }
 
-  .welcome {
-    margin-top: 15px;
-    padding-left: 10px;
-    span {
-      color: white;
-    }
-    a {
-      color: #00c0f0;
-      cursor: pointer;
-    }
-  }
-
   // search bar
   .navbar-form input, .form-inline input {
   	// width:auto;
   }
 
-  .dropdown-menu {
-  	min-width: 400px;
-    padding:12px;
-    input {
-      width: 300px!important;
+  #search-dropdown {
+    .dropdown-menu {
+    	min-width: 400px;
+      padding:12px;
+      input {
+        width: 300px!important;
+      }
     }
   }
 

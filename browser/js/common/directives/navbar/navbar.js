@@ -14,6 +14,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
             scope.searchForTopic = function(searchTopicName) {
               $state.go('topics', { 'defaultSearch': searchTopicName });
+              $('#search-dropdown').removeClass('open'); // close search bar
             }
 
             scope.user = null;
