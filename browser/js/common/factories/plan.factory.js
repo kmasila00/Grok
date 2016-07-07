@@ -15,7 +15,6 @@ app.factory('PlanFactory', function($http) {
     },
 
     addResourceToPlan: function(planId, resourceId){
-      console.log('adding ',resourceId)
     	return $http.post(baseUrl + planId + '/resource/' + resourceId)
     	.then(res => res.data);
     },
