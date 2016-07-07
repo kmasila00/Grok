@@ -18,12 +18,22 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $uibModal, TopicFactory){
+app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $uibModal, TopicFactory, $state){
 
   $scope.plans = plans;
 
   var userId;
   if($rootScope.user) userId = $rootScope.user.id;
+
+  $rootScope.$on('delete-plan', function(event, data){
+    PlanFactory.removePlan(data.planId)
+    .then(function(){
+      return PlanFactory.fetchPlansByUser(userId)
+    })
+    .then(function(plans){
+      $scope.plans = plans;
+    })
+  })
 
   $scope.showPlan = function(planId) {
     $('#plan-nav-' + planId).siblings().removeClass('active');
