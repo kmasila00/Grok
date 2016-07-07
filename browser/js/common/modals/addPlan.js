@@ -5,14 +5,10 @@ app.controller('AddPlanModalCtrl', function ($scope, $uibModalInstance, options,
   if(options.topicName) {
     $scope.formTitle = 'Add new plan for ' + options.topicName;
     var topicId = options.topicId;
-  } else {
-    $scope.formTitle = 'Add new plan';
-  }
-
-  if(options.topicName) {
     $scope.defaultName = 'My ' + options.topicName + ' learning plan';
     $scope.defaultDescription = 'I am learning ' + options.topicName + '.';
   } else {
+    $scope.formTitle = 'Add new plan';
     $scope.defaultName = '';
     $scope.defaultDescription = '';
   }
