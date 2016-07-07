@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Resource = require('../../db/').model('resource');
 var Plan = require('../../db/').model('plan');
+var Topic = require('../../db/').model('topic');
 
 module.exports = router;
 
@@ -36,12 +37,11 @@ router.get('/user/:userId', function(req, res, next){
 		where:{
 			userId: req.user.dataValues.id
 		},
-		include:[Resource]
+		include:[Resource, Topic]
 	})
 	.then(plans => res.send(plans))
 	.catch(next);
 });
-
 
 //adds resource to a specific plan
 router.post('/:planId/resource/:resourceId', function(req, res, next){
