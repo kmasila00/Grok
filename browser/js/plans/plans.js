@@ -43,7 +43,8 @@ app.controller('PlansCtrl', function($scope, PlanFactory, plans, $rootScope, $ui
         topics: function() {
           return TopicFactory.fetchAll();
         },
-        options: {}
+        options: {},
+        resources: null
       }
     });
     addPlanModal.result

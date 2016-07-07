@@ -76,7 +76,8 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       controller: 'AddPlanModalCtrl',
       resolve: {
         options: { topicId: $scope.topic.id, topicName: $scope.topic.title },
-        topics: null
+        topics: null,
+        resources: function() { return $scope.topic.resources }
       }
     });
     addPlanModal.result

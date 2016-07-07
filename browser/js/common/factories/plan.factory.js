@@ -15,12 +15,18 @@ app.factory('PlanFactory', function($http) {
     },
 
     addResourceToPlan: function(planId, resourceId){
+      console.log('adding ',resourceId)
     	return $http.post(baseUrl + planId + '/resource/' + resourceId)
     	.then(res => res.data);
     },
 
     fetchResourcesByPlan: function(planId){
     	return $http.get(baseUrl + planId + '/resources')
+    	.then(res => res.data);
+    },
+
+    fetchPlanById: function(planId){
+    	return $http.get(baseUrl + planId)
     	.then(res => res.data);
     },
 
