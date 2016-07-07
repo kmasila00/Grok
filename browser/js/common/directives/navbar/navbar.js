@@ -12,6 +12,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
             TopicFactory.fetchAll().then(topics => scope.topics = topics);
 
+            scope.searchForTopic = function(searchTopicName) {
+              $state.go('topics', { 'defaultSearch': searchTopicName });
+            }
+
             scope.user = null;
 
             scope.isLoggedIn = function () {

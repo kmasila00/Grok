@@ -29,16 +29,16 @@
         <!-- search bar -->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-          <ul class="dropdown-menu" style="padding:12px;">
-            <form class="form-inline">
+          <ul class="dropdown-menu">
+            <form class="form-inline form-group-lg">
                <input
              	    type="text"
                   class="form-control"
                   placeholder="Search for a topic"
-                  ng-model="selectedTopic"
+                  ng-model="searchTopicName"
                   uib-typeahead="topic as topic.title for topic in topics | filter:$viewValue | limitTo:5"
-                  typeahead-template-url="/js/common/directives/search-box/search-tpl.html">
-               <button type="submit" class="btn btn-danger ">
+                  typeahead-template-url="/js/common/directives/navbar/search-typeahead.html">
+               <button type="submit" class="btn btn-lg btn-danger" ng-click="searchForTopic(searchTopicName)">
                  <i class="glyphicon glyphicon-search"></i>
                </button>
             </form>
