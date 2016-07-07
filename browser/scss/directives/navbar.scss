@@ -70,17 +70,39 @@ navbar {
 
   }
 
-  .welcome {
-    margin-top: 15px;
-    padding-left: 10px;
-    span {
-      color: white;
-    }
-    a {
-      color: #00c0f0;
-      cursor: pointer;
+  // search bar
+  .navbar-form input, .form-inline input {
+  	// width:auto;
+  }
+
+  #search-dropdown {
+    .dropdown-menu {
+    	min-width: 400px;
+      padding:12px;
+      background-color: rgba(255,255,255,0.85);
     }
   }
+
+  .search-typeahead-result {
+    width: 100%;
+    white-space: normal;
+    border-bottom: 1px solid lighten(#000000,90%);
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    &:hover {
+      background-color: lighten(#000000,90%);
+    }
+    .topic-title {
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .topic-description {
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+  }
+
 
 }
 
