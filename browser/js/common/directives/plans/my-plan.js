@@ -39,6 +39,7 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
         scope.plan.resources[idx1] = scope.plan.resources[idx2];
         scope.plan.resources[idx2] = temp;
       }
+      
 
     }
   }
