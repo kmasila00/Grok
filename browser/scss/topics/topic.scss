@@ -68,14 +68,29 @@
 
 /* Prereq & Subseq Topics Carousel */
   .carousel{
+    font-size: 12px;
     list-syle-type: none;
+    text-align: left;
+    position: relative;
+    top: 20px;
+    right: 80px;
+    width: 370px;
     height: 150px;
-    .right ,.left{
-      background-image: none;
-    }
+/*    border: 5px solid black;
+*/    .right ,
     .left{
-
+      background-image: none;
+      span{
+      font-size: 19px;
+      }
     }
+    .carousel-inner{
+      text-align: left;
+    }
+  }
+
+  .suggest-prereq{
+    margin-top: 20px;
   }
 
 .panel-title {
