@@ -1,12 +1,12 @@
 <div  class='container'>
   <h2>Users</h2>
   <div class='row'>
-    <table class='table table-hover'>
-      <th>User#</th>
+    <table class='table table-hover table-striped table-bordered table-responsive'>
+      <th>UserId</th>
       <th>Email</th>
       <th>Admin Privileges</th>
       <th>Trigger Password Reset</th>
-      <th >Delete User</th>
+      <th>Delete</th>
       <tr ng-repeat='user in users | orderBy: "id"' ng-click='logIt()'>
         <td>{{ user.id }}</td>
         <td> {{user.email}}</td>
