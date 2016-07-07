@@ -61,9 +61,9 @@ router.get('/:topicId', function(req, res, next) {
 // Add a prerequisite to a given topic
 router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, res, next) {
   var prereqName = req.body.title;
-  Topic.findOne({ where: { title: prereqName }})
+  Topic.findOrCreate({ where: { title: prereqName }})
   .then( function(prereq) {
-    return req.topic.addPrerequisite(prereq);
+    return req.topic.addPrerequisite(prereq[0]);
   })
   .then(topic => res.status(200).send(topic))
   .catch(next);
@@ -73,9 +73,9 @@ router.post('/:topicId/prerequisite', Auth.assertAuthenticated, function(req, re
 router.post('/:topicId/subsequent', Auth.assertAuthenticated, function(req, res, next) {
   var subseqName = req.body.title,
       thisTopic = req.topic;
-  Topic.findOne({ where: { title: subseqName }})
+  Topic.findOrCreate({ where: { title: subseqName }})
   .then( function(subseq) {
-    return subseq.addPrerequisite(thisTopic);
+    return subseq[0].addPrerequisite(thisTopic);
   })
   .then(topic => res.status(200).send(topic))
   .catch(next);
