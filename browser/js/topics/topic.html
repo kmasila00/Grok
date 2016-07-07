@@ -1,17 +1,29 @@
 <!-- HEADER -->
 <div class="jumbotron">
   <div class="container" style='position: relative'>
-
     <!-- prerequisite topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
-      <div class="links-cell">
+      <!-- <div class="links-cell">
         <ul>
           <li ng-repeat="prereq in topic.prereqTopics">
             <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
           </li>
         </ul>
+      </div> -->
+
+      <uib-carousel active="0"  no-wrap="false" class="topic-carousel">
+           <uib-slide ng-repeat="chunk in chunkPrereqs">
+           <div class="links-cell">
+           <ul>
+          <li ng-repeat="prereq in chunk">
+            <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
+          </li>
+        </ul>
       </div>
+           </uib-slide>
+         </uib-carousel>
+
       <button type="button" class="btn btn-default btn-xs" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
     </div>
 

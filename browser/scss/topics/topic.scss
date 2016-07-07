@@ -66,6 +66,18 @@
   }
 }
 
+/* Prereq & Subseq Topics Carousel */
+  .carousel{
+    list-syle-type: none;
+    height: 150px;
+    .right ,.left{
+      background-image: none;
+    }
+    .left{
+
+    }
+  }
+
 .panel-title {
   font-size: 18px;
   display: inline;

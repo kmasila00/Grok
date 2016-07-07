@@ -4,11 +4,23 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic.votes = votes;
   sortAll();
 
+
   // get current user ID - used to determine whether a user has voted
   var userId;
   if($rootScope.user) userId = $rootScope.user.id;
   // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
   $scope.isLoggedIn = userId >= 0;
+
+  //split array of prereqTopics into smaller chunks of 3
+  $scope.chunkPrereqs= [];
+  var size = 3;
+  var preReqs= $scope.topic.prereqTopics.slice();
+
+  while (preReqs.length > 0)
+    $scope.chunkPrereqs.push(preReqs.splice(0, size));
+
+  console.log("chunkPrereqs: ", $scope.chunkPrereqs);
+
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
