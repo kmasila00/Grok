@@ -7,12 +7,16 @@ app.config(function ($stateProvider) {
         resolve: {
             currentUser: function(AuthService) {
                 return AuthService.getLoggedInUser();
-            }
+            },
+            resources: ['currentUser', 'ResourceFactory', function(currentUser, ResourceFactory) { 
+                    return ResourceFactory.fetchByUser(currentUser.id)
+                        .then(resources => resources);
+            }]
         }
     });
 });
 
-app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactory, PlanFactory, currentUser) {
+app.controller('UserProfileCtrl', function ($scope, UsersFactory, PlanFactory, currentUser, resources) {
 
     function cloneObj(obj) { return Object.assign({}, obj) };
 
@@ -20,6 +24,7 @@ app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactor
 	$scope.pwUpdate = null;
 	$scope.pwCheck = null;
     $scope.userUpdate = cloneObj(currentUser);
+        $scope.resources = resources;
 	$scope.updateUser = function(updatedInfo) {
 		if($scope.pwUpdate !== $scope.pwCheck) {
 			$scope.error = "Password does not match confirmation!";
@@ -37,10 +42,5 @@ app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactor
 		$scope.pwUpdate = null;
 		$scope.pwCheck = null;
 	};
-
-    ResourceFactory.fetchByUser(currentUser.id)
-		.then(function(Resources) { 
-			console.log(Resources);
-			$scope.resources = Resources; });
 
 });
