@@ -54,13 +54,13 @@ app.config(function ($stateProvider) {
         },
         resolve: {
           topics: function(TopicFactory) {
-            return TopicFactory.fetchAll()
+            return TopicFactory.fetchAll({includeRelation:true})
             //returns topics with the prereqs and subseqs on it
-            .then(function(allTopics){
-              return Promise.all(allTopics.map(function(elem){
-                return TopicFactory.fetchById(elem.id)
-              }))
-            })
+            // .then(function(allTopics){
+            //   return Promise.all(allTopics.map(function(elem){
+            //     return TopicFactory.fetchById(elem.id)
+            //   }))
+            // })
           }
         }
     });
