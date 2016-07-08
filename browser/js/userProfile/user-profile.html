@@ -75,13 +75,15 @@
 							<th>Name</th>
 							<th>URL</th>
 							<th>Type</th>
+							<th>Topic</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="resource in resources">
 							<td>{{resource.name}}</td>
 							<td><a href="{{resource.url}}" target="_blank">{{resource.url}}</a></td>
-							<td><span class="label label-success">{{resource.type}}</span></td>
+							<td><span class="label label-info">{{resource.type}}</span></td>
+							<td><span class="label label-success">{{resource.topics[0].title}}</span></td>
 						</tr>
 					</tbody>
 				</table>
