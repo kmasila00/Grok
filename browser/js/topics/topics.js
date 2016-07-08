@@ -6,7 +6,7 @@ app.config(function ($stateProvider) {
         url: '/topics',
         templateUrl: 'js/topics/topics.html',
         controller: 'TopicsCtrl',
-        params: { 'defaultSearch': null },
+        params: { 'defaultSearch': '' },
         resolve: {
           topics: function(TopicFactory) {
             return TopicFactory.fetchAll();
