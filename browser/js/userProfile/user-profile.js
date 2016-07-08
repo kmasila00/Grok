@@ -39,6 +39,8 @@ app.controller('UserProfileCtrl', function ($scope, UsersFactory, ResourceFactor
 	};
 
     ResourceFactory.fetchByUser(currentUser.id)
-                   .then(function(Resources) { $scope.resources = Resources; });
+		.then(function(Resources) { 
+			console.log(Resources);
+			$scope.resources = Resources; });
 
 });

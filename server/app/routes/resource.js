@@ -4,6 +4,7 @@ var router = express.Router();
 var db= require('../../db/');
 var Resource = db.model('resource');
 var Auth = require('../configure/auth-middleware');
+var Topic = db.model('topic');
 
 module.exports = router;
 
@@ -23,9 +24,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/user/:userId', function(req, res, next) {
-    Resource.findAll({ where: { userId: req.params.userId } })
-            .then(resources => res.send(resources))
-            .catch(next);
+	Resource.findAll({ 
+		where: { userId: req.params.userId },
+		include: [Topic]
+   	})
+		.then(resources => res.send(resources))
+        .catch(next);
 });
 
 router.post('/', function(req,res,next){
