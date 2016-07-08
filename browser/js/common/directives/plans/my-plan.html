@@ -16,7 +16,7 @@
       <span ng-click="moveUp(resource.id)" class="glyphicon glyphicon-arrow-up"></span>
       <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>
       <span ng-click="removeFromPlan(resource.id)" class="glyphicon glyphicon-remove-circle"></span>
-      <span ui-sref="topic({topicId:plan.topicId})" class="label label-success">{{ plan.topic.title }}</span>
+      <span ui-sref="topic({topicId:plan.topicId})" class="label label-success" style="cursor: pointer">{{ plan.topic.title }}</span>
     </li>
   </ul>
 </div>

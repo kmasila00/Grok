@@ -10,10 +10,13 @@
   .glyphicon-menu-left {
     font-size: 48px;
     margin-bottom: 10px;
+    position: relative;
+    right: 5px;
   }
   .glyphicon-menu-right {
     font-size: 48px;
     margin-bottom: 10px;
+    left: 167px;
   }
 }
 
@@ -44,6 +47,13 @@
   max-height: 125px;
   overflow-y: scroll;
   margin-bottom: 10px;
+  text-align: left;
+  padding-left: 56px;
+  padding-right: 0;
+  .rightLink{
+    padding-right: 56px;
+    text-align: right;
+  }
   ul {
     list-style: none;
     padding-left: 0;
@@ -65,6 +75,47 @@
     }
   }
 }
+
+/* Prereq & Subseq Topics Carousel */
+
+
+  .carousel{
+    font-size: 12px;
+    list-syle-type: none;
+    position: relative;
+    width: 420px;
+    height: 150px;
+    .right,
+    .left{
+      background-image: none;
+      span{
+        font-size: 19px;
+      }
+    }
+  }
+
+  .text-left{
+    top: 20px;
+    right: 120px;
+  }
+
+  .text-right{
+    top: 20px;
+    right: 42px;
+  }
+
+
+
+  /*---------------------------*/
+
+  .suggest-prereq{
+    margin-left: 120px;
+    margin-top: 20px;
+  }
+
+  .suggest-subseq{
+    margin-top: 20px;
+  }
 
 .panel-title {
   font-size: 18px;
@@ -175,9 +226,9 @@
 }
 
 .topic-modal-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
 .topic-img {

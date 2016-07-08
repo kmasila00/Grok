@@ -26,9 +26,7 @@ app.config(function ($stateProvider) {
 
            $scope.delete= function(id){
             TopicFactory.deleteTopic(id)
-            .then( (updatedTopics) => {
-                $scope.topics = updatedTopics;
-            })
+            .then(updatedTopics => $scope.topics = updatedTopics)
            }
 
            //passing in topic id and prereq id 

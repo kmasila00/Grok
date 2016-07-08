@@ -24,6 +24,11 @@ app.factory('PlanFactory', function($http) {
     	.then(res => res.data);
     },
 
+    fetchPlanById: function(planId){
+    	return $http.get(baseUrl + planId)
+    	.then(res => res.data);
+    },
+
     fetchPlansByUser: function(userid){
     	return $http.get(baseUrl + 'user/' + userid)
     	.then(res => res.data);
