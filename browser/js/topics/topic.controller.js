@@ -3,6 +3,7 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic.plans = plans;
   $scope.topic.votes = votes;
   sortAll();
+  console.log($scope.topic);
 
 
   // get current user ID - used to determine whether a user has voted
@@ -13,13 +14,21 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
 
   //split array of prereqTopics into smaller chunks of 3
   $scope.chunkPrereqs= [];
+  $scope.chunkSubTops= [];
   var size = 3;
   var preReqs= $scope.topic.prereqTopics.slice();
+  var subTops= $scope.topic.subseqTopics.slice();
 
   while (preReqs.length > 0)
     $scope.chunkPrereqs.push(preReqs.splice(0, size));
 
+  while (subTops.length > 0)
+    $scope.chunkSubTops.push(subTops.splice(0, size));
+
+
+
   console.log("chunkPrereqs: ", $scope.chunkPrereqs);
+  console.log("chunkSubTops: ", $scope.c);
 
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)

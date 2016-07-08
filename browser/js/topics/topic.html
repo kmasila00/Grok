@@ -12,17 +12,17 @@
         </ul>
       </div> -->
 
-      <uib-carousel active="0"  no-wrap="false" class="topic-carousel">
-           <uib-slide ng-repeat="chunk in chunkPrereqs">
-           <div class="links-cell">
-           <ul>
-          <li ng-repeat="prereq in chunk">
-            <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
-          </li>
-        </ul>
-      </div>
-           </uib-slide>
-         </uib-carousel>
+      <uib-carousel active="0"  no-wrap="false" class='right-carousel'>
+        <uib-slide ng-repeat="chunk in chunkPrereqs">
+            <div class="links-cell">
+                <ul>
+                    <li ng-repeat="prereq in chunk">
+                      <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
+                    </li>
+                </ul>
+            </div>
+        </uib-slide>
+      </uib-carousel>
 
       <button type="button" class="btn btn-default btn-xs suggest-prereq" ng-click="suggestRelatedTopic({ suggestionType: 'prereq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest prerequisite</button>
     </div>
@@ -43,15 +43,27 @@
     <!-- subsequent topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
-      <div class="links-cell">
+      <!-- <div class="links-cell">
         <ul>
           <li ng-repeat="subseq in topic.subseqTopics">
             <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="topic.votes.subseq[subseq.topicId]"></related-topic>
           </li>
           <br>
         </ul>
-      </div>
-      <button type="button" class="btn btn-default btn-xs" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
+      </div> -->
+      <uib-carousel active="0"  no-wrap="false" class='right-carousel'>
+        <uib-slide ng-repeat="chunk in chunkSubTops">
+            <div class="links-cell">
+                <ul class="rightLink">
+                    <li ng-repeat="subseq in chunk">
+            <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="topic.votes.subseq[subseq.topicId]"></related-topic>
+          </li>
+                </ul>
+            </div>
+        </uib-slide>
+      </uib-carousel>
+
+      <button type="button" class="btn btn-default btn-xs suggest-subseq" ng-click="suggestRelatedTopic({ suggestionType: 'subseq', topicId: topic.id})" ng-if="isLoggedIn"><span class="glyphicon glyphicon-plus"></span> suggest next topic</button>
     </div>
 
   </div>

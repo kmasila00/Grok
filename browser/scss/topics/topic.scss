@@ -10,10 +10,13 @@
   .glyphicon-menu-left {
     font-size: 48px;
     margin-bottom: 10px;
+    position: relative;
+    right: 30px;
   }
   .glyphicon-menu-right {
     font-size: 48px;
     margin-bottom: 10px;
+    left: 167px;
   }
 }
 
@@ -44,6 +47,13 @@
   max-height: 125px;
   overflow-y: scroll;
   margin-bottom: 10px;
+  text-align: left;
+  padding-left: 56px;
+  padding-right: 0;
+  .rightLink{
+    padding-right: 56px;
+    text-align: right;
+  }
   ul {
     list-style: none;
     padding-left: 0;
@@ -67,29 +77,41 @@
 }
 
 /* Prereq & Subseq Topics Carousel */
+
+
   .carousel{
     font-size: 12px;
     list-syle-type: none;
-    text-align: left;
     position: relative;
-    top: 20px;
-    right: 80px;
-    width: 370px;
+    width: 390px;
     height: 150px;
-/*    border: 5px solid black;
-*/    .right ,
+    .right,
     .left{
       background-image: none;
       span{
-      font-size: 19px;
+        font-size: 19px;
       }
-    }
-    .carousel-inner{
-      text-align: left;
     }
   }
 
+  .text-left{
+    top: 20px;
+    right: 90px;
+  }
+
+  .text-right{
+    top: 20px;
+    right: 47px;
+  }
+
+  /*---------------------------*/
+
   .suggest-prereq{
+    margin-left: 120px;
+    margin-top: 20px;
+  }
+
+  .suggest-subseq{
     margin-top: 20px;
   }
 
