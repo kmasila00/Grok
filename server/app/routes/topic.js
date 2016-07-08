@@ -11,6 +11,12 @@ var Auth = require('../configure/auth-middleware');
 
 module.exports = router;
 
+function sendError(message, status) {
+    var err = new Error(message);
+    err.status = status;
+    throw err;
+}
+
 router.param('topicId', function(req, res, next, id) {
   Topic.findById(id)
   .then( function(topic) {

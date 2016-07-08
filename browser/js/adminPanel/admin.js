@@ -4,7 +4,14 @@ app.config(function ($stateProvider) {
         url: '/admin',
         templateUrl: 'js/adminPanel/templates/admin.html',
         controller: function() {
-          
+        },
+        resolve: {
+            isAdmin: function($state, AuthService){
+              return AuthService.getLoggedInUser()
+              .then(function (user) {
+                if(!user || user.isAdmin === false) $state.go('home')
+              })
+            }
         }
     });
 
@@ -14,8 +21,6 @@ app.config(function ($stateProvider) {
         controller: function($scope, topics, TopicFactory, FlagFactory, PrereqFactory, $uibModal){
 
            $scope.topics= topics;
-
-           console.log($scope.topics);
 
            $scope.update= TopicFactory.updateTopic;
 
