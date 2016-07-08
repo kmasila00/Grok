@@ -3,6 +3,7 @@
     <h3 class="panel-title">
       {{ plan.name }}
     </h3>
+    <span ng-click="deletePlan(plan.id)" ui-sref="plans" style="cursor: pointer" class="label label-danger">DELETE</span>
   </div>
   <div class="panel-body">
     {{ plan.description }}
@@ -15,6 +16,7 @@
       <span ng-click="moveUp(resource.id)" class="glyphicon glyphicon-arrow-up"></span>
       <span ng-click="moveDown(resource.id)" class="glyphicon glyphicon-arrow-down"></span>
       <span ng-click="removeFromPlan(resource.id)" class="glyphicon glyphicon-remove-circle"></span>
+      <span ui-sref="topic({topicId:plan.topicId})" class="label label-success" style="cursor: pointer">{{ plan.topic.title }}</span>
     </li>
   </ul>
 </div>

@@ -5,7 +5,7 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
       plan: '='
     },
     templateUrl: 'js/common/directives/plans/my-plan.html',
-    link: function (scope) {
+    link: function (scope, element, attributes) {
 
       var userId;
       if($rootScope.user) userId = $rootScope.user.id;
@@ -28,6 +28,13 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
         });
       }
 
+      scope.deletePlan = function(planId){
+        $rootScope.$broadcast('delete-plan', {
+          planId: planId
+        })
+        scope.plan = null;
+      }
+
       function getResourceIdx(id) {
         for(var i=0; i<scope.plan.resources.length; i++) {
           if(scope.plan.resources[i].id === id) return i;
@@ -39,6 +46,7 @@ app.directive('myPlan', function ($rootScope, PlanFactory) {
         scope.plan.resources[idx1] = scope.plan.resources[idx2];
         scope.plan.resources[idx2] = temp;
       }
+
 
     }
   }

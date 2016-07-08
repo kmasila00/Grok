@@ -45,7 +45,6 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       animation: true,
       templateUrl: 'js/common/modals/views/suggestTopic.html',
       controller: 'SuggestTopicModalCtrl',
-      size: 'sm',
       resolve: {
         options: options,
         topics: TopicFactory.fetchAll()
@@ -102,7 +101,8 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       controller: 'AddPlanModalCtrl',
       resolve: {
         options: { topicId: $scope.topic.id, topicName: $scope.topic.title },
-        topics: null
+        topics: null,
+        resources: function() { return $scope.topic.resources }
       }
     });
     addPlanModal.result

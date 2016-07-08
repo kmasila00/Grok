@@ -41,15 +41,15 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Password:</label>
+          <label class="col-md-3 control-label">New password:</label>
           <div class="col-md-8">
-            <input class="form-control" value="11111122333" type="password">
+            <input class="form-control" ng-model="pwUpdate" type="password">
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Confirm password:</label>
           <div class="col-md-8">
-            <input class="form-control" value="11111122333" type="password">
+            <input class="form-control" ng-model="pwCheck" type="password">
           </div>
         </div>
         <div class="form-group">
@@ -75,13 +75,15 @@
 							<th>Name</th>
 							<th>URL</th>
 							<th>Type</th>
+							<th>Topic</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="resource in resources">
 							<td>{{resource.name}}</td>
 							<td><a href="{{resource.url}}" target="_blank">{{resource.url}}</a></td>
-							<td><span class="label label-success">{{resource.type}}</span></td>
+							<td><span class="label label-info">{{resource.type}}</span></td>
+							<td><span class="label label-success">{{resource.topics[0].title}}</span></td>
 						</tr>
 					</tbody>
 				</table>

@@ -6,6 +6,7 @@ app.config(function ($stateProvider) {
         url: '/topics',
         templateUrl: 'js/topics/topics.html',
         controller: 'TopicsCtrl',
+        params: { 'defaultSearch': null },
         resolve: {
           topics: function(TopicFactory) {
             return TopicFactory.fetchAll();
@@ -15,9 +16,10 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('TopicsCtrl', function ($scope, TopicFactory, topics, $uibModal) {
+app.controller('TopicsCtrl', function ($scope, TopicFactory, topics, $uibModal, $stateParams) {
 
   $scope.topics = topics;
+  $scope.searchText = $stateParams.defaultSearch;
 
   // ADD TOPIC
   $scope.addTopic = function() {
