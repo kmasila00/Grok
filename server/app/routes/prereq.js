@@ -13,3 +13,14 @@ router.get('/', function(req, res, next){
 	})
 	.catch(next);
 });
+
+router.delete('/topic/:topicId/prereq/:prereqId', function(req, res, next){
+	Prereq.destroy({
+		where:{
+			topicId: req.params.topicId,
+			prerequisiteId: req.params.prereqId
+		}
+	})
+	.then(() => res.status(200).send())
+	.catch(next);
+});

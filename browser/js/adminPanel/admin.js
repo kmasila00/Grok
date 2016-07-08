@@ -11,16 +11,29 @@ app.config(function ($stateProvider) {
     $stateProvider.state('admin.topics', {
         url: '/topics',
         templateUrl: 'js/adminPanel/templates/topics.html',
-        controller: function($scope, topics, TopicFactory,FlagFactory, $uibModal){
+        controller: function($scope, topics, TopicFactory, FlagFactory, PrereqFactory, $uibModal){
 
            $scope.topics= topics;
 
-           $scope.update= TopicFactory.updateTopic;
+           console.log($scope.topics);
 
+           $scope.update= TopicFactory.updateTopic;
 
            $scope.delete= function(id){
             TopicFactory.deleteTopic(id)
             .then(updatedTopics => $scope.topics = updatedTopics)
+           }
+
+           //passing in topic id and prereq id 
+           $scope.deletePrereq = function(topicId, prereqId){
+              PrereqFactory.removeRelationship(topicId, prereqId)
+              .then();
+           }
+
+           //passing ids in opposite orders to delete a subsequent relationship
+           $scope.deleteSubseq = function(topicId, subseqId){
+              PrereqFactory.removeRelationship(subseqId, topicId)
+              .then();
            }
 
             $scope.openFlags = function (topicId) {
@@ -39,7 +52,13 @@ app.config(function ($stateProvider) {
         },
         resolve: {
           topics: function(TopicFactory) {
-            return TopicFactory.fetchAll();
+            return TopicFactory.fetchAll()
+              // returns topics with the prereqs and subseqs on it
+              .then(function(allTopics){
+                return Promise.all(allTopics.map(function(elem){
+                  return TopicFactory.fetchById(elem.id)
+                }))
+              })
           }
         }
     });
