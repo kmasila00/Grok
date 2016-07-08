@@ -10,6 +10,30 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
   $scope.isLoggedIn = userId >= 0;
 
+  //split array of prereqTopics into smaller chunks of 3 and put them into these two arrays
+  $scope.chunkPrereqs= [];
+  $scope.chunkSubTops= [];
+
+  function buildTopicChunks(){
+    var size = 3;
+    var preReqs= $scope.topic.prereqTopics.slice();
+    var subTops= $scope.topic.subseqTopics.slice();
+    var counter= 0;
+    var topicsLeft= true;
+    $scope.chunkPrereqs= [];
+    $scope.chunkSubTops= [];
+
+    while(preReqs.length || subTops.length){
+      if(preReqs.length) $scope.chunkPrereqs.push(preReqs.splice(0, size));
+      if(subTops.length) $scope.chunkSubTops.push(subTops.splice(0, size));
+    }
+
+  }
+
+  buildTopicChunks();
+
+
+
   // Suggest related topics (i.e., prerequisites or subsequent topics)
   $scope.suggestRelatedTopic = function( options ) {
     if(options.suggestionType === 'prereq') {
@@ -37,6 +61,7 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       } else if(type === 'subseq'){
         $scope.topic.subseqTopics.push( suggestedTopic );
       }
+      buildTopicChunks();
     });
   }
 
@@ -87,8 +112,11 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   }
 
   $rootScope.$on('voted-need-resort', function(event, data) {
+
     $scope.topic.votes[data.type][data.id] = data.votes;
     sort(data.type);
+    buildTopicChunks();
+
   })
 
   // DATA SORTING
