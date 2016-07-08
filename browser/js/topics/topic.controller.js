@@ -3,8 +3,8 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic.plans = plans;
   $scope.topic.votes = votes;
   sortAll();
-  console.log($scope.topic);
 
+console.log("Topic: ", $scope.topic);
 
   // get current user ID - used to determine whether a user has voted
   var userId;
@@ -15,20 +15,27 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   //split array of prereqTopics into smaller chunks of 3
   $scope.chunkPrereqs= [];
   $scope.chunkSubTops= [];
-  var size = 3;
-  var preReqs= $scope.topic.prereqTopics.slice();
-  var subTops= $scope.topic.subseqTopics.slice();
-
-  while (preReqs.length > 0)
-    $scope.chunkPrereqs.push(preReqs.splice(0, size));
-
-  while (subTops.length > 0)
-    $scope.chunkSubTops.push(subTops.splice(0, size));
 
 
+  function buildTopicChunks(){
 
-  console.log("chunkPrereqs: ", $scope.chunkPrereqs);
-  console.log("chunkSubTops: ", $scope.c);
+    var size = 3;
+    var preReqs= $scope.topic.prereqTopics.slice();
+    var subTops= $scope.topic.subseqTopics.slice();
+    var counter= 0;
+    var topicsLeft= true;
+    $scope.chunkPrereqs= [];
+    $scope.chunkSubTops= [];
+
+    while(preReqs.length || subTops.length){
+      if(preReqs.length) $scope.chunkPrereqs.push(preReqs.splice(0, size));
+      if(subTops.length) $scope.chunkSubTops.push(subTops.splice(0, size));
+    }
+
+  }
+
+  buildTopicChunks();
+
 
 
   // Suggest related topics (i.e., prerequisites or subsequent topics)
@@ -59,6 +66,7 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
       } else if(type === 'subseq'){
         $scope.topic.subseqTopics.push( suggestedTopic );
       }
+      buildTopicChunks();
     });
   }
 
@@ -108,8 +116,18 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   }
 
   $rootScope.$on('voted-need-resort', function(event, data) {
+    // console.log("chunkSubTopsStart: ", $scope.chunkSubTops);
+    // console.log("chunkPrereqsStart: ", $scope.chunkPrereqs);
+
     $scope.topic.votes[data.type][data.id] = data.votes;
     sort(data.type);
+    buildTopicChunks();
+    // var temp= $scope.chunkPrereqs[0][1];
+    // $scope.chunkPrereqs[0][1]= $scope.chunkPrereqs[0][2];
+    // $scope.chunkPrereqs[0][2]= temp;
+    // // $scope.chunkPrereqs= [];
+    // $scope.chunkSubTops= [];
+
   })
 
   // DATA SORTING

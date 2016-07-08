@@ -13,7 +13,7 @@
       </div> -->
 
       <uib-carousel active="0"  no-wrap="false" class='right-carousel'>
-        <uib-slide ng-repeat="chunk in chunkPrereqs">
+        <uib-slide ng-repeat="chunk in chunkPrereqs" index= "$index">
             <div class="links-cell">
                 <ul>
                     <li ng-repeat="prereq in chunk">
@@ -51,8 +51,10 @@
           <br>
         </ul>
       </div> -->
-      <uib-carousel active="0"  no-wrap="false" class='right-carousel'>
-        <uib-slide ng-repeat="chunk in chunkSubTops">
+
+
+      <uib-carousel active="0"  no-wrap="false" no-transition="true">
+        <uib-slide ng-repeat="chunk in chunkSubTops" index= "$index" >
             <div class="links-cell">
                 <ul class="rightLink">
                     <li ng-repeat="subseq in chunk">
