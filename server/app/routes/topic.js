@@ -22,26 +22,9 @@ router.param('topicId', function(req, res, next, id) {
 
 // Fetches all topics
 router.get('/', function(req, res, next) {
-  var arr = [ Topic.findAll({ include: [Resource] }) ]
-
-  if(req.body.option && req.body.option.includeRelation){
-      var prereqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."prerequisiteId"',
-          subseqQuery = 'SELECT * FROM topics INNER JOIN prerequisites AS p ON topics.id = p."topicId"';
-
-      arr.push(db.query(prereqQuery, { type: Sequelize.QueryTypes.SELECT }));
-      arr.push(db.query(subseqQuery, { type: Sequelize.QueryTypes.SELECT }));
-  }
-
-  Promise.all(arr)
-  .spread( function(topics, prereqTopics, subseqTopics) {
-    if(prereqTopics) topics.dataValues.prereqTopics = prereqTopics;
-    if(subseqTopics) topics.dataValues.subseqTopics = subseqTopics;
-    res.json(topics);
-  })
+  Topic.findAll({ include: [Resource] })
+  .then(topics => res.status(200).send(topics))
   .catch(next);
-  // Topic.findAll({ include: [Resource] })
-  // .then(topics => res.status(200).send(topics))
-  // .catch(next);
 });
 
 router.post('/', function(req, res, next) {

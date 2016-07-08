@@ -4,9 +4,8 @@ app.factory('TopicFactory', function($http) {
 
   var obj= {
 
-    fetchAll: function(option) {
-      console.log(option);
-      return $http.get(baseUrl, option)
+    fetchAll: function() {
+      return $http.get(baseUrl)
       .then(res => res.data);
     },
 
