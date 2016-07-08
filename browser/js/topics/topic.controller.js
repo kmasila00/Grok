@@ -4,21 +4,17 @@ app.controller('TopicCtrl', function ($scope, $rootScope, $uibModal, $log, Topic
   $scope.topic.votes = votes;
   sortAll();
 
-console.log("Topic: ", $scope.topic);
-
   // get current user ID - used to determine whether a user has voted
   var userId;
   if($rootScope.user) userId = $rootScope.user.id;
   // isLoggedIn = true is user is logged in; i.e., there is a user on the $rootScope
   $scope.isLoggedIn = userId >= 0;
 
-  //split array of prereqTopics into smaller chunks of 3
+  //split array of prereqTopics into smaller chunks of 3 and put them into these two arrays
   $scope.chunkPrereqs= [];
   $scope.chunkSubTops= [];
 
-
   function buildTopicChunks(){
-
     var size = 3;
     var preReqs= $scope.topic.prereqTopics.slice();
     var subTops= $scope.topic.subseqTopics.slice();
@@ -116,17 +112,10 @@ console.log("Topic: ", $scope.topic);
   }
 
   $rootScope.$on('voted-need-resort', function(event, data) {
-    // console.log("chunkSubTopsStart: ", $scope.chunkSubTops);
-    // console.log("chunkPrereqsStart: ", $scope.chunkPrereqs);
 
     $scope.topic.votes[data.type][data.id] = data.votes;
     sort(data.type);
     buildTopicChunks();
-    // var temp= $scope.chunkPrereqs[0][1];
-    // $scope.chunkPrereqs[0][1]= $scope.chunkPrereqs[0][2];
-    // $scope.chunkPrereqs[0][2]= temp;
-    // // $scope.chunkPrereqs= [];
-    // $scope.chunkSubTops= [];
 
   })
 

@@ -4,15 +4,8 @@
     <!-- prerequisite topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron text-left">
       <div class="glyphicon glyphicon-menu-left"></div>
-      <!-- <div class="links-cell">
-        <ul>
-          <li ng-repeat="prereq in topic.prereqTopics">
-            <related-topic type="'prereq'" topic="prereq" base-topic-id="topic.id" votes="topic.votes.prereq[prereq.prerequisiteId]"></related-topic>
-          </li>
-        </ul>
-      </div> -->
 
-      <uib-carousel active="0"  no-wrap="false" class='right-carousel'>
+      <uib-carousel active="0"  no-wrap="false" class='right-carousel '>
         <uib-slide ng-repeat="chunk in chunkPrereqs" index= "$index">
             <div class="links-cell">
                 <ul>
@@ -43,17 +36,8 @@
     <!-- subsequent topics -->
     <div class="col-md-3 col-sm-3 topic-jumbotron text-right">
       <div class="glyphicon glyphicon-menu-right"></div>
-      <!-- <div class="links-cell">
-        <ul>
-          <li ng-repeat="subseq in topic.subseqTopics">
-            <related-topic type="'subseq'" topic="subseq" base-topic-id="topic.id" votes="topic.votes.subseq[subseq.topicId]"></related-topic>
-          </li>
-          <br>
-        </ul>
-      </div> -->
 
-
-      <uib-carousel active="0"  no-wrap="false" no-transition="true">
+      <uib-carousel active="0"  no-wrap="false" >
         <uib-slide ng-repeat="chunk in chunkSubTops" index= "$index" >
             <div class="links-cell">
                 <ul class="rightLink">
