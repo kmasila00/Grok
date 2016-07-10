@@ -1,19 +1,21 @@
-app.factory('PrereqFactory', function($http){
+app.factory('PrereqFactory', function($http, TopicFactory){
 
 	var baseUrl = '/api/prerequisites/';
 
-	return {
+	var prereqFactory= {
 
 		fetchAll: function(){
 			return $http.get(baseUrl)
 			.then(res => res.data);
 		},
 
-		removeRelationship: function(topicId, relationId){
-			return $http.delete(baseUrl + '/topic/' + topicId + '/prereq/' + relationId)
+		removeRelationship: function(obj){
+			return $http.delete(baseUrl + '/topic/' + obj.topicId + '/prereq/' + obj.prerequisiteId)
 			.then(res => res.data);
 		}
 
 	}
+
+	return prereqFactory;
 
 })
