@@ -5,8 +5,8 @@
       <th>TopicId</th>
       <th>Title</th>
       <th>Description</th>
-      <th>Prerequisite</th>
-      <th>Subsequent</th>
+      <th >Prerequisites</th>
+      <th>Subsequents</th>
       <th>Flags</th>
       <th>Delete</th>
 
@@ -14,15 +14,21 @@
         <td>{{ topic.id }}</td>
         <td> <input type='text' ng-model='topic.title' ng-change='update(topic)'></td>
         <td> <textarea  ng-model="topic.description"  ng-change='update(topic)'></textarea></td>
-        <td>
-          <select ng-options="topic as topic.title for topic in topic.prereqTopics" ng-model="prereqSelected"></select>
-          <a style='color: red' ng-click='deletePrereq(topic.id, prereqSelected.prerequisiteId)'><span class="glyphicon glyphicon-remove-sign"><span></a>
+        <td style="text-align: center">
+          <!-- <select ng-options="topic as topic.title for topic in topic.prereqTopics" ng-model="prereqSelected"></select>
+          <a style='color: red' ng-click='deletePrereq(topic.id, prereqSelected.prerequisiteId)'><span class="glyphicon glyphicon-remove-sign"><span></a> -->
+          <a ng-click="openRelatedTops(topic.id, 'prereq')">
+            <span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-list-alt"></span>
+          </a>
         </td>
-        <td>
-          <select ng-options="topic as topic.title for topic in topic.subseqTopics" ng-model="subseqSelected"></select>
-          <a style='color: red' ng-click='deleteSubseq(topic.id, subseqSelected.topicId)'><span class="glyphicon glyphicon-remove-sign"><span></a>
+        <td style="text-align: center">
+          <!-- <select ng-options="topic as topic.title for topic in topic.subseqTopics" ng-model="subseqSelected"></select>
+          <a style='color: red' ng-click='deleteSubseq(topic.id, subseqSelected.topicId)'><span class="glyphicon glyphicon-remove-sign"><span></a> -->
+          <a ng-click="openRelatedTops(topic.id, 'subseq')">
+            <span class="glyphicon glyphicon-list-alt"></span><span class="glyphicon glyphicon-menu-right"></span>
+          </a>
         </td>
-        <td>
+        <td >
           <a ng-click='openFlags(topic.id)'>
             <span class='glyphicon glyphicon-flag'></span>
           </a>

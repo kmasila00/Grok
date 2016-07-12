@@ -29,7 +29,7 @@ app.config(function ($stateProvider) {
             .then(updatedTopics => $scope.topics = updatedTopics)
            }
 
-           //passing in topic id and prereq id 
+           //passing in topic id and prereq id
            $scope.deletePrereq = function(topicId, prereqId){
               PrereqFactory.removeRelationship(topicId, prereqId)
               .then();
@@ -53,6 +53,27 @@ app.config(function ($stateProvider) {
                  controller: 'ModalInstanceCtrl'
                });
              };
+
+             // Finish this angel
+             $scope.openRelatedTops= function(topicId, type){
+              //RelatedTopicModalCtrl
+
+              $uibModal.open({
+                animation: $scope.animationsEnabled,
+                scope: $scope,
+                templateUrl: './js/common/modals/views/viewRelatedTopics.html',
+                controller: 'RelatedTopicModalCtrl',
+                resolve: {
+                  topic: function(TopicFactory){
+                    return TopicFactory.fetchById(topicId);
+                  },
+                  type: function(){
+                    return type;
+                  }
+                }
+              })
+             }
+
 
         },
         resolve: {
