@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/kmasila00/Grok.png?label=ready&title=Ready)](https://waffle.io/kmasila00/Grok)
 # Grok
 
 TODO: Write a project description
