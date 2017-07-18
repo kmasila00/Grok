@@ -1,0 +1,19 @@
+{
+  "apps" : [
+    {
+      "name"        : "Grok",
+      "script"      : "server/start.js",
+      "exec_mode"   : "cluster",
+      "watch"       : true,
+      "autorestart" : true,
+      "env": {
+        "NODE_ENV": "development",
+      },
+      "env_production" : {
+         "NODE_ENV": "production",
+         "PORT": "80"
+      }
+    }
+  ]
+
+}
